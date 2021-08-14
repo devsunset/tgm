@@ -1,0 +1,314 @@
+basePath: /
+definitions:
+  models.City:
+    properties:
+      City:
+        type: string
+    type: object
+  models.Citys:
+    properties:
+      DATA:
+        items:
+          $ref: '#/definitions/models.City'
+        type: array
+      RESULT_CODE:
+        type: string
+      RESULT_MESSAGE:
+        type: string
+    type: object
+  models.Country:
+    properties:
+      Country:
+        type: string
+    type: object
+  models.Countrys:
+    properties:
+      DATA:
+        items:
+          $ref: '#/definitions/models.Country'
+        type: array
+      RESULT_CODE:
+        type: string
+      RESULT_MESSAGE:
+        type: string
+    type: object
+  models.Location:
+    properties:
+      Address:
+        type: string
+      Address_line_1:
+        type: string
+      Address_line_2:
+        type: string
+      Address_notes:
+        type: string
+      Amenities:
+        type: string
+      Baidu_lat:
+        type: string
+      Baidu_lng:
+        type: string
+      Chargers:
+        type: string
+      City:
+        type: string
+      Common_name:
+        type: string
+      Country:
+        type: string
+      Created_dttm:
+        type: string
+      Destination_charger_logo:
+        type: string
+      Destination_website:
+        type: string
+      Directions_link:
+        type: string
+      Emails:
+        type: string
+      Geocode:
+        type: string
+      Hours:
+        type: string
+      Is_gallery:
+        type: string
+      Kiosk_pin_x:
+        type: string
+      Kiosk_pin_y:
+        type: string
+      Kiosk_zoom_pin_x:
+        type: string
+      Kiosk_zoom_pin_y:
+        type: string
+      Latitude:
+        type: string
+      Location_id:
+        type: string
+      Location_type:
+        type: string
+      Longitude:
+        type: string
+      Nid:
+        type: string
+      Open_soon:
+        type: string
+      Path:
+        type: string
+      Postal_code:
+        type: string
+      Province_state:
+        type: string
+      Region:
+        type: string
+      Sales_phone:
+        type: string
+      Sales_representative:
+        type: string
+      Sl_translate:
+        type: string
+      Sub_region:
+        type: string
+      Title:
+        type: string
+      Trt_id:
+        type: string
+    type: object
+  models.Location_type:
+    properties:
+      Location_type:
+        type: string
+    type: object
+  models.Location_types:
+    properties:
+      DATA:
+        items:
+          $ref: '#/definitions/models.Location_type'
+        type: array
+      RESULT_CODE:
+        type: string
+      RESULT_MESSAGE:
+        type: string
+    type: object
+  models.Locations:
+    properties:
+      DATA:
+        items:
+          $ref: '#/definitions/models.Location'
+        type: array
+      RESULT_CODE:
+        type: string
+      RESULT_MESSAGE:
+        type: string
+    type: object
+  models.Region:
+    properties:
+      Region:
+        type: string
+    type: object
+  models.Regions:
+    properties:
+      DATA:
+        items:
+          $ref: '#/definitions/models.Region'
+        type: array
+      RESULT_CODE:
+        type: string
+      RESULT_MESSAGE:
+        type: string
+    type: object
+host: 132.145.85.185
+info:
+  contact:
+    email: devsunset@gmail.com
+    name: API Support
+    url: https://devsunset.github.io
+  description: This is a tgm.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: tgm  API
+  version: "1.0"
+paths:
+  /getLocation:
+    get:
+      consumes:
+      - '*/*'
+      description: get tesla Chargers Location.
+      operationId: getLocation
+      parameters:
+      - description: asia_pacific
+        in: query
+        name: Region
+        type: string
+      - description: South Korea
+        in: query
+        name: Country
+        required: true
+        type: string
+      - description: 서울특별시
+        in: query
+        name: City
+        type: string
+      - description: supercharger
+        in: query
+        name: Location_type
+        type: string
+      - description: "28865"
+        in: query
+        name: Nid
+        type: string
+      - description: 여의도
+        in: query
+        name: Title
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Locations'
+      summary: Tesla Chargers Location.
+      tags:
+      - API Tesla App
+  /getLocationCity:
+    get:
+      consumes:
+      - '*/*'
+      description: get tesla Chargers Location City.
+      operationId: getLocationCity
+      parameters:
+      - description: South Korea
+        in: query
+        name: Country
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Citys'
+      summary: Tesla Chargers Location City.
+      tags:
+      - API Tesla App
+  /getLocationCountry:
+    get:
+      consumes:
+      - '*/*'
+      description: get tesla Chargers Location Country.
+      operationId: getLocationCountry
+      parameters:
+      - description: asia_pacific
+        in: query
+        name: Region
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Countrys'
+      summary: Tesla Chargers Location Country.
+      tags:
+      - API Tesla App
+  /getLocationRegion:
+    get:
+      consumes:
+      - '*/*'
+      description: get tesla Chargers Location Region.
+      operationId: getLocationRegion
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Regions'
+      summary: Tesla Chargers Location Region.
+      tags:
+      - API Tesla App
+  /getLocationType:
+    get:
+      consumes:
+      - '*/*'
+      description: get tesla Chargers Location Type.
+      operationId: getLocationType
+      parameters:
+      - description: South Korea
+        in: query
+        name: Country
+        type: string
+      - description: 서울특별시
+        in: query
+        name: City
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Location_types'
+      summary: Tesla Chargers Location Type.
+      tags:
+      - API Tesla App
+  /healthCheck:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      operationId: HealthCheck
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - API Tesla App
+swagger: "2.0"

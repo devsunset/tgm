@@ -1,0 +1,476 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a tgm.",
+        "title": "tgm  API",
+        "contact": {
+            "name": "API Support",
+            "url": "https://devsunset.github.io",
+            "email": "devsunset@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "132.145.85.185",
+    "basePath": "/",
+    "paths": {
+        "/getLocation": {
+            "get": {
+                "description": "get tesla Chargers Location.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API Tesla App"
+                ],
+                "summary": "Tesla Chargers Location.",
+                "operationId": "getLocation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "asia_pacific",
+                        "name": "Region",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "South Korea",
+                        "name": "Country",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "서울특별시",
+                        "name": "City",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "supercharger",
+                        "name": "Location_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "28865",
+                        "name": "Nid",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "여의도",
+                        "name": "Title",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Locations"
+                        }
+                    }
+                }
+            }
+        },
+        "/getLocationCity": {
+            "get": {
+                "description": "get tesla Chargers Location City.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API Tesla App"
+                ],
+                "summary": "Tesla Chargers Location City.",
+                "operationId": "getLocationCity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "South Korea",
+                        "name": "Country",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Citys"
+                        }
+                    }
+                }
+            }
+        },
+        "/getLocationCountry": {
+            "get": {
+                "description": "get tesla Chargers Location Country.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API Tesla App"
+                ],
+                "summary": "Tesla Chargers Location Country.",
+                "operationId": "getLocationCountry",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "asia_pacific",
+                        "name": "Region",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Countrys"
+                        }
+                    }
+                }
+            }
+        },
+        "/getLocationRegion": {
+            "get": {
+                "description": "get tesla Chargers Location Region.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API Tesla App"
+                ],
+                "summary": "Tesla Chargers Location Region.",
+                "operationId": "getLocationRegion",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Regions"
+                        }
+                    }
+                }
+            }
+        },
+        "/getLocationType": {
+            "get": {
+                "description": "get tesla Chargers Location Type.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API Tesla App"
+                ],
+                "summary": "Tesla Chargers Location Type.",
+                "operationId": "getLocationType",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "South Korea",
+                        "name": "Country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "서울특별시",
+                        "name": "City",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Location_types"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthCheck": {
+            "get": {
+                "description": "get the status of server.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API Tesla App"
+                ],
+                "summary": "Show the status of server.",
+                "operationId": "HealthCheck",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.City": {
+            "type": "object",
+            "properties": {
+                "City": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Citys": {
+            "type": "object",
+            "properties": {
+                "DATA": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.City"
+                    }
+                },
+                "RESULT_CODE": {
+                    "type": "string"
+                },
+                "RESULT_MESSAGE": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Country": {
+            "type": "object",
+            "properties": {
+                "Country": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Countrys": {
+            "type": "object",
+            "properties": {
+                "DATA": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Country"
+                    }
+                },
+                "RESULT_CODE": {
+                    "type": "string"
+                },
+                "RESULT_MESSAGE": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Location": {
+            "type": "object",
+            "properties": {
+                "Address": {
+                    "type": "string"
+                },
+                "Address_line_1": {
+                    "type": "string"
+                },
+                "Address_line_2": {
+                    "type": "string"
+                },
+                "Address_notes": {
+                    "type": "string"
+                },
+                "Amenities": {
+                    "type": "string"
+                },
+                "Baidu_lat": {
+                    "type": "string"
+                },
+                "Baidu_lng": {
+                    "type": "string"
+                },
+                "Chargers": {
+                    "type": "string"
+                },
+                "City": {
+                    "type": "string"
+                },
+                "Common_name": {
+                    "type": "string"
+                },
+                "Country": {
+                    "type": "string"
+                },
+                "Created_dttm": {
+                    "type": "string"
+                },
+                "Destination_charger_logo": {
+                    "type": "string"
+                },
+                "Destination_website": {
+                    "type": "string"
+                },
+                "Directions_link": {
+                    "type": "string"
+                },
+                "Emails": {
+                    "type": "string"
+                },
+                "Geocode": {
+                    "type": "string"
+                },
+                "Hours": {
+                    "type": "string"
+                },
+                "Is_gallery": {
+                    "type": "string"
+                },
+                "Kiosk_pin_x": {
+                    "type": "string"
+                },
+                "Kiosk_pin_y": {
+                    "type": "string"
+                },
+                "Kiosk_zoom_pin_x": {
+                    "type": "string"
+                },
+                "Kiosk_zoom_pin_y": {
+                    "type": "string"
+                },
+                "Latitude": {
+                    "type": "string"
+                },
+                "Location_id": {
+                    "type": "string"
+                },
+                "Location_type": {
+                    "type": "string"
+                },
+                "Longitude": {
+                    "type": "string"
+                },
+                "Nid": {
+                    "type": "string"
+                },
+                "Open_soon": {
+                    "type": "string"
+                },
+                "Path": {
+                    "type": "string"
+                },
+                "Postal_code": {
+                    "type": "string"
+                },
+                "Province_state": {
+                    "type": "string"
+                },
+                "Region": {
+                    "type": "string"
+                },
+                "Sales_phone": {
+                    "type": "string"
+                },
+                "Sales_representative": {
+                    "type": "string"
+                },
+                "Sl_translate": {
+                    "type": "string"
+                },
+                "Sub_region": {
+                    "type": "string"
+                },
+                "Title": {
+                    "type": "string"
+                },
+                "Trt_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Location_type": {
+            "type": "object",
+            "properties": {
+                "Location_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Location_types": {
+            "type": "object",
+            "properties": {
+                "DATA": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Location_type"
+                    }
+                },
+                "RESULT_CODE": {
+                    "type": "string"
+                },
+                "RESULT_MESSAGE": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Locations": {
+            "type": "object",
+            "properties": {
+                "DATA": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Location"
+                    }
+                },
+                "RESULT_CODE": {
+                    "type": "string"
+                },
+                "RESULT_MESSAGE": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Region": {
+            "type": "object",
+            "properties": {
+                "Region": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Regions": {
+            "type": "object",
+            "properties": {
+                "DATA": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Region"
+                    }
+                },
+                "RESULT_CODE": {
+                    "type": "string"
+                },
+                "RESULT_MESSAGE": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
