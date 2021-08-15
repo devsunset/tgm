@@ -110,7 +110,7 @@ func main() {
 // HealthCheck godoc
 // @Summary Show the status of server.
 // @Description get the status of server.
-// @Tags API Tesla App
+// @Tags API TGM App
 // @ID HealthCheck
 // @Accept */*
 // @Produce json
