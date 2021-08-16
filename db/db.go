@@ -6,7 +6,7 @@ import (
 	"log"
 	"tgm/config"
 
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
@@ -15,9 +15,9 @@ var err error
 func DbManager() *sql.DB {
 	configuration := config.GetConfig()
 
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", configuration.DB_HOST, configuration.DB_PORT, configuration.DB_USERNAME, configuration.DB_PASSWORD, configuration.DB_NAME)
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", configuration.DB_USERNAME, configuration.DB_PASSWORD, configuration.DB_HOST, configuration.DB_PORT, configuration.DB_NAME)
 
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("mysql", connStr)
 
 	if err != nil {
 		log.Fatal(err)

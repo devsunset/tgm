@@ -1,0 +1,187 @@
+package main
+ 
+import (
+    "database/sql" 
+    _ "github.com/go-sql-driver/mysql"
+    "log"
+)
+ 
+func main() {
+    db, err := sql.Open("mysql", "root:pwd@tcp(127.0.0.1:3306)/testdb")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+     
+    //...(db 사용)....
+}
+
+-------------------------------------------------------------------------------
+
+package main
+ 
+import (
+    "database/sql"
+    "fmt"
+    "log"
+    _ "github.com/go-sql-driver/mysql"
+)
+ 
+func main() {
+    // sql.DB 객체 생성
+    db, err := sql.Open("mysql", "root:pwd@tcp(127.0.0.1:3306)/testdb")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+ 
+    // 하나의 Row를 갖는 SQL 쿼리
+    var name string
+    err = db.QueryRow("SELECT name FROM test1 WHERE id = 1").Scan(&name)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(name)
+}
+
+func main() {
+    // sql.DB 객체 생성
+    db, err := sql.Open("mysql", "root:pwd@tcp(127.0.0.1:3306)/testdb")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+ 
+    // 복수 Row를 갖는 SQL 쿼리
+    var id int
+    var name string
+    rows, err := db.Query("SELECT id, name FROM test1 where id >= ?", 1)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer rows.Close() //반드시 닫는다 (지연하여 닫기)
+ 
+    for rows.Next() {
+        err := rows.Scan(&id, &name)
+        if err != nil {
+            log.Fatal(err)
+        }
+        fmt.Println(id, name)
+    }
+}
+
+-------------------------------------------------------------------------------
+
+package main
+ 
+import (
+    "database/sql"
+    "fmt"
+    "log"
+    _ "github.com/go-sql-driver/mysql"
+)
+ 
+func main() {
+    // sql.DB 객체 생성
+    db, err := sql.Open("mysql", "root:pwd@tcp(127.0.0.1:3306)/testdb")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+ 
+    // INSERT 문 실행
+    result, err := db.Exec("INSERT INTO test1 VALUES (?, ?)", 11, "Jack")
+    if err != nil {
+        log.Fatal(err)
+    }
+ 
+    // sql.Result.RowsAffected() 체크
+    n, err := result.RowsAffected()
+    if n == 1 {
+        fmt.Println("1 row inserted.")
+    }
+}
+
+-------------------------------------------------------------------------------
+
+package main
+ 
+import (
+    "database/sql"
+    "log"
+    _ "github.com/go-sql-driver/mysql"
+)
+ 
+func main() {
+    // sql.DB 객체 생성
+    db, err := sql.Open("mysql", "root:pwd@tcp(127.0.0.1:3306)/testdb")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+ 
+    // Prepared Statement 생성
+    stmt, err := db.Prepare("UPDATE test1 SET name=? WHERE id=?")
+    checkError(err)
+    defer stmt.Close()
+ 
+    // Prepared Statement 실행
+    _, err = stmt.Exec("Tom", 1) //Placeholder 파라미터 순서대로 전달
+    checkError(err)
+    _, err = stmt.Exec("Jack", 2)
+    checkError(err)
+    _, err = stmt.Exec("Shawn", 3)
+    checkError(err)
+}
+ 
+func checkError(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+
+-------------------------------------------------------------------------------
+
+package main
+ 
+import (
+    "database/sql"
+    "log"
+ 
+    _ "github.com/go-sql-driver/mysql"
+)
+ 
+func main() {
+    // sql.DB 객체 생성
+    db, err := sql.Open("mysql", "root:pwd@tcp(127.0.0.1:3306)/testdb")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+ 
+    // 트랜잭션 시작
+    tx, err := db.Begin()
+    if err != nil {
+        log.Panic(err)
+    }
+    defer tx.Rollback() //중간에 에러시 롤백하도록 defer 한다
+ 
+    // INSERT 문 실행
+    _, err = tx.Exec("INSERT INTO test1 VALUES (?, ?)", 15, "Jack")
+    if err != nil {
+        //에러메시지를 출력하고 panic() 호출.
+        //panic()은 defer를 실행한다.
+        log.Panic(err)
+    }
+ 
+    _, err = tx.Exec("INSERT INTO test2 VALUES (?, ?)", 15, "Data")
+    if err != nil {
+        log.Panic(err)
+    }
+ 
+    // 트랜잭션 커밋
+    err = tx.Commit()
+    if err != nil {
+        log.Panic(err)
+    }
+}

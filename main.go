@@ -55,18 +55,23 @@ func main() {
 
 	// Routing
 	e.GET("/healthCheck", HealthCheck)
-	e.GET("getLocationRegion", controllers.GetLocationRegion)
-	e.GET("getLocationCountry", controllers.GetLocationCountry)
-	e.GET("getLocationCity", controllers.GetLocationCity)
-	e.GET("getLocationType", controllers.GetLocationType)
-	e.GET("getLocation", controllers.GetLocation)
+
+	e.GET("getNowTime", controllers.GetNowTime)
 
 	/*
+		# example.go.bak
 		e.GET("/getPathParameters/:id", controllers.GetPathParameters)
 		e.GET("/getQueryParameters", controllers.GetQueryParameters)
 		e.POST("postSave", controllers.PostSave)
 		e.POST("postSavefile", controllers.PostSavefile)
 		e.POST("users", controllers.Users)
+
+		# chargers.go.bak
+		e.GET("getLocationRegion", controllers.GetLocationRegion)
+		e.GET("getLocationCountry", controllers.GetLocationCountry)
+		e.GET("getLocationCity", controllers.GetLocationCity)
+		e.GET("getLocationType", controllers.GetLocationType)
+		e.GET("getLocation", controllers.GetLocation)
 	*/
 
 	// Login route

@@ -17,6 +17,28 @@ import (
 //
 /////////////////////////////////////////////////////////////////
 
+func GetNowTime(c echo.Context) error {
+
+	db := db.DbManager()
+
+	sqlStatement := "SELECT now() as nowtime"
+
+	rows, err := db.Query(sqlStatement)
+
+	defer rows.Close()
+	defer db.Close()
+
+	// 하나의 Row를 갖는 SQL 쿼리
+	var nowtime string
+	err = db.QueryRow("SELECT now() AS nowtime").Scan(&nowtime)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(nowtime)
+
+	return c.JSON(http.StatusCreated, nowtime)
+}
+
 // getLocationRegion godoc
 // @Summary Tesla Chargers Location Region.
 // @Description get tesla Chargers Location Region.
