@@ -1,9 +1,0 @@
-{
-    "DB_USERNAME": "tgm",
-    "DB_PASSWORD": "admin123!",
-    "DB_PORT": 3306,
-    "DB_HOST": "193.123.255.92",
-    "DB_NAME": "tgm",
-    "DB_MAXIDLECONNS": 100,
-    "DB_MAXOPENCONNS": 900
-}
