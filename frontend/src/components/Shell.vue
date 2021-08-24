@@ -82,7 +82,7 @@ export default {
         return;
       }
 
-      if (cmd === "clear") {
+      if (cmd === "clear" || cmd === "cls") {
         this.content = [];
         event.target.innerHTML = "";
         return;

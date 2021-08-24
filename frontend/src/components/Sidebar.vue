@@ -11,7 +11,7 @@
         <span>{{ $t("sidebar.myFiles") }}</span>
       </router-link>
 
-      <div v-if="user.perm.create && {{filesubitem}}" style="padding-left:20px">
+      <div v-if="user.perm.create && filesubmenu_visible" style="padding-left:20px">
         <button
           @click="$store.commit('showHover', 'newDir')"
           class="action"
@@ -30,6 +30,16 @@
         >
           <i class="material-icons">note_add</i>
           <span>{{ $t("sidebar.newFile") }}</span>
+        </button>
+
+        <button
+          @click="this.$store.commit('toggleShell')"
+          class="action"
+          :aria-label="$t('buttons.shell')"
+          :title="$t('buttons.shell')"
+        >
+          <i class="material-icons">code</i>
+          <span>Shell</span>
         </button>
       </div>
 
@@ -124,18 +134,11 @@ import {
 export default {
   name: "sidebar",
   data: () => ({ 
-    filesubitem: false 
+    filesubmenu_visible: true,
   }),
   computed: {
     ...mapState(["user"]),
     ...mapGetters(["isLogged"]),
-    $route: function () {
-      if(this.$router.currentRoute.path == '/files/'){
-        filesubitem = true;
-      }else{
-        filesubitem = false;
-      }
-    },
     active() {
       return this.$store.state.show === "sidebar";
     },
@@ -151,12 +154,19 @@ export default {
     },
     logout: auth.logout,
   },
+  mounted() {
+     if(this.$router.currentRoute.path == '/files/'){
+        this.filesubmenu_visible = true;
+      }else{
+        this.filesubmenu_visible = false;
+      }
+  },
   watch: {    
     $route: function () {
       if(this.$router.currentRoute.path == '/files/'){
-        filesubitem = true;
+        this.filesubmenu_visible = true;
       }else{
-        filesubitem = false;
+        this.filesubmenu_visible = false;
       }
     },
   },
