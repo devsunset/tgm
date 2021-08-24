@@ -11,7 +11,7 @@
         <span>{{ $t("sidebar.myFiles") }}</span>
       </router-link>
 
-      <div v-if="user.perm.create">
+      <div v-if="user.perm.create && filesubitem" style="padding-left:20px">
         <button
           @click="$store.commit('showHover', 'newDir')"
           class="action"
@@ -123,9 +123,19 @@ import {
 
 export default {
   name: "sidebar",
+  data: () => ({ 
+    filesubitem: false 
+  }),
   computed: {
     ...mapState(["user"]),
     ...mapGetters(["isLogged"]),
+    $route: function () {
+      if(this.$router.currentRoute.path == '/files/'){
+        filesubitem = true;
+      }else{
+        filesubitem = false;
+      }
+    },
     active() {
       return this.$store.state.show === "sidebar";
     },
@@ -140,6 +150,15 @@ export default {
       this.$store.commit("showHover", "help");
     },
     logout: auth.logout,
+  },
+  watch: {    
+    $route: function () {
+      if(this.$router.currentRoute.path == '/files/'){
+        filesubitem = true;
+      }else{
+        filesubitem = false;
+      }
+    },
   },
 };
 </script>
