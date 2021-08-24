@@ -11,7 +11,7 @@
         <span>{{ $t("sidebar.myFiles") }}</span>
       </router-link>
 
-      <div v-if="user.perm.create && filesubitem" style="padding-left:20px">
+      <div v-if="user.perm.create && {{filesubitem}}" style="padding-left:20px">
         <button
           @click="$store.commit('showHover', 'newDir')"
           class="action"
