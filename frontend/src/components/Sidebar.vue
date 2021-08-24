@@ -35,6 +35,17 @@
 
       <div>
         <router-link
+          v-if="user.perm.admin"
+          class="action"
+          to="/settings/users"
+          :aria-label="$t('settings.userManagement')"
+          :title="$t('settings.userManagement')"
+        >
+          <i class="material-icons">person_add</i>
+          <span>{{ $t("settings.userManagement") }}</span>
+        </router-link>
+
+        <router-link
           class="action"
           to="/settings"
           :aria-label="$t('sidebar.settings')"
@@ -55,7 +66,7 @@
           <i class="material-icons">exit_to_app</i>
           <span>{{ $t("sidebar.logout") }}</span>
         </button>
-      </div>
+      </div>    
     </template>
     <template v-else>
       <router-link
@@ -82,13 +93,13 @@
 
     <p class="credits">
       <span>
-        <span v-if="disableExternal">tgm</span>
+        <span v-if="disableExternal">TGM</span> 
         <a
           v-else
           rel="noopener noreferrer"
           target="_blank"
-          href="https://github.com/tgm/tgm"
-          >tgm</a
+          href="https://www.teratec.co.kr/html/main.php"
+          >TGM</a
         >
         <span> {{ version }}</span>
       </span>

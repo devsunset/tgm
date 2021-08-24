@@ -1,4 +1,4 @@
-const name = window.tgm.Name || "tgm";
+const name = window.tgm.Name || "TGM";
 const disableExternal = window.tgm.DisableExternal;
 const baseURL = window.tgm.BaseURL;
 const staticURL = window.tgm.StaticURL;

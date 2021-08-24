@@ -39,12 +39,12 @@
             <a
               class="link"
               target="_blank"
-              href="https://tgm.org/configuration/custom-branding"
+              href="https://filebrowser.org/configuration/custom-branding"
               >{{ $t("settings.documentation") }}</a
             >
           </i18n>
 
-          <p>
+          <p v-show="false">
             <input
               type="checkbox"
               v-model="settings.branding.disableExternal"
@@ -53,7 +53,7 @@
             {{ $t("settings.disableExternalLinks") }}
           </p>
 
-          <p>
+          <p v-show="false">
             <label for="theme">{{ $t("settings.themes.title") }}</label>
             <themes
               class="input input--block"
@@ -62,7 +62,7 @@
             ></themes>
           </p>
 
-          <p>
+          <p v-show="false">
             <label for="branding-name">{{ $t("settings.instanceName") }}</label>
             <input
               class="input input--block"
@@ -72,7 +72,7 @@
             />
           </p>
 
-          <p>
+          <p v-show="false">
             <label for="branding-files">{{
               $t("settings.brandingDirectoryPath")
             }}</label>
@@ -121,7 +121,7 @@
       </form>
     </div>
 
-    <div class="column">
+    <div class="column" v-show="false">
       <form v-if="isExecEnabled" class="card" @submit.prevent="save">
         <div class="card-title">
           <h2>{{ $t("settings.commandRunner") }}</h2>
@@ -134,7 +134,7 @@
             <a
               class="link"
               target="_blank"
-              href="https://tgm.org/configuration/command-runner"
+              href="https://filebrowser.org/configuration/command-runner"
               >{{ $t("settings.documentation") }}</a
             >
           </i18n>

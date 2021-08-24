@@ -5,8 +5,8 @@ _old
 rice-box.go
 .idea/
 tgm
-tgm.exe
-tgm.db
+# tgm.exe
+# tgm.db
 
 .DS_Store
 node_modules

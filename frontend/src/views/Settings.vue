@@ -4,23 +4,26 @@
 
     <div id="nav">
       <div class="wrapper">
+
         <ul>
-          <router-link to="/settings/profile"
+          <router-link to="/settings/profile" v-if="$route.path !== '/settings/users'"
             ><li :class="{ active: $route.path === '/settings/profile' }">
               {{ $t("settings.profileSettings") }}
             </li></router-link
           >
-          <router-link to="/settings/shares" v-if="user.perm.share"
+          <!-- 
+            <router-link to="/settings/shares" v-if="user.perm.share"
             ><li :class="{ active: $route.path === '/settings/shares' }">
               {{ $t("settings.shareManagement") }}
             </li></router-link
-          >
-          <router-link to="/settings/global" v-if="user.perm.admin"
+          > 
+          -->
+          <router-link to="/settings/global" v-if="user.perm.admin && $route.path !== '/settings/users'"
             ><li :class="{ active: $route.path === '/settings/global' }">
               {{ $t("settings.globalSettings") }}
             </li></router-link
           >
-          <router-link to="/settings/users" v-if="user.perm.admin"
+          <router-link to="/settings/users" v-if="user.perm.admin  && $route.path === '/settings/users'"
             ><li
               :class="{
                 active:
@@ -31,6 +34,7 @@
             </li></router-link
           >
         </ul>
+
       </div>
     </div>
 
@@ -46,6 +50,7 @@
     </div>
 
     <router-view></router-view>
+
   </div>
 </template>
 
