@@ -52,13 +52,18 @@ export default {
     historyPos: 0,
     canInput: true,
   }),
+  updated() {    
+     if (this.$store.state.showShell) {
+      this.focus();
+     }     
+  },
   methods: {
     ...mapMutations(["toggleShell"]),
     scroll: function () {
       this.$refs.scrollable.scrollTop = this.$refs.scrollable.scrollHeight;
     },
     focus: function () {
-      this.$refs.input.focus();
+      this.$refs.input.focus();      
     },
     historyUp() {
       if (this.historyPos > 0) {
@@ -74,7 +79,7 @@ export default {
         this.historyPos = this.history.length;
         this.$refs.input.innerText = "";
       }
-    },
+    },    
     submit: function (event) {
       const cmd = event.target.innerText.trim();
 
