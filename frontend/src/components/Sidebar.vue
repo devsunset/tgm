@@ -33,13 +33,13 @@
         </button>
 
         <button
-          @click="this.$store.commit('toggleShell')"
+          @click="$store.commit('toggleShell')"
           class="action"
           :aria-label="$t('buttons.shell')"
           :title="$t('buttons.shell')"
         >
           <i class="material-icons">code</i>
-          <span>Shell</span>
+          <span>Web Console</span>
         </button>
       </div>
 

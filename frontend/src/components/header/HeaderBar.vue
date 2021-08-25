@@ -1,6 +1,11 @@
 <template>
   <header>
-    <img v-if="showLogo !== undefined" :src="logoURL" />
+    <router-link
+        to="/files/"
+      >
+        <img v-if="showLogo !== undefined" :src="logoURL" />
+    </router-link>
+
     <action
       v-if="showMenu !== undefined"
       class="menu-button"

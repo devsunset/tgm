@@ -18,9 +18,11 @@
             {{ $t("settings.createUserDir") }}
           </p>
 
-          <h3>{{ $t("settings.rules") }}</h3>
-          <p class="small">{{ $t("settings.globalRules") }}</p>
-          <rules :rules.sync="settings.rules" />
+          <div v-show="false">
+            <h3>{{ $t("settings.rules") }}</h3>
+            <p class="small">{{ $t("settings.globalRules") }}</p>
+            <rules :rules.sync="settings.rules" />  
+          </div>
 
           <div v-if="isExecEnabled">
             <h3>{{ $t("settings.executeOnShell") }}</h3>
@@ -33,9 +35,9 @@
             />
           </div>
 
-          <h3>{{ $t("settings.branding") }}</h3>
+          <h3 v-show="false">{{ $t("settings.branding") }}</h3>
 
-          <i18n path="settings.brandingHelp" tag="p" class="small">
+          <i18n v-show="false" path="settings.brandingHelp" tag="p" class="small">
             <a
               class="link"
               target="_blank"

@@ -11,8 +11,9 @@
 
       <template #actions>
         <template v-if="!isMobile">
+          <!-- v-if="headerButtons.share" -->
           <action
-            v-if="headerButtons.share"
+            v-if="false"
             icon="share"
             :label="$t('buttons.share')"
             show="share"
