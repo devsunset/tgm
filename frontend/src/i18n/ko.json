@@ -124,7 +124,7 @@
     "filesSelected": "{count} 개의 파일이 선택되었습니다.",
     "lastModified": "최종 수정",
     "move": "이동",
-    "moveMessage": "이동할 화일 또는 디렉토리를 선택하세요:",
+    "moveMessage": "이동할 파일 또는 디렉토리를 선택하세요:",
     "newArchetype": "원형을 유지하는 포스트를 생성합니다. 파일은 컨텐트 폴더에 생성됩니다.",
     "newDir": "새 디렉토리",
     "newDirMessage": "새 디렉토리 이름을 입력해주세요.",
@@ -193,7 +193,7 @@
     "path": "",
     "perm": {
       "create": "파일이나 디렉토리 생성하기",
-      "delete": "화일이나 디렉토리 삭제하기",
+      "delete": "파일이나 디렉토리 삭제하기",
       "download": "다운로드",
       "execute": "명령 실행",
       "modify": "파일 편집",

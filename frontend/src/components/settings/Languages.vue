@@ -13,6 +13,13 @@ export default {
   data() {
     let dataObj = {
       locales: {
+        en: "en",
+        ko: "ko",
+      },
+    };
+    /*
+    let dataObj = {
+      locales: {
         ar: "ar",
         de: "de",
         en: "en",
@@ -33,6 +40,7 @@ export default {
         "zh-tw": "zhTW",
       },
     };
+    */
 
     Object.defineProperty(dataObj, "locales", {
       configurable: false,

@@ -3,7 +3,7 @@
     <h3>{{ $t("settings.permissions") }}</h3>
     <p class="small">{{ $t("settings.permissionsHelp") }}</p>
 
-    <p>
+    <p v-show="false">
       <input type="checkbox" v-model="admin" />
       {{ $t("settings.administrator") }}
     </p>
@@ -32,7 +32,7 @@
       <input type="checkbox" :disabled="admin" v-model="perm.rename" />
       {{ $t("settings.perm.rename") }}
     </p>
-    <p>
+    <p v-show="false">
       <input type="checkbox" :disabled="admin" v-model="perm.share" />
       {{ $t("settings.perm.share") }}
     </p>
