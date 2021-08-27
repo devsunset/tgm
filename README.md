@@ -1,7 +1,6 @@
 
 # TGM
 
-
 ## Install
 
 git clone  https://github.com/devsunset/tgm.git
@@ -14,9 +13,12 @@ npm run build
 
     npm run watch
 
-cd #tgm root_dir#
+cd #tgm_root_dir#
 
 go run main.go
+or 
+go build
+./tgm
 
 http://localhost:8282
 

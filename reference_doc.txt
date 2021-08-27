@@ -1,0 +1,24 @@
+
+
+### Reference Doc ###
+
+[리눅스 / 유닉스]사용자 관리(사용자 추가 useradd, passwd파일, 시스템계정 ) 
+- https://jhnyang.tistory.com/10
+
+[리눅스] etc/default/useradd 파일, /etc/skel 디렉터리 살펴보기, 사용자 계정 관련 디폴트 설정 파일 
+- https://jhnyang.tistory.com/164
+
+[리눅스/유닉스] 사용자관리 usermod 명령어, 사용자 아이디 변경, 임시 계정 발급, usermod 옵션, 사용 예시 
+- https://jhnyang.tistory.com/259
+
+[리눅스/Linux] 패스워드 관리 - 비밀번호 변경, 유효기간 지정 , 만료날짜 passwd, chage 명령어 
+- https://jhnyang.tistory.com/260
+
+[리눅스]셸(Shell)이란? 셸의 변경, 쉘 개념, 기능, 종류와 특징(sh, bash, csh, tcsh, ksh) 
+- https://jhnyang.tistory.com/57
+
+[리눅스 Linux] 디스크쿼터(disk quota) 사용자 또는 파일시스템에 따라 디스크 용량 제한하기, 쿼터 관련 명령어와 옵션 정리 
+- https://jhnyang.tistory.com/265
+
+[리눅스/Linux] 쿼터2탄 - quotacheck, edquota, repquota, quota 등 디스크 쿼터 관련 명령어 살펴보기 
+- https://jhnyang.tistory.com/266
