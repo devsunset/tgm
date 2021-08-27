@@ -93,7 +93,6 @@ func AddNewUser(u *User) (bool, string) {
 		fmt.Println(err, "There was an error by adding user", u.Name)
 		return false, ""
 	} else {
-
 		fmt.Printf("Output: %s\n", out)
 
 		if _, err := passCmd.Output(); err != nil {
@@ -104,13 +103,18 @@ func AddNewUser(u *User) (bool, string) {
 	}
 }
 
-func main() {
-	if len(os.Args) == 1 {
-		fmt.Println("Usage:", os.Args[0], "Name of json file")
-		os.Exit(1)
-	}
-	NameOfFile := os.Args[1]
+func groupadd() {
+	fmt.Println("groupadd  groupadd.json execute ....")
+}
 
+func groupdel() {
+	fmt.Println("groupdel groupdel.json execute ....")
+}
+
+func useradd() {
+	fmt.Println("useradd useradd.json execute ....")
+
+	NameOfFile := os.Args[1]
 	data := ReadUsers(NameOfFile)
 
 	var u Users
@@ -119,15 +123,55 @@ func main() {
 	userList := ReadEtcPasswd(userFile)
 
 	for i := range u.Users {
-
 		c := check(userList, u.Users[i].Name)
 		if c == false {
-
 			if info, passwd := AddNewUser(&u.Users[i]); info == true {
 				fmt.Println("User was added:>", u.Users[i].Name, "=>", "Password:>", passwd)
 			}
 		} else {
 			fmt.Println("The user already exists:>", u.Users[i].Name)
 		}
+	}
+}
+
+func userdel() {
+	fmt.Println("userdel userdel.json execute ....")
+}
+
+func main() {
+
+	encrypt := base64.StdEncoding.EncodeToString([]byte(CreateRandom(3)))
+	fmt.Println(encrypt)
+
+	if len(os.Args) == 1 {
+		fmt.Println("====================================")
+		fmt.Println("### Usage ###")
+		fmt.Println("")
+		fmt.Println("go run linux-cli.go <<command>>")
+		fmt.Println("ex) go run linux-cli.go useradd")
+		fmt.Println("")
+
+		fmt.Println("====================================")
+		fmt.Println("--- command list -------------------")
+		fmt.Println("====================================")
+		fmt.Println("groupadd")
+		fmt.Println("groupdel")
+		fmt.Println("useradd")
+		fmt.Println("userdel")
+		fmt.Println("====================================")
+		os.Exit(1)
+	}
+
+	if os.Args[1] == "groupadd" {
+		groupadd()
+	} else if os.Args[1] == "groupdel" {
+		groupdel()
+	} else if os.Args[1] == "useradd" {
+		useradd()
+	} else if os.Args[1] == "userdel" {
+		userdel()
+	} else {
+		fmt.Println("Invalid command args")
+		os.Exit(1)
 	}
 }
