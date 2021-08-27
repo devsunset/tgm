@@ -1,5 +1,5 @@
 
-## TGM
+### TGM
 
 
 ## Install
@@ -17,9 +17,6 @@ npm run build
 cd #tgm root_dir#
 
 go run main.go
-
----
----
 
 http://localhost:8282
 
@@ -55,3 +52,10 @@ https://github.com/evnix/boltdbweb
             NOTE: If 'file.db' does not exist. it will be created as a BoltDB file.
         --port: Port for listening on... (Default: 8080)
         --static-path: If you moved the binary to different folder you can determin the path of the web folder. (Default: Same folder where the binary is located.)
+
+## Description
+Web Console
+Currently, the function is not perfect, such as vi command top command display problems
+
+## Reference Open Source
+filebrowser - https://github.com/filebrowser/filebrowser
