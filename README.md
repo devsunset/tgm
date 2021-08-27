@@ -55,7 +55,7 @@ https://github.com/evnix/boltdbweb
         --port: Port for listening on... (Default: 8080)
         --static-path: If you moved the binary to different folder you can determin the path of the web folder. (Default: Same folder where the binary is located.)
 
-## Description
+## Limit 
 Web Console
 Currently, the function is not perfect, such as vi command top command display problems
 
