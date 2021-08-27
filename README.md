@@ -1,5 +1,5 @@
 
-### TGM
+# TGM
 
 
 ## Install
@@ -25,9 +25,9 @@ admin/admin  -> admin/admin123!
 
 ## Configuration
 
-# DB (boltdb - golang storm) - Tool
+### DB (boltdb - golang storm) - Tool
 
-# cli version - boltbrowser
+### cli version - boltbrowser
 https://github.com/br0xen/boltbrowser
 
     - install
@@ -36,7 +36,7 @@ https://github.com/br0xen/boltbrowser
     - execute 
     $GOPATH/bin/boltbrowser tgm.db
 
-# web version - boltdbweb
+### web version - boltdbweb
 https://github.com/evnix/boltdbweb
 
     - install
