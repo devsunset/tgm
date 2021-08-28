@@ -114,7 +114,7 @@ func groupdel() {
 func useradd() {
 	fmt.Println("useradd useradd.json execute ....")
 
-	NameOfFile := os.Args[1]
+	NameOfFile := "useradd.json"//os.Args[1]
 	data := ReadUsers(NameOfFile)
 
 	var u Users
@@ -139,7 +139,6 @@ func userdel() {
 }
 
 func main() {
-
 	encrypt := base64.StdEncoding.EncodeToString([]byte(CreateRandom(3)))
 	fmt.Println(encrypt)
 
