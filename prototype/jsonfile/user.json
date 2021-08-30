@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "tgm1",
+      "directory": "/home/tgm1",
+      "group":  "tgm",
+      "shell": "/bin/bash"
+    },
+    {
+      "name": "tgm2",
+      "directory": "/home/tgm2",
+      "group": "tgm",
+      "shell": "/bin/bash"
+    },
+    {
+      "name": "tgm3",
+      "directory": "/home/tgm3",
+      "group": "tgm",
+      "shell": "/bin/bash"
+    }
+  ]
+}
