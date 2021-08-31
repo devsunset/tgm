@@ -58,14 +58,33 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 			break
 		}
 	}
-
-	if !d.server.EnableExec || !d.user.CanExecute(strings.Split(raw, " ")[0]) {
-		if err := conn.WriteMessage(websocket.TextMessage, cmdNotAllowed); err != nil { //nolint:govet
-			wsErr(conn, r, http.StatusInternalServerError, err)
+		
+	if d.server.EnableCmdLimit {
+		if !d.server.EnableExec || !d.user.CanExecute(strings.Split(raw, " ")[0]) {
+			if err := conn.WriteMessage(websocket.TextMessage, cmdNotAllowed); err != nil { //nolint:govet
+				wsErr(conn, r, http.StatusInternalServerError, err)
+			}
+	
+			return 0, nil
 		}
-
-		return 0, nil
+	}else{
+		if !d.server.EnableExec {
+			if err := conn.WriteMessage(websocket.TextMessage, cmdNotAllowed); err != nil { //nolint:govet
+				wsErr(conn, r, http.StatusInternalServerError, err)
+			}
+	
+			return 0, nil
+		}
 	}
+
+	// if !d.server.EnableExec || !d.user.CanExecute(strings.Split(raw, " ")[0]) {
+	// 	if err := conn.WriteMessage(websocket.TextMessage, cmdNotAllowed); err != nil { //nolint:govet
+	// 		wsErr(conn, r, http.StatusInternalServerError, err)
+	// 	}
+
+	// 	return 0, nil
+	// }
+
 
 	command, err := runner.ParseCommand(d.settings, raw)
 	if err != nil {

@@ -55,7 +55,7 @@
             {{ $t("settings.disableExternalLinks") }}
           </p>
 
-          <p v-show="false">
+          <p>
             <label for="theme">{{ $t("settings.themes.title") }}</label>
             <themes
               class="input input--block"
@@ -176,6 +176,7 @@
 import { mapState, mapMutations } from "vuex";
 import { settings as api } from "@/api";
 import { enableExec } from "@/utils/constants";
+import { enableCmdLimit } from "@/utils/constants";
 import UserForm from "@/components/settings/UserForm";
 import Rules from "@/components/settings/Rules";
 import Themes from "@/components/settings/Themes";
@@ -199,6 +200,7 @@ export default {
   computed: {
     ...mapState(["user", "loading"]),
     isExecEnabled: () => enableExec,
+    isCmdLimitEnabled: () => enableCmdLimit,
   },
   async created() {
     try {

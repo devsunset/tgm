@@ -41,6 +41,7 @@ type Server struct {
 	EnableThumbnails      bool   `json:"enableThumbnails"`
 	ResizePreview         bool   `json:"resizePreview"`
 	EnableExec            bool   `json:"enableExec"`
+	EnableCmdLimit        bool   `json:"enableCmdLimit"`
 	TypeDetectionByHeader bool   `json:"typeDetectionByHeader"`
 }
 

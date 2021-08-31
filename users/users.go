@@ -119,6 +119,5 @@ func (u *User) CanExecute(command string) bool {
 		}
 	}
 
-	// To-Do Check Command Can execute setting disable : true
 	return false
 }

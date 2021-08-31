@@ -40,7 +40,7 @@ func addConfigFlags(flags *pflag.FlagSet) {
 	flags.String("recaptcha.key", "", "ReCaptcha site key")
 	flags.String("recaptcha.secret", "", "ReCaptcha secret")
 
-	flags.String("branding.name", "", "replace 'tgm' by this name")
+	flags.String("branding.name", "TGM", "replace 'TGM' by this name")
 	flags.String("branding.files", "", "path to directory with images and custom styles")
 	flags.Bool("branding.disableExternal", false, "disable external links such as GitHub links")
 }
@@ -141,6 +141,7 @@ func printSettings(ser *settings.Server, set *settings.Settings, auther auth.Aut
 	fmt.Fprintf(w, "\tTLS Cert:\t%s\n", ser.TLSCert)
 	fmt.Fprintf(w, "\tTLS Key:\t%s\n", ser.TLSKey)
 	fmt.Fprintf(w, "\tExec Enabled:\t%t\n", ser.EnableExec)
+	fmt.Fprintf(w, "\tCmd Limit Enabled:\t%t\n", ser.EnableCmdLimit)
 	fmt.Fprintln(w, "\nDefaults:")
 	fmt.Fprintf(w, "\tScope:\t%s\n", set.Defaults.Scope)
 	fmt.Fprintf(w, "\tLocale:\t%s\n", set.Defaults.Locale)

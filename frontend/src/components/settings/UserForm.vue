@@ -50,7 +50,7 @@
     </p>
 
     <permissions :perm.sync="user.perm" />
-    <commands v-if="isExecEnabled" :commands.sync="user.commands" />
+    <commands v-if="isExecEnabled && isCmdLimitEnabled" :commands.sync="user.commands" />
 
     <div v-if="!isDefault && false">
       <h3>{{ $t("settings.rules") }}</h3>
@@ -66,6 +66,7 @@ import Rules from "./Rules";
 import Permissions from "./Permissions";
 import Commands from "./Commands";
 import { enableExec } from "@/utils/constants";
+import { enableCmdLimit } from "@/utils/constants";
 
 export default {
   name: "user",
@@ -81,6 +82,7 @@ export default {
       return this.isNew ? "" : this.$t("settings.avoidChanges");
     },
     isExecEnabled: () => enableExec,
+    isCmdLimitEnabled: () => enableCmdLimit,
   },
   watch: {
     "user.perm.admin": function () {

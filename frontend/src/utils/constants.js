@@ -14,6 +14,7 @@ const theme = window.tgm.Theme;
 const enableThumbs = window.tgm.EnableThumbs;
 const resizePreview = window.tgm.ResizePreview;
 const enableExec = window.tgm.EnableExec;
+const enableCmdLimit = window.tgm.EnableCmdLimit;
 
 export {
   name,
@@ -31,4 +32,5 @@ export {
   enableThumbs,
   resizePreview,
   enableExec,
+  enableCmdLimit,
 };

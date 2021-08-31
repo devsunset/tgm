@@ -68,6 +68,7 @@ func addServerFlags(flags *pflag.FlagSet) {
 	flags.Bool("disable-thumbnails", false, "disable image thumbnails")
 	flags.Bool("disable-preview-resize", false, "disable resize of image previews")
 	flags.Bool("disable-exec", false, "disables Command Runner feature")
+	flags.Bool("disable-cmd-limit", false, "limit Command feature")
 	flags.Bool("disable-type-detection-by-header", false, "disables type detection by reading file headers")
 }
 
@@ -259,6 +260,9 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 
 	_, disableExec := getParamB(flags, "disable-exec")
 	server.EnableExec = !disableExec
+	
+	_, disableCmdLimit := getParamB(flags, "disable-cmd-limit")
+	server.EnableCmdLimit = !disableCmdLimit
 
 	return server
 }
@@ -272,7 +276,7 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 // https://github.com/spf13/viper/pull/331
 func getParamB(flags *pflag.FlagSet, key string) (string, bool) {
 	value, _ := flags.GetString(key)
-
+	
 	// If set on Flags, use it.
 	if flags.Changed(key) {
 		return value, true
@@ -362,7 +366,7 @@ func quickSetup(flags *pflag.FlagSet, d pythonData) {
 	password := getParam(flags, "password")
 
 	if password == "" {
-		password, err = users.HashPwd("admin")
+		password, err = users.HashPwd("admin123!")
 		checkErr(err)
 	}
 
