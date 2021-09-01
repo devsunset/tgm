@@ -183,12 +183,12 @@ func printToken(w http.ResponseWriter, _ *http.Request, d *data, user *users.Use
 			Perm:         user.Perm,
 			LockPassword: user.LockPassword,
 			Commands:     user.Commands,
-			HideDotfiles: user.HideDotfiles,
+			HideDotfiles: user.HideDotfiles,			
 		},
 		StandardClaims: jwt.StandardClaims{
 			IssuedAt:  time.Now().Unix(),
 			ExpiresAt: time.Now().Add(TokenExpirationTime).Unix(),
-			Issuer:    "tgmJwtAuthManagerIssuer", //TGM-JWT
+			Issuer:    "tgmJwtAuthManagerIssuer",
 		},
 	}
 
