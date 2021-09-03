@@ -12,7 +12,7 @@ export function parseToken(token) {
 
   const data = JSON.parse(Base64.decode(parts[1]));
 
-  document.cookie = `auth=${token}; path=/`;
+  document.cookie = `auth=${token}; path=/; rememberme=`+localStorage.getItem("rememberme");;
 
   localStorage.setItem("jwt", token);
   store.commit("setJWT", token);
@@ -29,16 +29,22 @@ export async function validateLogin() {
   }
 }
 
-export async function login(username, password, recaptcha) {
-  const data = { username, password, recaptcha };
+export async function login(username, password, recaptcha, rememberme) {
+  const data = { username, password, recaptcha , rememberme};
+
+  document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; rememberme=false;";
+  document.cookie = `rememberme=`+rememberme+";";
+  localStorage.setItem("rememberme", rememberme);
 
   const res = await fetch(`${baseURL}/api/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JON.stringify(data),
   });
+
+  
 
   const body = await res.text();
 
@@ -83,10 +89,11 @@ export async function signup(username, password) {
 }
 
 export function logout() {
-  document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+  document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; rememberme=false;";
 
   store.commit("setJWT", "");
   store.commit("setUser", null);
   localStorage.setItem("jwt", null);
+  localStorage.setItem("rememberme", false);
   router.push({ path: "/login" });
 }

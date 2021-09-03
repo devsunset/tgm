@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
-
+	"time"	
+	
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
 
@@ -16,7 +16,8 @@ import (
 )
 
 const (
-	TokenExpirationTime = time.Hour * 2
+	TokenExpirationTime = time.Hour * 1
+	TokenMaxExpirationTime = time.Hour * 24 * 30
 )
 
 type userInfo struct {
@@ -173,7 +174,34 @@ var renewHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *data
 	return printToken(w, r, d, d.user)
 })
 
-func printToken(w http.ResponseWriter, _ *http.Request, d *data, user *users.User) (int, error) {
+
+func printToken(w http.ResponseWriter, r *http.Request, d *data, user *users.User) (int, error) {
+	tokenMaxPeriod := false  
+
+	rememberme := r.URL.Query().Get("rememberme")
+	if rememberme == "true" {
+	   tokenMaxPeriod = true
+	}
+
+	if !tokenMaxPeriod  {
+		c1, err := r.Cookie("rememberme")
+		if err != nil {		
+
+		}else{
+		   if c1.Value == "true" {
+			tokenMaxPeriod = true
+		   }
+		}
+	}
+
+	TokenExpirationTime_Value := time.Hour * 1
+	
+	if tokenMaxPeriod {
+		TokenExpirationTime_Value = TokenMaxExpirationTime
+	} else {
+		TokenExpirationTime_Value = TokenExpirationTime 
+	}
+  
 	claims := &authToken{
 		User: userInfo{
 			ID:           user.ID,
@@ -187,7 +215,7 @@ func printToken(w http.ResponseWriter, _ *http.Request, d *data, user *users.Use
 		},
 		StandardClaims: jwt.StandardClaims{
 			IssuedAt:  time.Now().Unix(),
-			ExpiresAt: time.Now().Add(TokenExpirationTime).Unix(),
+			ExpiresAt: time.Now().Add(TokenExpirationTime_Value).Unix(),
 			Issuer:    "tgmJwtAuthManagerIssuer",
 		},
 	}

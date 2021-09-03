@@ -25,6 +25,14 @@
         :placeholder="$t('login.passwordConfirm')"
       />
 
+      <p v-if="!createMode">
+        <input
+          type="checkbox"
+          v-model="rememberme"
+        />                
+        {{ $t("login.rememberme") }}
+      </p>
+
       <div v-if="recaptcha" id="recaptcha"></div>
       <input
         class="button button--block"
@@ -66,6 +74,7 @@ export default {
       password: "",
       recaptcha: recaptcha,
       passwordConfirm: "",
+      rememberme: false,
     };
   },
   mounted() {
@@ -112,7 +121,7 @@ export default {
           await auth.signup(this.username, this.password);
         }
 
-        await auth.login(this.username, this.password, captcha);
+        await auth.login(this.username, this.password, captcha, this.rememberme);
         this.$router.push({ path: redirect });
       } catch (e) {
         if (e.message == 409) {

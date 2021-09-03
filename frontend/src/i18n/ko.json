@@ -106,7 +106,8 @@
     "submit": "로그인",
     "username": "사용자 이름",
     "usernameTaken": "사용자 이름이 존재합니다",
-    "wrongCredentials": "사용자 이름 또는 비밀번호를 확인하십시오"
+    "wrongCredentials": "사용자 이름 또는 비밀번호를 확인하십시오",
+    "rememberme" : "로그인 유지"
   },
   "permanent": "영구",
   "prompts": {

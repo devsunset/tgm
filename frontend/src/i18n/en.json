@@ -109,7 +109,8 @@
     "submit": "Login",
     "username": "Username",
     "usernameTaken": "Username already taken",
-    "wrongCredentials": "Wrong credentials"
+    "wrongCredentials": "Wrong credentials",
+    "rememberme" : "Remember me"
   },
   "permanent": "Permanent",
   "prompts": {
