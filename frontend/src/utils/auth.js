@@ -48,6 +48,7 @@ export async function login(username, password, recaptcha, rememberme) {
   const body = await res.text();
 
   if (res.status === 200) {
+    localStorage.setItem("username", username);
     parseToken(body);
   } else {
     throw new Error(body);
@@ -94,5 +95,6 @@ export function logout() {
   store.commit("setUser", null);
   localStorage.setItem("jwt", null);
   localStorage.setItem("rememberme", false);
+  localStorage.setItem("username", "");
   router.push({ path: "/login" });
 }

@@ -101,7 +101,11 @@
       </router-link>
     </template>
 
+
     <p class="credits">
+      <span>
+          USER : {{loginusername}}
+      </span>  
       <span>
         <span v-if="disableExternal">TGM</span> 
         <a
@@ -111,7 +115,7 @@
           href="https://www.teratec.co.kr/html/main.php"
           >TGM</a
         >
-        <span> {{ version }}</span>
+        <span>{{ version }}</span>
       </span>
       <span
         ><a @click="help">{{ $t("sidebar.help") }}</a></span
@@ -135,6 +139,7 @@ export default {
   name: "sidebar",
   data: () => ({ 
     filesubmenu_visible: true,
+    loginusername : localStorage.getItem("username")
   }),
   computed: {
     ...mapState(["user"]),
