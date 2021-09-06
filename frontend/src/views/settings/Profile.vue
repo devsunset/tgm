@@ -95,6 +95,25 @@ export default {
         return baseClass;
       }
 
+      var pw = this.password
+              
+      var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+      var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      
+      if(false === reg.test(pw)) {
+        return `${baseClass} input--red`;
+      }else if(/(\w)\1\1\1/.test(pw)){
+       return `${baseClass} input--red`;
+      }else if(pw.search(/\s/) != -1){
+        return `${baseClass} input--red`;
+      }else if(hangulcheck.test(pw)){
+       return `${baseClass} input--red`;
+      }else {
+        if (this.password !== this.passwordConf || this.password === "") {
+          return `${baseClass} input--red`;
+        }
+      }
+
       if (this.password === this.passwordConf) {
         return `${baseClass} input--green`;
       }
@@ -133,6 +152,7 @@ export default {
         return;
       }else {
         if (this.password !== this.passwordConf || this.password === "") {
+          this.$showError("비밀번호 일치하지 않음"); 
           return;
         }
         try {

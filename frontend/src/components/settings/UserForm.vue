@@ -13,13 +13,20 @@
     <p v-if="!isDefault">
       <label for="password">{{ $t("settings.password") }}</label>
       <input
-        class="input input--block"
+        :class="passwordClass"
         type="password"
         :placeholder="passwordPlaceholder"
         v-model="user.password"
         id="password"
       />
-    </p>
+      <input
+          :class="passwordClass"
+          type="password"
+          :placeholder="$t('settings.newPasswordConfirm')"
+          v-model="passwordConf"
+          name="password"
+      />
+  </p>
 
     <p>
       <label for="scope">{{ $t("settings.scope") }}</label>
@@ -70,6 +77,11 @@ import { enableCmdLimit } from "@/utils/constants";
 
 export default {
   name: "user",
+  data: function () {
+    return {      
+      passwordConf: "",
+    };
+  },
   components: {
     Permissions,
     Languages,
@@ -83,6 +95,40 @@ export default {
     },
     isExecEnabled: () => enableExec,
     isCmdLimitEnabled: () => enableCmdLimit,
+    passwordClass() {
+      const baseClass = "input input--block";
+
+      if ((this.user.password === "" || this.user.password === undefined) && this.passwordConf === "") {
+        return baseClass;
+      }
+             
+      var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+      var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      
+      if(false === reg.test(this.user.password)) {
+        console.log('1')
+        return `${baseClass} input--red`;
+      }else if(/(\w)\1\1\1/.test(this.user.password)){
+        console.log('2')
+       return `${baseClass} input--red`;
+      }else if(this.user.password.search(/\s/) != -1){
+         console.log('3')
+        return `${baseClass} input--red`;
+      }else if(hangulcheck.test(this.user.password)){
+        console.log('4')
+       return `${baseClass} input--red`;
+      }else {
+        if (this.user.password !== this.passwordConf || this.user.password === "") {
+          return `${baseClass} input--red`;
+        }
+      }
+
+      if (this.user.password === this.passwordConf) {
+        return `${baseClass} input--green`;
+      }
+
+      return `${baseClass} input--red`;
+    },
   },
   watch: {
     "user.perm.admin": function () {
