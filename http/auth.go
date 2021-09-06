@@ -201,7 +201,7 @@ func printToken(w http.ResponseWriter, r *http.Request, d *data, user *users.Use
 	} else {
 		TokenExpirationTime_Value = TokenExpirationTime 
 	}
-  
+
 	claims := &authToken{
 		User: userInfo{
 			ID:           user.ID,

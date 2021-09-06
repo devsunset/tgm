@@ -8,12 +8,12 @@
         </div>
 
         <div class="card-content">
-          <p>
+          <p v-show="false">
             <input type="checkbox" v-model="settings.signup" />
             {{ $t("settings.allowSignup") }}
           </p>
 
-          <p>
+          <p v-show="false">
             <input type="checkbox" v-model="settings.createUserDir" />
             {{ $t("settings.createUserDir") }}
           </p>
@@ -24,7 +24,7 @@
             <rules :rules.sync="settings.rules" />  
           </div>
 
-          <div v-if="isExecEnabled">
+          <div v-if="isExecEnabled && false">
             <h3>{{ $t("settings.executeOnShell") }}</h3>
             <p class="small">{{ $t("settings.executeOnShellDescription") }}</p>
             <input

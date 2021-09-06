@@ -29,22 +29,21 @@ export async function validateLogin() {
   }
 }
 
-export async function login(username, password, recaptcha, rememberme) {
+export async function login(username, password, recaptcha, rememberme) {  
   const data = { username, password, recaptcha , rememberme};
 
   document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; rememberme=false;";
   document.cookie = `rememberme=`+rememberme+";";
   localStorage.setItem("rememberme", rememberme);
 
+
   const res = await fetch(`${baseURL}/api/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JON.stringify(data),
+    body:JSON.stringify(data),
   });
-
-  
 
   const body = await res.text();
 

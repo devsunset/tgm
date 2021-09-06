@@ -36,6 +36,7 @@ Vue.prototype.$showError = (error, displayReport = true) => {
   ];
 
   if (!disableExternal && displayReport) {
+    /*
     btns.unshift(
       Noty.button(i18n.t("buttons.reportIssue"), "", function () {
         window.open(
@@ -43,6 +44,7 @@ Vue.prototype.$showError = (error, displayReport = true) => {
         );
       })
     );
+    */
   }
 
   let n = new Noty(
