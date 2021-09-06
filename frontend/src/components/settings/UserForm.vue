@@ -7,6 +7,7 @@
         type="text"
         v-model="user.username"
         id="username"
+        :disabled="!this.isNew"
       />
     </p>
 
@@ -106,16 +107,12 @@ export default {
       var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       
       if(false === reg.test(this.user.password)) {
-        console.log('1')
         return `${baseClass} input--red`;
       }else if(/(\w)\1\1\1/.test(this.user.password)){
-        console.log('2')
        return `${baseClass} input--red`;
       }else if(this.user.password.search(/\s/) != -1){
-         console.log('3')
         return `${baseClass} input--red`;
       }else if(hangulcheck.test(this.user.password)){
-        console.log('4')
        return `${baseClass} input--red`;
       }else {
         if (this.user.password !== this.passwordConf || this.user.password === "") {
