@@ -9,8 +9,8 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"os/user"
 	"os/exec"
+	"os/user"
 	"strings"
 )
 
@@ -32,7 +32,7 @@ type Users struct {
 }
 
 type Group struct {
-	Group     string `json:group`
+	Group string `json:group`
 }
 
 type User struct {
@@ -41,6 +41,7 @@ type User struct {
 	Group     string `json:group`
 	Shell     string `json:shell`
 }
+
 ////////////////////////////////////////
 
 // Read json file and return slice of byte.
@@ -116,14 +117,14 @@ func CreateRandom(n int) string {
 ////////////////////////////////////////
 
 // Group is created by executing shell command groupadd
-func AddGroup(g *Group) (bool) {
+func AddGroup(g *Group) bool {
 	argGroup := []string{g.Group}
-	
+
 	groupCmd := exec.Command("groupadd", argGroup...)
 
 	fmt.Println(groupCmd)
 
-	if out, err := groupCmd.Output(); err != nil {		
+	if out, err := groupCmd.Output(); err != nil {
 		fmt.Println(err, "There was an error by adding group", g.Group)
 		return false
 	} else {
@@ -133,14 +134,14 @@ func AddGroup(g *Group) (bool) {
 }
 
 // Group is deleted by executing shell command groupdel
-func DeleteGroup(g *Group) (bool) {
+func DeleteGroup(g *Group) bool {
 	argGroup := []string{g.Group}
-	
+
 	groupCmd := exec.Command("groupdel", argGroup...)
 
 	fmt.Println(groupCmd)
 
-	if out, err := groupCmd.Output(); err != nil {		
+	if out, err := groupCmd.Output(); err != nil {
 		fmt.Println(err, "There was an error by deleting group", g.Group)
 		return false
 	} else {
@@ -150,7 +151,7 @@ func DeleteGroup(g *Group) (bool) {
 }
 
 // User is created by executing shell command useradd
-func AddNewUser(u *User) (bool, string) {	
+func AddNewUser(u *User) (bool, string) {
 	// encrypt := base64.StdEncoding.EncodeToString([]byte(CreateRandom(9)))
 	encrypt := "test1qazxsw2"
 
@@ -163,13 +164,13 @@ func AddNewUser(u *User) (bool, string) {
 	fmt.Println(userCmd)
 	fmt.Println(passCmd)
 
-	if out, err := userCmd.Output(); err != nil {		
+	if out, err := userCmd.Output(); err != nil {
 		fmt.Println(err, "There was an error by adding user", u.Name)
 		return false, ""
 	} else {
 		fmt.Printf("Output: %s\n", out)
 		if _, err := passCmd.Output(); err != nil {
-			
+
 			fmt.Println(err)
 			return false, ""
 		}
@@ -178,17 +179,16 @@ func AddNewUser(u *User) (bool, string) {
 }
 
 // User is deleted by executing shell command userdel
-func DeleteUser(u *User) (bool) {	
+func DeleteUser(u *User) bool {
 
 	argUser := []string{u.Name}
 	// argUser := []string{"-r", u.Name}
-
 
 	userCmd := exec.Command("userdel", argUser...)
 
 	fmt.Println(userCmd)
 
-	if out, err := userCmd.Output(); err != nil {		
+	if out, err := userCmd.Output(); err != nil {
 		fmt.Println(err, "There was an error by deleting user", u.Name)
 		return false
 	} else {
@@ -238,7 +238,7 @@ func groupdel() {
 		if c == false {
 			fmt.Println("The group is not exists:>", g.Groups[i].Group)
 		} else {
-			
+
 			if info := DeleteGroup(&g.Groups[i]); info == true {
 				fmt.Println("Group was deleted:>", g.Groups[i].Group)
 			}
@@ -255,8 +255,8 @@ func getgroups() {
 	file, err := os.Open(groupFile)
 
 	if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	defer file.Close()
@@ -264,37 +264,37 @@ func getgroups() {
 	reader := bufio.NewReader(file)
 
 	for {
-			line, err := reader.ReadString('\n')
+		line, err := reader.ReadString('\n')
 
-			if equal := strings.Index(line, "#"); equal < 0 {
-					lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
-							return divide == ':' 
-					})
+		if equal := strings.Index(line, "#"); equal < 0 {
+			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+				return divide == ':'
+			})
 
-					if len(lineSlice) > 0 {
-						LinuxGroups = append(LinuxGroups, lineSlice[0])
-					}
+			if len(lineSlice) > 0 {
+				LinuxGroups = append(LinuxGroups, lineSlice[0])
 			}
+		}
 
-			if err == io.EOF {
-					break
-			}
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
 	}
 
-	for _, name := range LinuxGroups {			
-			usr, err := user.LookupGroup(name)
-			if err != nil {
-					panic(err)
-			}
-			// see https://pkg.go.dev/os/user#Group
-			fmt.Printf("NAME:%s\n", usr.Name)
-			fmt.Printf("GID:%s\n", usr.Gid)
-			fmt.Println("*********************************")
+	for _, name := range LinuxGroups {
+		usr, err := user.LookupGroup(name)
+		if err != nil {
+			panic(err)
+		}
+		// see https://pkg.go.dev/os/user#Group
+		fmt.Printf("NAME:%s\n", usr.Name)
+		fmt.Printf("GID:%s\n", usr.Gid)
+		fmt.Println("*********************************")
 	}
 }
 
@@ -339,7 +339,7 @@ func userdel() {
 		if c == false {
 			fmt.Println("The user not exists:>", u.Users[i].Name)
 		} else {
-			
+
 			if info := DeleteUser(&u.Users[i]); info == true {
 				fmt.Println("User was deleted:>", u.Users[i].Name)
 			}
@@ -356,8 +356,8 @@ func getusers() {
 	file, err := os.Open(userFile)
 
 	if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	defer file.Close()
@@ -365,41 +365,41 @@ func getusers() {
 	reader := bufio.NewReader(file)
 
 	for {
-			line, err := reader.ReadString('\n')
+		line, err := reader.ReadString('\n')
 
-			if equal := strings.Index(line, "#"); equal < 0 {
-					lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
-							return divide == ':' 
-					})
+		if equal := strings.Index(line, "#"); equal < 0 {
+			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+				return divide == ':'
+			})
 
-					if len(lineSlice) > 0 {
-							LinuxUsers = append(LinuxUsers, lineSlice[0])
-					}
-
+			if len(lineSlice) > 0 {
+				LinuxUsers = append(LinuxUsers, lineSlice[0])
 			}
 
-			if err == io.EOF {
-					break
-			}
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
 	}
 
-	for _, name := range LinuxUsers {			
-			usr, err := user.Lookup(name)
-			if err != nil {
-					panic(err)
-			}
-			// see https://golang.org/pkg/os/user/#User			
-			fmt.Printf("username:%s\n", usr.Username)
-			fmt.Printf("homedir:%s\n", usr.HomeDir)
-			fmt.Printf("UID:%s\n", usr.Uid)
-			fmt.Printf("GID:%s\n", usr.Gid)
-			fmt.Printf("DisplayName:%s\n", usr.Name)
-			fmt.Println("*********************************")
+	for _, name := range LinuxUsers {
+		usr, err := user.Lookup(name)
+		if err != nil {
+			panic(err)
+		}
+		// see https://golang.org/pkg/os/user/#User
+		fmt.Printf("username:%s\n", usr.Username)
+		fmt.Printf("homedir:%s\n", usr.HomeDir)
+		fmt.Printf("UID:%s\n", usr.Uid)
+		fmt.Printf("GID:%s\n", usr.Gid)
+		fmt.Printf("DisplayName:%s\n", usr.Name)
+		fmt.Println("*********************************")
 	}
 }
 
