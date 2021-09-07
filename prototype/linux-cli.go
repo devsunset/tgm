@@ -1,8 +1,7 @@
 package main
 
 import (
-	"bufio"
-	"crypto/rand"	
+	"bufio"	
 	"encoding/json"
 	"fmt"
 	"io"
@@ -180,7 +179,7 @@ func DeleteUser(u *User) bool {
 }
 ////////////////////////////////////////
 func groupadd() {
-	fmt.Println("groupadd jsonfile/group.json execute ....")
+	fmt.Println("groupadd jsonfile/group.json execute ...\n")
 
 	NameOfFile := "jsonfile/group.json"
 	data := ReadJsonFile(NameOfFile)
@@ -203,7 +202,7 @@ func groupadd() {
 }
 
 func groupdel() {
-	fmt.Println("groupdel jsonfile/group.json execute ....")
+	fmt.Println("groupdel jsonfile/group.json execute ...\n")
 
 	NameOfFile := "jsonfile/group.json"
 	data := ReadJsonFile(NameOfFile)
@@ -227,7 +226,7 @@ func groupdel() {
 }
 
 func getgroups() {
-	fmt.Println("getgroups execute ....")
+	fmt.Println("getgroups execute ...\n")
 
 	var LinuxGroups []string
 
@@ -279,7 +278,7 @@ func getgroups() {
 }
 ////////////////////////////////////////
 func useradd() {
-	fmt.Println("useradd user.json execute ....")
+	fmt.Println("useradd user.json execute ...\n")
 
 	NameOfFile := "jsonfile/user.json"
 	data := ReadJsonFile(NameOfFile)
@@ -302,7 +301,7 @@ func useradd() {
 }
 
 func userdel() {
-	fmt.Println("userdel user.json execute ....")
+	fmt.Println("userdel user.json execute ...\n")
 
 	NameOfFile := "jsonfile/user.json"
 	data := ReadJsonFile(NameOfFile)
@@ -326,7 +325,7 @@ func userdel() {
 }
 
 func getusers() {
-	fmt.Println("getusers execute ....")
+	fmt.Println("getusers execute ...\n")
 
 	var LinuxUsers []string
 
@@ -382,7 +381,7 @@ func getusers() {
 }
 
 func getshells() {
-	fmt.Println("getshells execute ....")
+	fmt.Println("getshells execute ...\n")
 
 	var Shelles []string
 
@@ -418,7 +417,7 @@ func getshells() {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("SHELL:%s\n", shell)
+		fmt.Printf("SHELL:%s", shell)
 	}
 }
 ////////////////////////////////////////
@@ -464,4 +463,65 @@ func main() {
 		fmt.Println("Invalid command args")
 		os.Exit(1)
 	}
+
+	/*
+		/etc/passwd : 사용자 정보가 담긴 파일
+		root:x:0:0:root:/root:/bin/bash
+		# 사용자명:패스워드:UID:GID:사용자정보:홈디렉토리:쉘
+
+		> useradd [options] 사용자명 
+		# options
+		# -c [텍스트] : 사용자정보
+		# -m : 홈디렉토리 생성
+		# -M : 홈디렉토리 생성 안함
+		# -d [폴더] : 홈디렉토리 지정
+		# -N : 사용자 개인 그룹 생성하지 않음. default : 생성
+		# -u [UID] : UID 직접 지정
+		# -g [GID] : GID 직접 지정
+		# -s [Shell] : shell 지정
+
+		> usermod [options] 사용자명 
+		# options
+		# -c [텍스트] : 사용자정보 수정
+		# -d [폴더] : 홈디렉토리 변경
+		# -u [UID] : UID 변경
+		# -s [Shell] : shell 지정
+		# -L : 계정 락킹
+		# -U : 계정 언락킹
+		# -g [group] : 사용자 기본 그룹 변경
+		> usermod -g user2 user1
+		# user1의 기본 그룹을 user2로 변경
+		# -G [groups] : 사용자 그룹 추가,변경(제거). 기본 그룹은 영향을 받지 않는다.
+		> usermod -a -G group1,group2 user1 
+		# user1에 group1,group2를 추가. -a 옵션은 기존그룹에 추가할지 안할지 여부이다.
+		> usermod -G group1 user1
+		# 그룹을 제거하는 방법. -a를 주지 않아 기존 그룹을 유지하지 않았다.
+
+		> passwd [options] 사용자명
+		# options
+		# -d : 패스워드 삭제
+		# -e : 패스워드 강제 만료
+		# -l, -u : 패스워드 락킹/언락킹. usermod에 있는 -L, -U 옵션을 쓰는것이 더 좋다고 한다.
+
+		userdel [options] 사용자명
+		# options 
+		# -r : 사용자의 홈디렉토리, 메일박스, 임시디렉토리 까지 같이 삭제.
+			그룹은 기본적으로 속한 사용자가 없으면 자동 삭제된다
+
+		------------------------------------
+
+		/etc/group : 그룹 정보가 담긴 파일
+		sudo:x:27:user1,user2
+		# 그룹명:패스워드:GID:사용자리스트
+
+		> groupadd [options] 그룹명
+		# options
+		# -g [GID] : GID 지정
+
+		> groupmod [options] 그룹명
+		# options
+		# -n [이름] : 그룹명 변경
+
+		> groupdel 그룹명
+	/*
 }
