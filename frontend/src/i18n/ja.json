@@ -106,7 +106,13 @@
     "submit": "ログイン",
     "username": "ユーザ名",
     "usernameTaken": "Username already taken",
-    "wrongCredentials": "ユーザ名またはパスワードが間違っています。"
+    "wrongCredentials": "ユーザ名またはパスワードが間違っています。",
+    "rememberme" : "Remember me",
+    "passwordrule1" : "Password must be at least 8 characters and contain all numbers/uppercase/lowercase/special characters.",
+    "passwordrule2" : "You cannot use the same character more than 4 times.",
+    "passwordrule3" : "Please enter the password without spaces. ",
+    "passwordrule4" : "Korean characters cannot be used in the password. ",
+    "passwordrule5" : "Password does not match"
   },
   "permanent": "永久",
   "prompts": {
@@ -226,7 +232,8 @@
     "userManagement": "ユーザー管理",
     "userUpdated": "ユーザーは更新されました！",
     "username": "ユーザー名",
-    "users": "ユーザー"
+    "users": "ユーザー",
+    "usernamerule" : "Only lowercase English letters are allowed for the user name."
   },
   "sidebar": {
     "help": "ヘルプ",
@@ -239,7 +246,9 @@
     "preview": "プレビュー",
     "settings": "設定",
     "signup": "Signup",
-    "siteSettings": "サイト設定"
+    "siteSettings": "サイト設定",
+    "groupManagement" : "Group Management",
+    "requestpasswordreq" : "Request password reset"
   },
   "success": {
     "linkCopied": "リンクがコピーされました！"

@@ -106,7 +106,13 @@
     "submit": "Войти",
     "username": "Имя пользователя",
     "usernameTaken": "Данное имя пользователя уже занято",
-    "wrongCredentials": "Неверные данные"
+    "wrongCredentials": "Неверные данные",
+    "rememberme" : "Remember me",
+    "passwordrule1" : "Password must be at least 8 characters and contain all numbers/uppercase/lowercase/special characters.",
+    "passwordrule2" : "You cannot use the same character more than 4 times.",
+    "passwordrule3" : "Please enter the password without spaces. ",
+    "passwordrule4" : "Korean characters cannot be used in the password. ",
+    "passwordrule5" : "Password does not match"
   },
   "permanent": "Постоянный",
   "prompts": {
@@ -226,7 +232,8 @@
     "userManagement": "Управление пользователями",
     "userUpdated": "Пользователь изменен!",
     "username": "Имя пользователя",
-    "users": "Пользователи"
+    "users": "Пользователи",
+    "usernamerule" : "Only lowercase English letters are allowed for the user name."
   },
   "sidebar": {
     "help": "Помощь",
@@ -239,7 +246,9 @@
     "preview": "Предпросмотр",
     "settings": "Настройки",
     "signup": "Зарегистрироваться",
-    "siteSettings": "Настройки сайта"
+    "siteSettings": "Настройки сайта",
+    "groupManagement" : "Group Management",
+    "requestpasswordreq" : "Request password reset"
   },
   "success": {
     "linkCopied": "Ссылка скопирована!"

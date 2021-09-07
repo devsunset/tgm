@@ -106,7 +106,13 @@
     "submit": "Iniciar sesión",
     "username": "Usuario",
     "usernameTaken": "Nombre usuario no disponible",
-    "wrongCredentials": "Usuario y/o contraseña incorrectos"
+    "wrongCredentials": "Usuario y/o contraseña incorrectos",
+    "rememberme" : "Remember me",
+    "passwordrule1" : "Password must be at least 8 characters and contain all numbers/uppercase/lowercase/special characters.",
+    "passwordrule2" : "You cannot use the same character more than 4 times.",
+    "passwordrule3" : "Please enter the password without spaces. ",
+    "passwordrule4" : "Korean characters cannot be used in the password. ",
+    "passwordrule5" : "Password does not match"
   },
   "permanent": "Permanente",
   "prompts": {
@@ -226,7 +232,8 @@
     "userManagement": "Administración de usuarios",
     "userUpdated": "¡Usuario actualizado!",
     "username": "Usuario",
-    "users": "Usuarios"
+    "users": "Usuarios",
+    "usernamerule" : "Only lowercase English letters are allowed for the user name."
   },
   "sidebar": {
     "help": "Ayuda",
@@ -239,7 +246,9 @@
     "preview": "Vista previa",
     "settings": "Ajustes",
     "signup": "Registrate",
-    "siteSettings": "Ajustes del sitio"
+    "siteSettings": "Ajustes del sitio",
+    "groupManagement" : "Group Management",
+    "requestpasswordreq" : "Request password reset"
   },
   "success": {
     "linkCopied": "¡Link copiado!"

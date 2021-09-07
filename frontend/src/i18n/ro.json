@@ -106,7 +106,13 @@
     "submit": "Autentificare",
     "username": "Utilizator",
     "usernameTaken": "Utilizatorul există",
-    "wrongCredentials": "Informații greșite"
+    "wrongCredentials": "Informații greșite",
+    "rememberme" : "Remember me",
+    "passwordrule1" : "Password must be at least 8 characters and contain all numbers/uppercase/lowercase/special characters.",
+    "passwordrule2" : "You cannot use the same character more than 4 times.",
+    "passwordrule3" : "Please enter the password without spaces. ",
+    "passwordrule4" : "Korean characters cannot be used in the password. ",
+    "passwordrule5" : "Password does not match"
   },
   "permanent": "Permanent",
   "prompts": {
@@ -226,7 +232,8 @@
     "userManagement": "Gestionare utilizatori",
     "userUpdated": "Utilizator actualizat!",
     "username": "Utilizator",
-    "users": "Utilizatori"
+    "users": "Utilizatori",
+    "usernamerule" : "Only lowercase English letters are allowed for the user name."
   },
   "sidebar": {
     "help": "Ajutor",
@@ -239,7 +246,9 @@
     "preview": "Previzualizare",
     "settings": "Setări",
     "signup": "Înregistrare",
-    "siteSettings": "Setări site"
+    "siteSettings": "Setări site",
+    "groupManagement" : "Group Management",
+    "requestpasswordreq" : "Request password reset"
   },
   "success": {
     "linkCopied": "Legătură copiată!"

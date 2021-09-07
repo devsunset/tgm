@@ -145,7 +145,7 @@ export default {
           // USERNAME CHECK
           var regUserName = /^[a-z]+$/;
            if(false === regUserName.test(user.username)) {
-            this.$showError('사용자 이름은 영문 소문자만 허용됩니다.');
+            this.$showError(this.$t("settings.usernamerule"));
             return;
           }
 
@@ -154,20 +154,20 @@ export default {
           var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
           var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
           if(false === reg.test(pw)) {
-            this.$showError('비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
+            this.$showError(this.$t("login.passwordrule1"));
             return;
           }else if(/(\w)\1\1\1/.test(pw)){
-            this.$showError('같은 문자를 4번 이상 사용하실 수 없습니다.');
+            this.$showError(this.$t("login.passwordrule2"));
             return;
           }else if(pw.search(/\s/) != -1){
-            this.$showError("비밀번호는 공백 없이 입력해주세요.");
+            this.$showError(this.$t("login.passwordrule3"));
             return;
           }else if(hangulcheck.test(pw)){
-            this.$showError("비밀번호에 한글을 사용 할 수 없습니다."); 
+            this.$showError(this.$t("login.passwordrule4"));
             return;
           }else {
             if (pw !== this.$refs.childform.passwordConf || pw === "") {
-              this.$showError("비밀번호 일치하지 않음"); 
+              this.$showError(this.$t("login.passwordrule5")); 
               return;
             }
           }
@@ -182,20 +182,20 @@ export default {
           var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
           if (pw !== ""){
             if(false === reg.test(pw)) {
-              this.$showError('비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
+              this.$showError(this.$t("login.passwordrule1"));
               return;
             }else if(/(\w)\1\1\1/.test(pw)){
-              this.$showError('같은 문자를 4번 이상 사용하실 수 없습니다.');
+              this.$showError(this.$t("login.passwordrule2"));
               return;
             }else if(pw.search(/\s/) != -1){
-              this.$showError("비밀번호는 공백 없이 입력해주세요.");
+              this.$showError(this.$t("login.passwordrule3"));
               return;
             }else if(hangulcheck.test(pw)){
-              this.$showError("비밀번호에 한글을 사용 할 수 없습니다."); 
+              this.$showError(this.$t("login.passwordrule4"));
               return;
             }else {
               if (pw !== this.$refs.childform.passwordConf || pw === "") {
-                this.$showError("비밀번호 일치하지 않음"); 
+                this.$showError(this.$t("login.passwordrule5")); 
                 return;
               }
             }

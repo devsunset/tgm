@@ -107,7 +107,13 @@
     "submit": "登录",
     "username": "用户名",
     "usernameTaken": "用户名已经被使用",
-    "wrongCredentials": "用户名或密码错误"
+    "wrongCredentials": "用户名或密码错误",
+    "rememberme" : "Remember me",
+    "passwordrule1" : "Password must be at least 8 characters and contain all numbers/uppercase/lowercase/special characters.",
+    "passwordrule2" : "You cannot use the same character more than 4 times.",
+    "passwordrule3" : "Please enter the password without spaces. ",
+    "passwordrule4" : "Korean characters cannot be used in the password. ",
+    "passwordrule5" : "Password does not match"
   },
   "permanent": "永久",
   "prompts": {
@@ -229,7 +235,8 @@
     "userManagement": "用户管理",
     "userUpdated": "用户已更新！",
     "username": "用户名",
-    "users": "用户"
+    "users": "用户",
+    "usernamerule" : "Only lowercase English letters are allowed for the user name."
   },
   "sidebar": {
     "help": "帮助",
@@ -242,7 +249,9 @@
     "preview": "预览",
     "settings": "设置",
     "signup": "注册",
-    "siteSettings": "网站设置"
+    "siteSettings": "网站设置",
+    "groupManagement" : "Group Management",
+    "requestpasswordreq" : "Request password reset"
   },
   "success": {
     "linkCopied": "链接已复制！"
