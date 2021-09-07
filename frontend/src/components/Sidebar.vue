@@ -59,22 +59,22 @@
           v-if="user.perm.admin"
           class="action"
           to="/settings/groups"
-          :aria-label="$t('settings.groupManagement')"
-          :title="$t('settings.groupManagement')"
+          :aria-label="$t('sidebar.groupManagement')"
+          :title="$t('sidebar.groupManagement')"
         >
           <i class="material-icons">group</i>
-          <span>{{ $t("settings.groupManagement") }}</span>
+          <span>{{ $t("sidebar.groupManagement") }}</span>
         </router-link>
 
         <router-link
           v-if="user.perm.admin"
           class="action"
           to="/settings/passwordinit"
-          :aria-label="$t('settings.requestpasswordreq')"
-          :title="$t('settings.requestpasswordreq')"
+          :aria-label="$t('sidebar.requestpasswordreq')"
+          :title="$t('sidebar.requestpasswordreq')"
         >
           <i class="material-icons">vpn_key</i>
-          <span>{{ $t("settings.requestpasswordreq") }}</span>
+          <span>{{ $t("sidebar.requestpasswordreq") }}</span>
         </router-link>
 
         <router-link
