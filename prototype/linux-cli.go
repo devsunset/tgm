@@ -2,8 +2,7 @@ package main
 
 import (
 	"bufio"
-	"crypto/rand"
-	// "encoding/base64"
+	"crypto/rand"	
 	"encoding/json"
 	"fmt"
 	"io"
@@ -17,10 +16,8 @@ import (
 ////////////////////////////////////////
 const (
 	groupFile string = "/etc/group"
-)
-
-const (
 	userFile string = "/etc/passwd"
+	shellFile string = "/etc/shells"
 )
 
 type Groups struct {
@@ -41,7 +38,6 @@ type User struct {
 	Group     string `json:group`
 	Shell     string `json:shell`
 }
-
 ////////////////////////////////////////
 
 // Read json file and return slice of byte.
@@ -102,20 +98,7 @@ func checkAccount(s []string, u string) bool {
 	}
 	return false
 }
-
-// Return securely generated random bytes
-func CreateRandom(n int) string {
-	b := make([]byte, n)
-	_, err := rand.Read(b)
-	if err != nil {
-		fmt.Println(err)
-		//os.Exit(1)
-	}
-	return string(b)
-}
-
 ////////////////////////////////////////
-
 // Group is created by executing shell command groupadd
 func AddGroup(g *Group) bool {
 	argGroup := []string{g.Group}
@@ -152,7 +135,6 @@ func DeleteGroup(g *Group) bool {
 
 // User is created by executing shell command useradd
 func AddNewUser(u *User) (bool, string) {
-	// encrypt := base64.StdEncoding.EncodeToString([]byte(CreateRandom(9)))
 	encrypt := "test1qazxsw2"
 
 	argUser := []string{"-m", "-d", u.Directory, "-G", u.Group, "-s", u.Shell, u.Name}
@@ -196,9 +178,7 @@ func DeleteUser(u *User) bool {
 		return true
 	}
 }
-
 ////////////////////////////////////////
-
 func groupadd() {
 	fmt.Println("groupadd jsonfile/group.json execute ....")
 
@@ -297,9 +277,7 @@ func getgroups() {
 		fmt.Println("*********************************")
 	}
 }
-
 ////////////////////////////////////////
-
 func useradd() {
 	fmt.Println("useradd user.json execute ....")
 
@@ -403,8 +381,47 @@ func getusers() {
 	}
 }
 
-////////////////////////////////////////
+func getshells() {
+	fmt.Println("getshells execute ....")
 
+	var Shelles []string
+
+	file, err := os.Open(shellFile)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+
+		if err == io.EOF {
+			break
+		}
+
+		if equal := strings.Index(line, "#"); equal < 0 {
+			Shelles = append(Shelles,line)
+		}
+		
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
+
+	for _, shell := range Shelles {		
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("SHELL:%s\n", shell)
+	}
+}
+////////////////////////////////////////
 func main() {
 	if len(os.Args) == 1 {
 		fmt.Println("====================================")
@@ -415,7 +432,7 @@ func main() {
 		fmt.Println("")
 
 		fmt.Println("====================================")
-		fmt.Println("--- command list -------------------")
+		fmt.Println("---------- command list ------------")
 		fmt.Println("====================================")
 		fmt.Println("groupadd")
 		fmt.Println("groupdel")
@@ -425,6 +442,7 @@ func main() {
 		fmt.Println("userdel")
 		fmt.Println("getusers")
 		fmt.Println("====================================")
+		fmt.Println("getshells")
 		os.Exit(1)
 	}
 
@@ -440,6 +458,8 @@ func main() {
 		userdel()
 	} else if os.Args[1] == "getusers" {
 		getusers()
+	} else if os.Args[1] == "getshells" {
+		getshells()
 	} else {
 		fmt.Println("Invalid command args")
 		os.Exit(1)
