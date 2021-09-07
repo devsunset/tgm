@@ -7,9 +7,9 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"os/exec"
-	"os/user"
+	"os/exec"	
 	"strings"
+	"strconv"
 )
 
 ////////////////////////////////////////
@@ -228,7 +228,7 @@ func groupdel() {
 func getgroups() {
 	fmt.Println("getgroups execute ...\n")
 
-	var LinuxGroups []string
+	var LinuxGroups [] []string
 
 	// this is for Linux/Unix machines
 	file, err := os.Open(groupFile)
@@ -251,7 +251,12 @@ func getgroups() {
 			})
 
 			if len(lineSlice) > 0 {
-				LinuxGroups = append(LinuxGroups, lineSlice[0])
+				gid, err := strconv.Atoi(lineSlice[2])
+				if err == nil {
+					if gid >= 1000 && gid <=65500 {
+						LinuxGroups = append(LinuxGroups, lineSlice)
+					}
+				}
 			}
 		}
 
@@ -262,17 +267,15 @@ func getgroups() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-
 	}
 
-	for _, name := range LinuxGroups {
-		usr, err := user.LookupGroup(name)
+	for _, groups := range LinuxGroups {		
 		if err != nil {
 			panic(err)
 		}
-		// see https://pkg.go.dev/os/user#Group
-		fmt.Printf("NAME:%s\n", usr.Name)
-		fmt.Printf("GID:%s\n", usr.Gid)
+		fmt.Printf("Name:%s\n", groups[0])
+		fmt.Printf("Gid:%s\n", groups[2])
+		fmt.Printf("Members:%s\n", groups[3])
 		fmt.Println("*********************************")
 	}
 }
@@ -327,7 +330,7 @@ func userdel() {
 func getusers() {
 	fmt.Println("getusers execute ...\n")
 
-	var LinuxUsers []string
+	var LinuxUsers [] []string
 
 	// this is for Linux/Unix machines
 	file, err := os.Open(userFile)
@@ -350,9 +353,13 @@ func getusers() {
 			})
 
 			if len(lineSlice) > 0 {
-				LinuxUsers = append(LinuxUsers, lineSlice[0])
+				uid, err := strconv.Atoi(lineSlice[2])
+				if err == nil {
+					if uid >= 1000 && uid <=65500 {
+						LinuxUsers = append(LinuxUsers, lineSlice)
+					}
+				}
 			}
-
 		}
 
 		if err == io.EOF {
@@ -365,17 +372,15 @@ func getusers() {
 
 	}
 
-	for _, name := range LinuxUsers {
-		usr, err := user.Lookup(name)
+	for _, users := range LinuxUsers {
 		if err != nil {
 			panic(err)
 		}
-		// see https://golang.org/pkg/os/user/#User
-		fmt.Printf("username:%s\n", usr.Username)
-		fmt.Printf("homedir:%s\n", usr.HomeDir)
-		fmt.Printf("UID:%s\n", usr.Uid)
-		fmt.Printf("GID:%s\n", usr.Gid)
-		fmt.Printf("DisplayName:%s\n", usr.Name)
+		fmt.Printf("UserName:%s\n", users[0])
+		fmt.Printf("Uid:%s\n", users[2])
+		fmt.Printf("Gid:%s\n", users[3])
+		fmt.Printf("Home Dir:%s\n", users[4])
+		fmt.Printf("Shell:%s\n", users[5])
 		fmt.Println("*********************************")
 	}
 }
@@ -523,5 +528,5 @@ func main() {
 		# -n [이름] : 그룹명 변경
 
 		> groupdel 그룹명
-	/*
+	*/
 }
