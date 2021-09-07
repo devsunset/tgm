@@ -508,6 +508,41 @@ func main() {
 		# -e : 패스워드 강제 만료
 		# -l, -u : 패스워드 락킹/언락킹. usermod에 있는 -L, -U 옵션을 쓰는것이 더 좋다고 한다.
 
+		Usage: passwd [options] [LOGIN]
+		Options:
+		-a, --all                     report password status on all accounts
+		-d, --delete                  delete the password for the named account
+		-e, --expire                  force expire the password for the named account
+		-h, --help                    display this help message and exit
+		-k, --keep-tokens             change password only if expired
+		-i, --inactive INACTIVE       set password inactive after expiration
+										to INACTIVE
+		-l, --lock                    lock the password of the named account
+		-n, --mindays MIN_DAYS        set minimum number of days before password
+										change to MIN_DAYS
+		-q, --quiet                   quiet mode
+		-r, --repository REPOSITORY   change password in REPOSITORY repository
+		-R, --root CHROOT_DIR         directory to chroot into
+		-S, --status                  report password status on the named account
+		-u, --unlock                  unlock the password of the named account
+		-w, --warndays WARN_DAYS      set expiration warning days to WARN_DAYS
+		-x, --maxdays MAX_DAYS        set maximum number of days before password
+										change to MAX_DAYS
+
+		> passwd -S 사용자명
+		tgm1 P 08/30/2021 0 99999 7 -1
+			P : passwd -u
+			L : passwd -l
+
+		> chage -l tgm1
+		Last password change								: Aug 30, 2021
+		Password expires									: never
+		Password inactive									: never				chage  -I 
+		Account expires										: never				passwd -E
+		Minimum number of days between password change		: 0					chage  -m
+		Maximum number of days between password change		: 99999				chage  -M
+		Number of days of warning before password expires	: 7   				chage  -W
+
 		userdel [options] 사용자명
 		# options 
 		# -r : 사용자의 홈디렉토리, 메일박스, 임시디렉토리 까지 같이 삭제.
