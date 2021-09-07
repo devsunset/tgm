@@ -425,6 +425,34 @@ func getshells() {
 		fmt.Printf("SHELL:%s", shell)
 	}
 }
+
+func getaccountinfo() {
+	fmt.Println("getaccountinfo execute ...\n")
+
+	argsChage := []string{"-l", "tgm1"}
+
+	cmdChage := exec.Command("chage", argsChage...)
+
+	fmt.Println(cmdChage)
+
+	if outChage, errChage := cmdChage.Output(); errChage != nil {
+		fmt.Printf("err: %s\n", errChage)
+	} else {
+		fmt.Printf("Output: %s\n", outChage)
+	}
+
+	argsPasswd := []string{"-S", "tgm1"}
+
+	cmdPasswd := exec.Command("passwd", argsPasswd...)
+
+	fmt.Println(cmdPasswd)
+
+	if outPasswd, errPasswd := cmdPasswd.Output(); errPasswd != nil {
+		fmt.Printf("err: %s\n", errPasswd)
+	} else {
+		fmt.Printf("Output: %s\n", outPasswd)
+	}
+}
 ////////////////////////////////////////
 func main() {
 	if len(os.Args) == 1 {
@@ -447,6 +475,7 @@ func main() {
 		fmt.Println("getusers")
 		fmt.Println("====================================")
 		fmt.Println("getshells")
+		fmt.Println("getaccountinfo")
 		os.Exit(1)
 	}
 
@@ -464,6 +493,8 @@ func main() {
 		getusers()
 	} else if os.Args[1] == "getshells" {
 		getshells()
+	} else if os.Args[1] == "getaccountinfo" {
+		getaccountinfo()
 	} else {
 		fmt.Println("Invalid command args")
 		os.Exit(1)
