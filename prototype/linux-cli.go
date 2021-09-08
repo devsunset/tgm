@@ -146,6 +146,15 @@ func AddNewUser(u *User) (bool, string) {
 	// Maximum number of days between password change		: 99999				chage  -M
 	// Number of days of warning before password expires	: 7   				chage  -W
 
+	// ⚡ root@localhost  /workspace/devwork/tgm/prototype   main ±  chage -l -i tgm1
+	// Last password change									: 2021-09-08
+	// Password expires										: 2021-12-07
+	// Password inactive									: never
+	// Account expires										: 2021-12-31
+	// Minimum number of days between password change		: 0
+	// Maximum number of days between password change		: 90
+	// Number of days of warning before password expires	: 9
+
 	userCmd := exec.Command("useradd", argUser...)
 	passCmd := exec.Command("/bin/sh", argPass...)
 	chageCmd := exec.Command("chage", argChage...)
