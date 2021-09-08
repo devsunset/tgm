@@ -453,7 +453,7 @@ func getshells() {
 func getaccountinfo() {
 	fmt.Println("getaccountinfo execute ...\n")
 
-	argsChage := []string{"-l", "tgm1"}
+	argsChage := []string{"-l", "-i", "tgm1"}
 
 	cmdChage := exec.Command("chage", argsChage...)
 
