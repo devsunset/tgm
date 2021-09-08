@@ -136,14 +136,23 @@ func DeleteGroup(g *Group) bool {
 func AddNewUser(u *User) (bool, string) {
 	encrypt := "test1qazxsw2"
 
-	argUser := []string{"-m", "-d", u.Directory, "-G", u.Group, "-s", u.Shell, u.Name}
+	argUser := []string{"-m", "-d", u.Directory, "-G", u.Group, "-s", u.Shell, u.Name,"-e","2021-12-31"}
 	argPass := []string{"-c", fmt.Sprintf("echo %s:%s | chpasswd", u.Name, encrypt)}
+	argChage := []string{"-M", "90", "-W","9", u.Name}
+
+	// Password expires										: never
+	// Password inactive									: never				chage  -I 
+	// Minimum number of days between password change		: 0					chage  -m
+	// Maximum number of days between password change		: 99999				chage  -M
+	// Number of days of warning before password expires	: 7   				chage  -W
 
 	userCmd := exec.Command("useradd", argUser...)
 	passCmd := exec.Command("/bin/sh", argPass...)
+	chageCmd := exec.Command("chage", argChage...)
 
 	fmt.Println(userCmd)
 	fmt.Println(passCmd)
+	fmt.Println(chageCmd)
 
 	if out, err := userCmd.Output(); err != nil {
 		fmt.Println(err, "There was an error by adding user", u.Name)
@@ -154,6 +163,12 @@ func AddNewUser(u *User) (bool, string) {
 
 			fmt.Println(err)
 			return false, ""
+		}else{
+			if _, err := chageCmd.Output(); err != nil {
+
+				fmt.Println(err)
+				return false, ""
+			}
 		}
 		return true, encrypt
 	}
