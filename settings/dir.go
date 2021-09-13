@@ -21,7 +21,7 @@ func (s *Settings) MakeUserDir(username, userScope, serverRoot string) (string, 
 	var err error
 	userScope = strings.TrimSpace(userScope)
 	if userScope == "" || userScope == "./" {
-		userScope = "."
+		userScope = "/home"
 	}
 
 	if !s.CreateUserDir {
