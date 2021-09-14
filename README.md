@@ -22,8 +22,6 @@ go build
 
 http://localhost:8282
 
-defalt admin account 
-admin/admin  -> admin/admin123!
 
 ## Configuration
 

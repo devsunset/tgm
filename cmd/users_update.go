@@ -65,6 +65,7 @@ options you want to change.`,
 
 		if password != "" {
 			user.Password, err = users.HashPwd(password)
+			user.PasswordHint = users.HintPwd(password)
 			checkErr(err)
 		}
 

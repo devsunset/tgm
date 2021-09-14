@@ -24,6 +24,7 @@ type User struct {
 	ID           uint          `storm:"id,increment" json:"id"`
 	Username     string        `storm:"unique" json:"username"`
 	Password     string        `json:"password"`
+	PasswordHint string        `json:"passwordHint"`
 	Scope        string        `json:"scope"`
 	Locale       string        `json:"locale"`
 	LockPassword bool          `json:"lockPassword"`

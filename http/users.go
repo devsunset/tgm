@@ -120,6 +120,7 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 		return http.StatusBadRequest, errors.ErrEmptyPassword
 	}
 
+	req.Data.PasswordHint = users.HintPwd(req.Data.Password)
 	req.Data.Password, err = users.HashPwd(req.Data.Password)
 	if err != nil {
 		return http.StatusInternalServerError, err
@@ -158,11 +159,13 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		}
 
 		if req.Data.Password != "" {
+			req.Data.PasswordHint = users.HintPwd(req.Data.Password)
 			req.Data.Password, err = users.HashPwd(req.Data.Password)
 		} else {
 			var suser *users.User
 			suser, err = d.store.Users.Get(d.server.Root, d.raw.(uint))
 			req.Data.Password = suser.Password
+			req.Data.PasswordHint = suser.PasswordHint
 		}
 
 		if err != nil {
@@ -181,6 +184,7 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 				return http.StatusForbidden, nil
 			}
 
+			req.Data.Password = users.HintPwd(req.Data.Password)
 			req.Data.Password, err = users.HashPwd(req.Data.Password)
 			if err != nil {
 				return http.StatusInternalServerError, err
