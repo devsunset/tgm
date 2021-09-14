@@ -3,7 +3,7 @@
     <p v-if="!isDefault">
       <label for="username">{{ $t("settings.username") }}</label>
       <input
-        class="input input--block"
+        :class="userNameClass"
         type="text"
         v-model="user.username"
         id="username"
@@ -32,11 +32,13 @@
     <p>
       <label for="scope">{{ $t("settings.scope") }}</label>
       <input
-        class="input input--block"
+        :class="scopeClass"
         type="text"
         v-model="user.scope"
         id="scope"
-      />
+        :disabled="!this.isNew"
+        style="display:inline-block;"
+      /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
     </p>
 
     <p>
@@ -93,6 +95,12 @@ export default {
   computed: {
     passwordPlaceholder() {
       return this.isNew ? "" : this.$t("settings.avoidChanges");
+    },
+    userNameClass() {
+      return this.isNew ? "input input--block" :"input input--gray";
+    },
+    scopeClass() {
+      return this.isNew ? "input input--blocksub" :"input input--gray";
     },
     isExecEnabled: () => enableExec,
     isCmdLimitEnabled: () => enableCmdLimit,

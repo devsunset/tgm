@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/spf13/afero"
+	//"github.com/spf13/afero"
 )
 
 var (
@@ -28,13 +28,14 @@ func (s *Settings) MakeUserDir(username, userScope, serverRoot string) (string, 
 		return userScope, nil
 	}
 
-	fs := afero.NewBasePathFs(afero.NewOsFs(), serverRoot)
+	//fs := afero.NewBasePathFs(afero.NewOsFs(), serverRoot)
 
 	// Use the default auto create logic only if specific scope is not the default scope
 	if userScope != s.Defaults.Scope {
 		// Try create the dir, for example: settings.Defaults.Scope == "." and userScope == "./foo"
 		if userScope != "." {
-			err = fs.MkdirAll(userScope, os.ModePerm)
+			// err = fs.MkdirAll(userScope, os.ModePerm)
+			err = os.MkdirAll(userScope, os.ModePerm)
 			if err != nil {
 				log.Printf("create user: failed to mkdir user home dir: [%s]", userScope)
 			}
@@ -50,9 +51,11 @@ func (s *Settings) MakeUserDir(username, userScope, serverRoot string) (string, 
 	}
 
 	// Create default user dir
-	userHomeBase := s.Defaults.Scope + string(os.PathSeparator) + "users"
+	// userHomeBase := s.Defaults.Scope + string(os.PathSeparator) + "users"
+	userHomeBase := s.Defaults.Scope
 	userHome := userHomeBase + string(os.PathSeparator) + username
-	err = fs.MkdirAll(userHome, os.ModePerm)
+	// err = fs.MkdirAll(userHome, os.ModePerm)
+	err = os.MkdirAll(userHome, os.ModePerm)
 	if err != nil {
 		log.Printf("create user: failed to mkdir user home dir: [%s]", userHome)
 	} else {

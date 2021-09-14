@@ -19,6 +19,12 @@
   width: 100%;
 }
 
+.input--blocksub {
+  margin-bottom: .5em;
+  display: block;
+  width: 70%;
+}
+
 .input--textarea {
   line-height: 1.15;
   font-family: monospace;
@@ -32,4 +38,10 @@
 
 .input--green {
   background: #c9f2da;
+}
+
+.input--gray {
+  background: #cccccc;
+  display: block;
+  width: 100%;
 }
