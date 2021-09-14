@@ -39,7 +39,7 @@
           :title="$t('buttons.shell')"
         >
           <i class="material-icons">code</i>
-          <span>Web Console</span>
+          <span>{{ $t("sidebar.webconsole") }}</span>
         </button>
       </div>
 

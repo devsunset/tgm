@@ -248,7 +248,8 @@
     "signup": "Nýskráning",
     "siteSettings": "Stillingar síðu",
     "groupManagement" : "Group Management",
-    "requestpasswordreq" : "Request password reset"
+    "requestpasswordreq" : "Request password reset",
+    "webconsole" : "Web Console"
   },
   "success": {
     "linkCopied": "Hlekkur afritaður!"

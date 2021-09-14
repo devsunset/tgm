@@ -251,7 +251,8 @@
     "signup": "注册",
     "siteSettings": "网站设置",
     "groupManagement" : "Group Management",
-    "requestpasswordreq" : "Request password reset"
+    "requestpasswordreq" : "Request password reset",
+    "webconsole" : "Web Console"
   },
   "success": {
     "linkCopied": "链接已复制！"

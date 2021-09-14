@@ -248,7 +248,8 @@
     "signup": "Зарегистрироваться",
     "siteSettings": "Настройки сайта",
     "groupManagement" : "Group Management",
-    "requestpasswordreq" : "Request password reset"
+    "requestpasswordreq" : "Request password reset",
+    "webconsole" : "Web Console"
   },
   "success": {
     "linkCopied": "Ссылка скопирована!"

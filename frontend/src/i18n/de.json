@@ -248,7 +248,8 @@
     "signup": "Registrieren",
     "siteSettings": "Seiteneinstellungen",
     "groupManagement" : "Group Management",
-    "requestpasswordreq" : "Request password reset"
+    "requestpasswordreq" : "Request password reset",
+    "webconsole" : "Web Console"
   },
   "success": {
     "linkCopied": "Verweis wurde kopiert!"
