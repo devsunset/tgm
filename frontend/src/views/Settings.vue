@@ -6,11 +6,10 @@
       <div class="wrapper">
 
         <ul>
-          <router-link to="/settings/profile" v-if="$route.path !== '/settings/users'"
+          <router-link to="/settings/profile" v-if="$route.path.indexOf('/settings/users') == -1 && $route.path.indexOf('/settings/groups') == -1 && $route.path.indexOf('/settings/passwordinit') == -1"
             ><li :class="{ active: $route.path === '/settings/profile' }">
               {{ $t("settings.profileSettings") }}
-            </li></router-link
-          >
+            </li></router-link>
           <!-- 
             <router-link to="/settings/shares" v-if="user.perm.share"
             ><li :class="{ active: $route.path === '/settings/shares' }">
@@ -18,21 +17,43 @@
             </li></router-link
           > 
           -->
-          <router-link to="/settings/global" v-if="user.perm.admin && $route.path !== '/settings/users'"
+          <router-link to="/settings/global" v-if="user.perm.admin && $route.path.indexOf('/settings/users') == -1 && $route.path.indexOf('/settings/groups') == -1 && $route.path.indexOf('/settings/passwordinit') == -1"
             ><li :class="{ active: $route.path === '/settings/global' }">
               {{ $t("settings.globalSettings") }}
-            </li></router-link
-          >
-          <router-link to="/settings/users" v-if="user.perm.admin  && $route.path === '/settings/users'"
+            </li></router-link>
+
+          <router-link to="/settings/users" v-if="user.perm.admin  && $route.path.indexOf('/settings/users') > -1"
             ><li
               :class="{
                 active:
-                  $route.path === '/settings/users' || $route.name === 'User',
+                  $route.path.indexOf('/settings/users') > -1 || $route.name === 'User',
               }"
             >
               {{ $t("settings.userManagement") }}
-            </li></router-link
-          >
+            </li></router-link>
+
+
+          <router-link to="/settings/groups" v-if="user.perm.admin  && $route.path.indexOf('/settings/groups') > -1"
+            ><li
+              :class="{
+                active:
+                  $route.path.indexOf('/settings/groups') > -1 || $route.name === 'Group',
+              }"
+            >
+              {{ $t("sidebar.groupManagement") }}
+          </li></router-link>
+
+          <router-link to="/settings/passwordinit" v-if="user.perm.admin  && $route.path.indexOf('/settings/passwordinit') > -1"
+            ><li
+              :class="{
+                active:
+                  $route.path.indexOf('/settings/passwordinit') > -1 || $route.name === 'Passwordinit',
+              }"
+            >
+              {{ $t("sidebar.requestpasswordreq") }}
+          </li></router-link>
+            
+
         </ul>
 
       </div>

@@ -36,7 +36,7 @@
         type="text"
         v-model="user.scope"
         id="scope"
-        :disabled="!this.isNew"
+        :disabled="!this.isNew && $route.path != '/settings/global'"
         style="display:inline-block;"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
     </p>
@@ -100,7 +100,11 @@ export default {
       return this.isNew ? "input input--block" :"input input--gray";
     },
     scopeClass() {
-      return this.isNew ? "input input--blocksub" :"input input--gray";
+      if (this.$route.path == "/settings/global") {
+        return "input input--block"
+      }else{
+        return this.isNew ? "input input--blocksub" :"input input--gray";
+      }
     },
     isExecEnabled: () => enableExec,
     isCmdLimitEnabled: () => enableCmdLimit,
