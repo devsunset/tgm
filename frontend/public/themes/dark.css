@@ -140,12 +140,23 @@ nav > div {
 .input:focus {
   border-color: rgba(255, 255, 255, 0.15);
 }
+
+.input--blocksub {
+  margin-bottom: .5em;
+  display: block;
+  width: 70%;
+}
+
 .input--red {
   background: #73302D;
 }
 
 .input--green {
   background: #147A41;
+}
+
+.input--gray {
+  background: #cccccc;
 }
 
 .dashboard #nav .wrapper,
