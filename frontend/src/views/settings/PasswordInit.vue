@@ -4,12 +4,7 @@
     <div class="column">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("settings.users") }}</h2>
-          <router-link to="/settings/users/new"
-            ><button class="button">
-              {{ $t("buttons.new") }}
-            </button></router-link
-          >
+          <h2>{{ $t("sidebar.requestpasswordreq") }} - 신규개발 필요(사용자관리 메뉴로 복사만 한 상태)</h2>
         </div>
 
         <div class="card-content full">

@@ -4,7 +4,7 @@
     <div class="column">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("settings.users") }}</h2>
+          <h2>{{ $t("settings.users") }} - 리눅스 계정 연동 작업필요</h2>
           <router-link to="/settings/users/new"
             ><button class="button">
               {{ $t("buttons.new") }}
