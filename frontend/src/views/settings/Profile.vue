@@ -47,11 +47,11 @@
             name="password"
           />
           <input
-            :class="passwordClass"
+            :class="passwordSubClass"
             type="password"
             :placeholder="$t('settings.newPasswordConfirm')"
             v-model="passwordConf"
-            name="password"
+            name="passwordConf"
           />
         </div>
 
@@ -109,16 +109,20 @@ export default {
       }else if(hangulcheck.test(pw)){
        return `${baseClass} input--red`;
       }else {
-        if (this.password !== this.passwordConf || this.password === "") {
-          return `${baseClass} input--red`;
-        }
-      }
-
-      if (this.password === this.passwordConf) {
         return `${baseClass} input--green`;
       }
-
-      return `${baseClass} input--red`;
+    },
+    passwordSubClass() {
+      const baseClass = "input input--block";
+      if (this.password === ""  && this.passwordConf === "") {
+        return baseClass;
+      }
+             
+      if (this.password === this.passwordConf) {
+        return `${baseClass} input--green`;
+      }else{
+        return `${baseClass} input--red`;
+      }
     },
   },
   created() {

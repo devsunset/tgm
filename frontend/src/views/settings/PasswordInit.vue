@@ -1,10 +1,10 @@
 <template>
   <errors v-if="error" :errorCode="error.message" />
   <div class="row" v-else-if="!loading">
-    <div class="column">
+    <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("sidebar.requestpasswordreq") }} - 신규개발 필요(사용자관리 메뉴로 복사만 한 상태)</h2>
+          <h2>{{ $t("sidebar.requestpasswordreq") }} - 개발 필요(미작업)</h2>
         </div>
 
         <div class="card-content full">
@@ -12,6 +12,7 @@
             <tr>
               <th>{{ $t("settings.username") }}</th>
               <th>Request Date</th>
+              <th>Apply Date</th>
               <th>Status</th>
               <th></th>
             </tr>
@@ -19,6 +20,7 @@
             <tr v-for="user in users" :key="user.id">
               <td>{{ user.username }}</td>
               <td>2021-09-18</td>
+              <td>-</td>
               <td>Request</td>
               <td class="small">
                 <router-link :to="'/settings/passwordinit/' + user.id"

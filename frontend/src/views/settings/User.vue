@@ -1,7 +1,7 @@
 <template>
   <errors v-if="error" :errorCode="error.message" />
   <div class="row" v-else-if="!loading">
-    <div class="column">
+    <div class="column" style="width:100%">
       <form @submit="save" class="card">
         <div class="card-title">
           <h2 v-if="user.id === 0">{{ $t("settings.newUser") }}</h2>

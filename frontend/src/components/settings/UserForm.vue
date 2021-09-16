@@ -18,14 +18,14 @@
         type="password"
         :placeholder="passwordPlaceholder"
         v-model="user.password"
-        id="password"
+        name="password"
       />
       <input
-          :class="passwordClass"
+          :class="passwordSubClass"
           type="password"
           :placeholder="$t('settings.newPasswordConfirm')"
           v-model="passwordConf"
-          name="password"
+          name="passwordConf"
       />
   </p>
 
@@ -127,16 +127,21 @@ export default {
       }else if(hangulcheck.test(this.user.password)){
        return `${baseClass} input--red`;
       }else {
-        if (this.user.password !== this.passwordConf || this.user.password === "") {
-          return `${baseClass} input--red`;
-        }
-      }
-
-      if (this.user.password === this.passwordConf) {
         return `${baseClass} input--green`;
       }
+    },
+    passwordSubClass() {
+      const baseClass = "input input--block";
 
-      return `${baseClass} input--red`;
+      if ((this.user.password === "" || this.user.password === undefined) && this.passwordConf === "") {
+        return baseClass;
+      }
+             
+      if (this.user.password === this.passwordConf) {
+        return `${baseClass} input--green`;
+      }else{
+        return `${baseClass} input--red`;
+      }
     },
   },
   watch: {

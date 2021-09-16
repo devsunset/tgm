@@ -22,6 +22,7 @@ import Upload from "./Upload";
 import ShareDelete from "./ShareDelete";
 import { mapState } from "vuex";
 import buttons from "@/utils/buttons";
+import NewGroup from "./NewGroup";
 
 export default {
   name: "prompts",
@@ -40,6 +41,7 @@ export default {
     ReplaceRename,
     Upload,
     ShareDelete,
+    NewGroup,
   },
   data: function () {
     return {
@@ -100,6 +102,7 @@ export default {
           "share",
           "upload",
           "share-delete",
+          "newGroup",
         ].indexOf(this.show) >= 0;
 
       return (matched && this.show) || null;

@@ -1,37 +1,37 @@
 <template>
   <errors v-if="error" :errorCode="error.message" />
   <div class="row" v-else-if="!loading">
-    <div class="column">
+    <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("sidebar.groupManagement") }} - 신규개발 필요(사용자관리 메뉴로 복사만 한 상태)</h2>
-          <router-link to="/settings/users/new"
-            ><button class="button">
-              {{ $t("buttons.new") }}
-            </button></router-link
-          >
+          <h2>{{ $t("sidebar.groupManagement") }} - 개발 필요(미작업)</h2>
+
+        <button
+          @click="$store.commit('showHover', 'newGroup')"
+          class="button">
+         {{ $t("buttons.new") }}
+        </button>
+
         </div>
 
         <div class="card-content full">
           <table>
             <tr>
-              <th>{{ $t("settings.username") }}</th>
-              <th>{{ $t("settings.admin") }}</th>
-              <th>{{ $t("settings.scope") }}</th>
+              <th>Default</th>
+              <th>Group ID</th>
+              <th>GID</th>
+              <th>Group Members</th>
               <th></th>
             </tr>
 
             <tr v-for="user in users" :key="user.id">
-              <td>{{ user.username }}</td>
-              <td>
-                <i v-if="user.perm.admin" class="material-icons">done</i
+              <i v-if="true" class="material-icons">done</i
                 ><i v-else class="material-icons">close</i>
-              </td>
-              <td>{{ user.scope }}</td>
+              <td>tgm</td>
+              <td>1000</td>
+              <td>tgm1,tgm2,tgm3</td>
               <td class="small">
-                <router-link :to="'/settings/users/' + user.id"
-                  ><i class="material-icons">mode_edit</i></router-link
-                >
+                 <i class="material-icons">mode_delete</i>
               </td>
             </tr>
           </table>

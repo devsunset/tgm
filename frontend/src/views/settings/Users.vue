@@ -1,10 +1,10 @@
 <template>
   <errors v-if="error" :errorCode="error.message" />
   <div class="row" v-else-if="!loading">
-    <div class="column">
+    <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("settings.users") }} - 리눅스 계정 연동 작업필요</h2>
+          <h2>{{ $t("settings.users") }} - 개발 필요(리눅스계정 연동 미작업)</h2>
           <router-link to="/settings/users/new"
             ><button class="button">
               {{ $t("buttons.new") }}
@@ -15,18 +15,24 @@
         <div class="card-content full">
           <table>
             <tr>
-              <th>{{ $t("settings.username") }}</th>
               <th>{{ $t("settings.admin") }}</th>
+              <th>{{ $t("settings.username") }}</th>
+              <th>UID</th>
+              <th>GID</th>
+              <th>Shell</th>
               <th>{{ $t("settings.scope") }}</th>
               <th></th>
             </tr>
 
             <tr v-for="user in users" :key="user.id">
-              <td>{{ user.username }}</td>
               <td>
                 <i v-if="user.perm.admin" class="material-icons">done</i
                 ><i v-else class="material-icons">close</i>
               </td>
+              <td>{{ user.username }}</td>
+              <td>To-Do</td>
+              <td>To-Do</td>
+              <td>To-Do</td>
               <td>{{ user.scope }}</td>
               <td class="small">
                 <router-link :to="'/settings/users/' + user.id"
