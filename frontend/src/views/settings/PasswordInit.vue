@@ -11,20 +11,17 @@
           <table>
             <tr>
               <th>{{ $t("settings.username") }}</th>
-              <th>{{ $t("settings.admin") }}</th>
-              <th>{{ $t("settings.scope") }}</th>
+              <th>Request Date</th>
+              <th>Status</th>
               <th></th>
             </tr>
 
             <tr v-for="user in users" :key="user.id">
               <td>{{ user.username }}</td>
-              <td>
-                <i v-if="user.perm.admin" class="material-icons">done</i
-                ><i v-else class="material-icons">close</i>
-              </td>
-              <td>{{ user.scope }}</td>
+              <td>2021-09-18</td>
+              <td>Request</td>
               <td class="small">
-                <router-link :to="'/settings/users/' + user.id"
+                <router-link :to="'/settings/passwordinit/' + user.id"
                   ><i class="material-icons">mode_edit</i></router-link
                 >
               </td>
