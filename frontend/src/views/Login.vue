@@ -45,6 +45,10 @@
           createMode ? $t("login.loginInstead") : $t("login.createAnAccount")
         }}
       </p>
+
+      <p>
+          <span @click="forgetpassword"> Forget Password ?</span>
+      </p>
     </form>
   </div>
 </template>
@@ -130,6 +134,9 @@ export default {
           this.error = this.$t("login.wrongCredentials");
         }
       }
+    },
+    forgetpassword() {      
+      alert('To-Do');
     },
   },
 };
