@@ -4,7 +4,7 @@
     <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("sidebar.requestpasswordreq") }} - 개발 필요(미작업)</h2>
+          <h2>{{ $t("sidebar.requestpasswordreq") }} - 개발 필요(작업중)</h2>
         </div>
 
         <div class="card-content full">
@@ -41,7 +41,7 @@ import { users as api } from "@/api";
 import Errors from "@/views/Errors";
 
 export default {
-  name: "users",
+  name: "passwordinit",
   components: {
     Errors,
   },

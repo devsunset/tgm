@@ -106,7 +106,7 @@
     "submit": "로그인",
     "username": "계정 ID",
     "usernameTaken": "계정 ID가 존재합니다",
-    "wrongCredentials": "계정 ID 또는 비밀번호를 확인하십시오",
+    "wrongCredentials": "유효하지 않은 정보입니다.",
     "rememberme" : "로그인 유지",
     "passwordrule1" : "비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.",
     "passwordrule2" : "같은 문자를 4번 이상 사용하실 수 없습니다.",

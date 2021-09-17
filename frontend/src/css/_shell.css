@@ -8,7 +8,7 @@
   color: #212121;
   z-index: 9999;
   width: 100%;
-  font-family: monospace;
+  font-family: monospace;  
   overflow: auto;
   font-size: 1rem;
   cursor: text;
@@ -49,5 +49,5 @@
   margin: 0;
   font-family: inherit;
   white-space: pre-wrap;
-  width: 100%;
+  width: 100%;  
 }

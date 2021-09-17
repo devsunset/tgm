@@ -89,7 +89,7 @@
 
 <script>
 export default {
-  name: "user",
+  name: "passwordinitdetail",
   data: function () {
     return {   
       requestId :"tgm1",

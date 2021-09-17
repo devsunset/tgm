@@ -4,7 +4,7 @@
     <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("settings.users") }} - 개발 필요(리눅스계정 연동 미작업)</h2>
+          <h2>{{ $t("settings.users") }} - 개발 필요(리눅스계정 연동 작업중)</h2>
           <router-link to="/settings/users/new"
             ><button class="button">
               {{ $t("buttons.new") }}

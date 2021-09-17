@@ -46,6 +46,7 @@ async function start() {
     template: "<App/>",
     components: { App },
   });
+
 }
 
 start();

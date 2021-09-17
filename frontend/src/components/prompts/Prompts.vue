@@ -108,7 +108,7 @@ export default {
       return (matched && this.show) || null;
     },
     showOverlay: function () {
-      return (
+      return (        
         this.show !== null && this.show !== "search" && this.show !== "more"
       );
     },

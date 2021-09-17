@@ -32,7 +32,7 @@ const router = new Router({
           return next({ path: "/files" });
         }
 
-        document.title = "Login";
+        //document.title = "Login";
         next();
       },
     },
@@ -167,7 +167,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.name;
+  //document.title = to.name;
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.getters.isLogged) {

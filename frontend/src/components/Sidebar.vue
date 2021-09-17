@@ -126,7 +126,7 @@
 
     <p class="credits">
       <span>
-          {{ $t("settings.admin") }} : {{loginusername}}
+          {{ $t("settings.username") }} : {{loginusername}}
       </span>  
       <span>
         <span v-if="disableExternal">TGM</span> 
