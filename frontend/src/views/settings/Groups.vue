@@ -4,7 +4,7 @@
     <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("sidebar.groupManagement") }} - 개발 필요(작업중)</h2>
+          <h2>{{ $t("sidebar.groupManagement") }} - (작업중)</h2>
 
         <button
           @click="$store.commit('showHover', 'newGroup')"
