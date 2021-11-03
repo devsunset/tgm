@@ -67,17 +67,6 @@
         </router-link>
 
         <router-link
-          v-if="user.perm.admin"
-          class="action"
-          to="/settings/passwordinit"
-          :aria-label="$t('sidebar.requestpasswordreq')"
-          :title="$t('sidebar.requestpasswordreq')"
-        >
-          <i class="material-icons">vpn_key</i>
-          <span>{{ $t("sidebar.requestpasswordreq") }}</span>
-        </router-link>
-
-        <router-link
           class="action"
           to="/settings"
           :aria-label="$t('sidebar.settings')"

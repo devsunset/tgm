@@ -7,8 +7,6 @@ import Share from "@/views/Share";
 import Users from "@/views/settings/Users";
 import User from "@/views/settings/User";
 import Groups from "@/views/settings/Groups";
-import PasswordInit from "@/views/settings/PasswordInit";
-import PasswordInitDetail from "@/views/settings/PasswordInitDetail";
 import Settings from "@/views/Settings";
 import GlobalSettings from "@/views/settings/Global";
 import ProfileSettings from "@/views/settings/Profile";
@@ -102,22 +100,6 @@ const router = new Router({
               path: "/settings/groups",
               name: "Groups",
               component: Groups,
-              meta: {
-                requiresAdmin: true,
-              },
-            },
-            {
-              path: "/settings/passwordinit",
-              name: "PasswordInit",
-              component: PasswordInit,
-              meta: {
-                requiresAdmin: true,
-              },
-            },
-            {
-              path: "/settings/passwordinit/*",
-              name: "PasswordInitDetail",
-              component: PasswordInitDetail,
               meta: {
                 requiresAdmin: true,
               },

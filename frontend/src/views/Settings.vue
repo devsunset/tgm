@@ -6,7 +6,7 @@
       <div class="wrapper">
 
         <ul>
-          <router-link to="/settings/profile" v-if="$route.path.indexOf('/settings/users') == -1 && $route.path.indexOf('/settings/groups') == -1 && $route.path.indexOf('/settings/passwordinit') == -1"
+          <router-link to="/settings/profile" v-if="$route.path.indexOf('/settings/users') == -1 && $route.path.indexOf('/settings/groups') == -1"
             ><li :class="{ active: $route.path === '/settings/profile' }">
               {{ $t("settings.profileSettings") }}
             </li></router-link>
@@ -17,7 +17,7 @@
             </li></router-link
           > 
           -->
-          <router-link to="/settings/global" v-if="user.perm.admin && $route.path.indexOf('/settings/users') == -1 && $route.path.indexOf('/settings/groups') == -1 && $route.path.indexOf('/settings/passwordinit') == -1"
+          <router-link to="/settings/global" v-if="user.perm.admin && $route.path.indexOf('/settings/users') == -1 && $route.path.indexOf('/settings/groups') == -1"
             ><li :class="{ active: $route.path === '/settings/global' }">
               {{ $t("settings.globalSettings") }}
             </li></router-link>
@@ -42,17 +42,6 @@
             >
               {{ $t("sidebar.groupManagement") }}
           </li></router-link>
-
-          <router-link to="/settings/passwordinit" v-if="user.perm.admin  && $route.path.indexOf('/settings/passwordinit') > -1"
-            ><li
-              :class="{
-                active:
-                  $route.path.indexOf('/settings/passwordinit') > -1 || $route.name === 'Passwordinit',
-              }"
-            >
-              {{ $t("sidebar.requestpasswordreq") }}
-          </li></router-link>
-            
 
         </ul>
 
