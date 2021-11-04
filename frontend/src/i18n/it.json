@@ -233,7 +233,7 @@
     "userUpdated": "Utente aggiornato!",
     "username": "Nome utente",
     "users": "Utenti",
-    "usernamerule" : "Only lowercase English letters are allowed for the user name."
+    "usernamerule" : "Account ID accepts only uppercase and lowercase letters and numbers.
   },
   "sidebar": {
     "help": "Aiuto",

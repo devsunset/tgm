@@ -143,7 +143,7 @@ export default {
       try {
         if (this.isNew) {
           // USERNAME CHECK
-          var regUserName = /^[a-z]+$/;
+          var regUserName = /^[A-Za-z0-9+]*$/;
            if(false === regUserName.test(user.username)) {
             this.$showError(this.$t("settings.usernamerule"));
             return;

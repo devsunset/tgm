@@ -233,7 +233,7 @@
     "userUpdated": "ユーザーは更新されました！",
     "username": "ユーザー名",
     "users": "ユーザー",
-    "usernamerule" : "Only lowercase English letters are allowed for the user name."
+    "usernamerule" : "Account ID accepts only uppercase and lowercase letters and numbers.
   },
   "sidebar": {
     "help": "ヘルプ",
