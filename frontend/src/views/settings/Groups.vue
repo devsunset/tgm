@@ -17,19 +17,16 @@
         <div class="card-content full">
           <table>
             <tr>
-              <th>Default</th>
               <th>Group ID</th>
               <th>GID</th>
               <th>Group Members</th>
               <th></th>
             </tr>
 
-            <tr v-for="user in users" :key="user.id">
-              <i v-if="true" class="material-icons">done</i
-                ><i v-else class="material-icons">close</i>
-              <td>tgm</td>
-              <td>1000</td>
-              <td>tgm1,tgm2,tgm3</td>
+            <tr v-for="group in groups" :key="group.id">
+              <td>{{ group.id }}</td>
+              <td>{{ group.gid }}</td>
+              <td>{{ group.members }}</td>
               <td class="small">
                  <i class="material-icons">mode_delete</i>
               </td>
@@ -54,14 +51,14 @@ export default {
   data: function () {
     return {
       error: null,
-      users: [],
+      groups: [],
     };
   },
   async created() {
     this.setLoading(true);
 
     try {
-      this.users = await api.getAll();
+      this.groups = await api.getAll();
     } catch (e) {
       this.error = e;
     } finally {

@@ -1,20 +1,20 @@
 import { fetchURL, fetchJSON } from "./utils";
 
 export async function getAll() {
-  return fetchJSON(`/api/users`, {});
+  return fetchJSON(`/api/groups`, {});
 }
 
 export async function get(id) {
-  return fetchJSON(`/api/users/${id}`, {});
+  return fetchJSON(`/api/groups/${id}`, {});
 }
 
-export async function create(user) {
-  const res = await fetchURL(`/api/users`, {
+export async function create(group) {
+  const res = await fetchURL(`/api/groups`, {
     method: "POST",
     body: JSON.stringify({
-      what: "user",
+      what: "group",
       which: [],
-      data: user,
+      data: group,
     }),
   });
 
@@ -25,13 +25,13 @@ export async function create(user) {
   }
 }
 
-export async function update(user, which = ["all"]) {
-  const res = await fetchURL(`/api/users/${user.id}`, {
+export async function update(group, which = ["all"]) {
+  const res = await fetchURL(`/api/groups/${group.id}`, {
     method: "PUT",
     body: JSON.stringify({
-      what: "user",
+      what: "group",
       which: which,
-      data: user,
+      data: group,
     }),
   });
 
@@ -41,7 +41,7 @@ export async function update(user, which = ["all"]) {
 }
 
 export async function remove(id) {
-  const res = await fetchURL(`/api/users/${id}`, {
+  const res = await fetchURL(`/api/groups/${id}`, {
     method: "DELETE",
   });
 

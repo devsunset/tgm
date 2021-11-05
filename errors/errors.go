@@ -18,4 +18,5 @@ var (
 	ErrInvalidRequestParams = errors.New("invalid request params")
 	ErrSourceIsParent       = errors.New("source is parent")
 	ErrRootUserDeletion     = errors.New("user with id 1 can't be deleted")
+	ErrEmptyGroupID         = errors.New("group id is empty")
 )
