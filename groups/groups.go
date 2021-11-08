@@ -2,11 +2,14 @@ package groups
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
+	"tgm/errors"
 )
 
 // Group describes a Group.
@@ -63,9 +66,6 @@ func getGroups() ([]Group, error) {
 	}
 
 	for _, data := range LinuxGroups {
-		if err != nil {
-			return groups, err
-		}
 		group := Group{}
 		group.ID = data[0]
 		group.Gid = data[2]
@@ -81,9 +81,34 @@ func Gets() ([]Group, error) {
 }
 
 func Save(ID string) error {
+	linuxGroups, err := getGroups()
+
+	if err != nil {
+		return err
+	}
+
+	for _, data := range linuxGroups {
+		if data.ID == ID {
+			log.Print("Group already exists")
+			return errors.ErrExistsGroupID
+		}
+	}
+
+	argGroup := []string{ID}
+
+	groupCmd := exec.Command("groupadd", argGroup...)
+
+	if out, err := groupCmd.Output(); err != nil {
+		log.Println(err, "There was an error by adding group", ID)
+		return errors.ErrCreateGroupID
+	} else {
+		log.Println(string(out))
+	}
+
 	return nil
 }
 
 func Delete(ID string) error {
+	fmt.Print("------", ID)
 	return nil
 }

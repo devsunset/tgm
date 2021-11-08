@@ -71,7 +71,6 @@ export default {
       } catch (e) {
         this.$showError(e);
       }
-      alert("To-Do");
       this.$store.commit("closeHovers");
     },
   },

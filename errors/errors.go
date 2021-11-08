@@ -19,4 +19,6 @@ var (
 	ErrSourceIsParent       = errors.New("source is parent")
 	ErrRootUserDeletion     = errors.New("user with id 1 can't be deleted")
 	ErrEmptyGroupID         = errors.New("group id is empty")
+	ErrExistsGroupID        = errors.New("group already exists")
+	ErrCreateGroupID        = errors.New("create group exception")
 )

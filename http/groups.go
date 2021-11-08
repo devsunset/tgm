@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"sort"
 	"tgm/errors"
@@ -15,7 +14,7 @@ type requestData struct {
 	Data  string   `json:"data"`  // Answer to: which fields?
 }
 
-func getGroup(_ http.ResponseWriter, r *http.Request) (*requestData, error) {
+func getParameter(_ http.ResponseWriter, r *http.Request) (*requestData, error) {
 	if r.Body == nil {
 		return nil, errors.ErrEmptyRequest
 	}
@@ -45,7 +44,7 @@ var groupsGetHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d 
 })
 
 var groupPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
-	req, err := getGroup(w, r)
+	req, err := getParameter(w, r)
 
 	if err != nil {
 		return http.StatusInternalServerError, err
@@ -55,11 +54,31 @@ var groupPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d 
 		return http.StatusInternalServerError, err
 	}
 
-	fmt.Print(req.Data)
+	err = groups.Save(req.Data)
 
-	return http.StatusOK, nil
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	return http.StatusOK, err
 })
 
 var groupDeleteHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	req, err := getParameter(w, r)
+
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	if req.Data == "" {
+		return http.StatusInternalServerError, err
+	}
+
+	err = groups.Delete(req.Data)
+
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
 	return http.StatusOK, nil
 })
