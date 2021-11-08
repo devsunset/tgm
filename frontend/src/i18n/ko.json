@@ -77,24 +77,8 @@
     "help": "도움말"
   },
   "languages": {
-    "ar": "العربية",
-    "de": "Deutsch",
     "en": "English",
-    "es": "Español",
-    "fr": "Français",
-    "is": "",
-    "it": "Italiano",
-    "ja": "日本語",
-    "ko": "한국어",
-    "nlBE": "",
-    "pl": "Polski",
-    "pt": "Português",
-    "ptBR": "Português (Brasil)",
-    "ro": "",
-    "ru": "Русский",
-    "svSE": "",
-    "zhCN": "中文 (简体)",
-    "zhTW": "中文 (繁體)"
+    "ko": "한국어"
   },
   "login": {
     "createAnAccount": "계정 생성",
@@ -147,7 +131,10 @@
     "show": "보기",
     "size": "크기",
     "upload": "",
-    "uploadMessage": ""
+    "uploadMessage": "",
+    "groupnamerule" : "Group ID는 영문 대소문자 및 숫자만 허용됩니다.",
+    "groupcreate" : "그룹 생성",
+    "groupcreateinput" : "그룹명을 입력 하세요"
   },
   "search": {
     "images": "이미지",

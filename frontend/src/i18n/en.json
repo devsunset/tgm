@@ -80,24 +80,8 @@
     "help": "Help"
   },
   "languages": {
-    "ar": "العربية",
-    "de": "Deutsch",
     "en": "English",
-    "es": "Español",
-    "fr": "Français",
-    "is": "Icelandic",
-    "it": "Italiano",
-    "ja": "日本語",
-    "ko": "한국어",
-    "nlBE": "Dutch (Belgium)",
-    "pl": "Polski",
-    "pt": "Português",
-    "ptBR": "Português (Brasil)",
-    "ro": "Romanian",
-    "ru": "Русский",
-    "svSE": "Swedish (Sweden)",
-    "zhCN": "中文 (简体)",
-    "zhTW": "中文 (繁體)"
+    "ko": "한국어"
   },
   "login": {
     "createAnAccount": "Create an account",
@@ -152,7 +136,10 @@
     "size": "Size",
     "upload": "Upload",
     "uploadMessage": "Select an option to upload.",
-    "optionalPassword": "Optional password"
+    "optionalPassword": "Optional password",
+    "groupnamerule" : "Group ID accepts only uppercase and lowercase letters and numbers.",
+    "groupcreate" : "Create Group ",
+    "groupcreateinput" : "Please enter your group ID"
   },
   "search": {
     "images": "Images",

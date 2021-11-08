@@ -1,17 +1,17 @@
 <template>
   <div class="card floating">
     <div class="card-title">
-      <h2>그룹 생성</h2>
+      <h2>{{ $t("prompts.groupcreate") }}</h2>
     </div>
 
     <div class="card-content">
-      <p>그룹명을 입력 하세요</p>
+      <p>{{ $t("prompts.groupcreateinput") }}</p>
       <input
         class="input input--block"
         v-focus
         type="text"
         @keyup.enter="submit"
-        v-model.trim="name"
+        v-model.trim="groupname"
       />
     </div>
 
@@ -45,7 +45,7 @@ export default {
   name: "new-group",
   data: function () {
     return {
-      name: "",
+      groupname: "",
     };
   },
   computed: {
@@ -56,9 +56,9 @@ export default {
       event.preventDefault();
 
       //  CHECK
-      var regUserName = /^[A-Za-z0-9+]*$/;
-        if(false === regUserName.test(user.username)) {
-        this.$showError(this.$t("settings.usernamerule"));
+      var regGroupName = /^[A-Za-z0-9+]*$/;
+        if(false === regGroupName.test(this.groupname)) {
+        this.$showError(this.$t("prompts.groupnamerule"));
         return;
       }
 
