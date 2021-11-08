@@ -38,7 +38,7 @@ var groupsGetHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d 
 		return http.StatusInternalServerError, err
 	}
 	sort.Slice(groups, func(i, j int) bool {
-		return groups[i].Gid > groups[j].Gid
+		return groups[i].Gid < groups[j].Gid
 	})
 	return renderJSON(w, r, groups)
 })

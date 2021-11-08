@@ -24,13 +24,14 @@
             </tr>
 
             <tr v-for="group in groups" :key="group.id">
-              <td>{{ group.id }}</td>
-              <td>{{ group.gid }}</td>
-              <td>{{ group.members }}</td>
-              <td class="small">
-                 <i class="material-icons">mode_delete</i>
-              </td>
+                <td>{{ group.id }}</td>
+                <td>{{ group.gid }}</td>
+                <td>{{ group.members }}</td>
+                <td class="small">
+                  <i class="material-icons">mode_delete</i>
+                </td>
             </tr>
+
           </table>
         </div>
       </div>
@@ -54,12 +55,19 @@ export default {
     return {
       error: null,
       groups: [],
+      groupstemp: [],
     };
   },
-async mounted() {
-        BUS.$on('bus:groupadd', function() {
-          this.$router.go(this.$router.currentRoute);
-        })    
+mounted() {
+ BUS.$on('bus:groupaddapply', (payload)=>{
+          alert( payload);
+          this.groups.push(JSON.parse(payload));
+          // this.groups.push(0,{
+          //     id: "AAAXXXXX",
+          //     gid: "1111111111",
+          //     members: ""
+          // })  ;
+      });
     },
   async created() {
     this.setLoading(true);
