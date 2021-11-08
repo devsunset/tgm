@@ -27,7 +27,7 @@
             <tr v-for="user in users" :key="user.id">
               <td>
                 <i v-if="user.perm.admin" class="material-icons">done</i
-                ><i v-else class="material-icons">close</i>
+                ><i v-else>&nbsp;</i>
               </td>
               <td>{{ user.username }}</td>
               <td>To-Do</td>

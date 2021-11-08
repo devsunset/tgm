@@ -2,8 +2,8 @@ package groups
 
 import (
 	"bufio"
-	"fmt"
 	"io"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -21,14 +21,14 @@ type Store interface {
 	Delete(ID string) error
 }
 
-func Gets() ([]Group, error) {
+func getGroups() ([]Group, error) {
 	var LinuxGroups [][]string
 	groups := []Group{}
 
 	// this is for Linux/Unix machines
 	file, err := os.Open("/etc/group")
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 		return groups, err
 	}
 	defer file.Close()
@@ -57,14 +57,14 @@ func Gets() ([]Group, error) {
 			break
 		}
 		if err != nil {
-			fmt.Println(err)
+			log.Print(err)
 			return groups, err
 		}
 	}
 
 	for _, data := range LinuxGroups {
 		if err != nil {
-			panic(err)
+			return groups, err
 		}
 		group := Group{}
 		group.ID = data[0]
@@ -74,6 +74,10 @@ func Gets() ([]Group, error) {
 	}
 
 	return groups, nil
+}
+
+func Gets() ([]Group, error) {
+	return getGroups()
 }
 
 func Save(ID string) error {
