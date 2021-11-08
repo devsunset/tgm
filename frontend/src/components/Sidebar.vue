@@ -171,26 +171,22 @@ export default {
     logout: auth.logout,
   },
   mounted() {
-      checkpath = "";
       if(this.$router.currentRoute.path > 7){
-        checkpath = this.$router.currentRoute.path.substring(0,7);
-      }
-      if(checkpath == '/files/'){
-        this.filesubmenu_visible = true;
-      }else{
-        this.filesubmenu_visible = false;
+        if(this.$router.currentRoute.path.substring(0,7)== '/files/'){
+          this.filesubmenu_visible = true;
+        }else{
+          this.filesubmenu_visible = false;
+        }
       }
   },
   watch: {    
     $route: function () {
-      checkpath = "";
       if(this.$router.currentRoute.path > 7){
-        checkpath = this.$router.currentRoute.path.substring(0,7);
-      }
-      if(checkpath == '/files/'){
-        this.filesubmenu_visible = true;
-      }else{
-        this.filesubmenu_visible = false;
+        if(this.$router.currentRoute.path.substring(0,7)== '/files/'){
+          this.filesubmenu_visible = true;
+        }else{
+          this.filesubmenu_visible = false;
+        }
       }
     },
   },

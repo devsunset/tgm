@@ -42,6 +42,8 @@
 import { mapState, mapMutations } from "vuex";
 import { groups as api } from "@/api";
 import Errors from "@/views/Errors";
+import { BUS } from '@/utils/eventbus';
+
 
 export default {
   name: "groups",
@@ -54,9 +56,13 @@ export default {
       groups: [],
     };
   },
+async mounted() {
+        BUS.$on('bus:groupadd', function() {
+          this.$router.go(this.$router.currentRoute);
+        })    
+    },
   async created() {
     this.setLoading(true);
-
     try {
       this.groups = await api.getAll();
     } catch (e) {

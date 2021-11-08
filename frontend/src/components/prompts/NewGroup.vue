@@ -40,6 +40,7 @@
 import { mapGetters } from "vuex";
 import { groups as api } from "@/api";
 import Errors from "@/views/Errors";
+// import { BUS } from '@/utils/eventbus';
 
 export default {
   name: "new-group",
@@ -68,7 +69,10 @@ export default {
 
       try {
         await api.create(this.groupname);
+         this.$router.go(this.$router.currentRoute);
+       // BUS.$emit('bus:groupadd');
       } catch (e) {
+        alert(JSON.stringify(e));
         this.$showError(e);
       }
       this.$store.commit("closeHovers");
