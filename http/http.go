@@ -61,8 +61,8 @@ func NewHandler(
 
 	groups := api.PathPrefix("/groups").Subrouter()
 	groups.Handle("", monkey(groupsGetHandler, "")).Methods("GET")
-	groups.Handle("/{id}", monkey(groupPostHandler, "")).Methods("POST")
-	groups.Handle("/{id}", monkey(groupDeleteHandler, "")).Methods("DELETE")
+	groups.Handle("", monkey(groupPostHandler, "")).Methods("POST")
+	groups.Handle("", monkey(groupDeleteHandler, "")).Methods("DELETE")
 
 	api.PathPrefix("/resources").Handler(monkey(resourceGetHandler, "/api/resources")).Methods("GET")
 	api.PathPrefix("/resources").Handler(monkey(resourceDeleteHandler(fileCache), "/api/resources")).Methods("DELETE")

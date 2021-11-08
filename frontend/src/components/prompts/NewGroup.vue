@@ -38,8 +38,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import { files as api } from "@/api";
-// import url from "@/utils/url";
+import { groups as api } from "@/api";
+import Errors from "@/views/Errors";
 
 export default {
   name: "new-group",
@@ -54,17 +54,24 @@ export default {
   methods: {
     submit: async function (event) {
       event.preventDefault();
-
       //  CHECK
       var regGroupName = /^[A-Za-z0-9+]*$/;
-        if(false === regGroupName.test(this.groupname)) {
+      if ("" === this.groupname){
+         this.$showError(this.$t("prompts.groupnamerule"));
+         return;
+      }
+
+      if(false === regGroupName.test(this.groupname)) {
         this.$showError(this.$t("prompts.groupnamerule"));
         return;
       }
 
-
+      try {
+        await api.create(this.groupname);
+      } catch (e) {
+        this.$showError(e);
+      }
       alert("To-Do");
-
       this.$store.commit("closeHovers");
     },
   },
