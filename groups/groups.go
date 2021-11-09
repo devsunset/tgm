@@ -151,11 +151,16 @@ func getGroups() ([]Group, error) {
 		group := Group{}
 		group.ID = data[0]
 		group.Gid = data[2]
-		group.Members = data[3]
 		if checkPrimary(data[2], users) {
 			group.Primary = "P"
+			if len(data[3]) == 1 {
+				group.Members = "User Primary Group - Do not delete"
+			} else {
+				group.Members = data[3]
+			}
 		} else {
 			group.Primary = ""
+			group.Members = data[3]
 		}
 		groups = append(groups, group)
 	}
