@@ -12,6 +12,17 @@
       </router-link>
 
       <div v-if="user.perm.create && filesubmenu_visible" style="padding-left:20px">
+
+        <button
+          @click="$store.commit('toggleShell')"
+          class="action"
+          :aria-label="$t('buttons.shell')"
+          :title="$t('buttons.shell')"
+        >
+          <i class="material-icons">code</i>
+          <span>{{ $t("sidebar.webconsole") }}</span>
+        </button>
+
         <button
           @click="$store.commit('showHover', 'newDir')"
           class="action"
@@ -32,15 +43,7 @@
           <span>{{ $t("sidebar.newFile") }}</span>
         </button>
 
-        <button
-          @click="$store.commit('toggleShell')"
-          class="action"
-          :aria-label="$t('buttons.shell')"
-          :title="$t('buttons.shell')"
-        >
-          <i class="material-icons">code</i>
-          <span>{{ $t("sidebar.webconsole") }}</span>
-        </button>
+ 
       </div>
 
       <div>
