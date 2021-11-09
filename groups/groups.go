@@ -154,7 +154,7 @@ func getGroups() ([]Group, error) {
 		if checkPrimary(data[2], users) {
 			group.Primary = "P"
 			if len(data[3]) == 1 {
-				group.Members = "User Primary Group - Do not delete"
+				group.Members = "User Primary Group"
 			} else {
 				group.Members = data[3]
 			}
