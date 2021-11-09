@@ -174,23 +174,19 @@ export default {
     logout: auth.logout,
   },
   mounted() {
-      if(this.$router.currentRoute.path > 7){
-        if(this.$router.currentRoute.path.substring(0,7)== '/files/'){
+        if(this.$router.currentRoute.path.indexOf('/files/')>-1){
           this.filesubmenu_visible = true;
         }else{
           this.filesubmenu_visible = false;
         }
-      }
   },
   watch: {    
     $route: function () {
-      if(this.$router.currentRoute.path > 7){
-        if(this.$router.currentRoute.path.substring(0,7)== '/files/'){
+         if(this.$router.currentRoute.path.indexOf('/files/')>-1){
           this.filesubmenu_visible = true;
         }else{
           this.filesubmenu_visible = false;
         }
-      }
     },
   },
 };
