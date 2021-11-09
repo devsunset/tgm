@@ -69,10 +69,14 @@ export default {
       }
 
       try {
-        await api.create(this.groupname);
-       // this.$router.go(this.$router.currentRoute);
-       this.groups = await api.getAll();
-        BUS.$emit('bus:groupaddapply',JSON.stringify(this.groups));
+        var result = await api.create(this.groupname);
+        if(result.RESULT_CODE ==="S"){
+          // this.$router.go(this.$router.currentRoute);
+          this.groups = await api.getAll();
+          BUS.$emit('bus:groupaddapply',JSON.stringify(this.groups));
+        }else  if(result.RESULT_CODE ==="F"){
+           this.$showError(result.RESULT_MSG);
+        }
       } catch (e) {
         this.$showError(e);
       }

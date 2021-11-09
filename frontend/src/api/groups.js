@@ -14,7 +14,9 @@ export async function create(groupid) {
     }),
   });
 
-  if (res.status !== 200) {
+  if (res.status === 200) {
+    return res.json();
+  } else {
     throw new Error(res.status);
   }
 }
