@@ -78,11 +78,10 @@ func getUsers() ([]User, error) {
 		user.ID = data[0]
 		user.Uid = data[2]
 		user.Gid = data[3]
-
-		if len(data) == 5 {
+		if len(data) == 6 {
 			user.Home = data[4]
 			user.Shell = data[5]
-		} else if len(data) == 6 {
+		} else if len(data) == 7 {
 			user.Home = data[5]
 			user.Shell = data[6]
 		} else {
