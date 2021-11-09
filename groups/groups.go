@@ -2,7 +2,6 @@ package groups
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -75,13 +74,22 @@ func getUsers() ([]User, error) {
 	}
 
 	for _, data := range LinuxUsers {
-		fmt.Println(data)
 		user := User{}
 		user.ID = data[0]
 		user.Uid = data[2]
 		user.Gid = data[3]
-		user.Home = data[5]
-		user.Shell = data[6]
+
+		if len(data) == 5 {
+			user.Home = data[4]
+			user.Shell = data[5]
+		} else if len(data) == 6 {
+			user.Home = data[5]
+			user.Shell = data[6]
+		} else {
+			user.Home = ""
+			user.Shell = ""
+		}
+
 		users = append(users, user)
 	}
 
