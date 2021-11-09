@@ -28,7 +28,7 @@
                 <td>{{ group.gid }}</td>
                 <td>{{ group.members }}</td>
                 <td class="small">
-                  <i class="material-icons">mode_delete</i>
+                  <i class="material-icons"   @click="deleteLink(group.id)">mode_delete</i>
                 </td>
             </tr>
 
@@ -36,6 +36,28 @@
         </div>
       </div>
     </div>
+
+      <div v-if="$store.state.show === 'deleteGroup'" class="card floating">
+      <div class="card-content">
+        <p>Are you sure you want to delete this group?</p>
+      </div>
+
+      <div class="card-action">
+        <button
+          class="button button--flat button--grey"
+          @click="closeHovers"
+          v-focus
+          :aria-label="$t('buttons.cancel')"
+          :title="$t('buttons.cancel')"
+        >
+          {{ $t("buttons.cancel") }}
+        </button>
+        <button class="button button--flat" @click="deleteGroupProcess">
+          {{ $t("buttons.delete") }}
+        </button>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -55,18 +77,16 @@ export default {
     return {
       error: null,
       groups: [],
-      groupstemp: [],
+      groupid:"",
     };
   },
 mounted() {
  BUS.$on('bus:groupaddapply', (payload)=>{
-          alert( payload);
-          this.groups.push(JSON.parse(payload));
-          // this.groups.push(0,{
-          //     id: "AAAXXXXX",
-          //     gid: "1111111111",
-          //     members: ""
-          // })  ;
+        this.groups = [];
+        var data = JSON.parse(payload);
+        for (let i = 0; i < data.length; i++) {
+          this.groups.push(data[i]);
+        }
       });
     },
   async created() {
@@ -83,7 +103,20 @@ mounted() {
     ...mapState(["loading"]),
   },
   methods: {
-    ...mapMutations(["setLoading"]),
+    ...mapMutations(["setLoading","showHover","closeHovers"]),
+    deleteLink (idvalue){
+      this.groupid = idvalue;
+      this.showHover("deleteGroup");
+    },
+    async deleteGroupProcess(){
+        this.closeHovers();
+        await api.remove(this.groupid);
+        var data = await api.getAll();
+        this.groups = [];
+          for (let i = 0; i < data.length; i++) {
+            this.groups.push(data[i]);
+          }
+    },
   },
 };
 </script>

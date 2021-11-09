@@ -2,7 +2,6 @@ package groups
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -109,6 +108,16 @@ func Save(ID string) error {
 }
 
 func Delete(ID string) error {
-	fmt.Print("------", ID)
+	argGroup := []string{ID}
+
+	groupCmd := exec.Command("groupdel", argGroup...)
+
+	if out, err := groupCmd.Output(); err != nil {
+		log.Println(err, "There was an error by delete group", ID)
+		return errors.ErrCreateGroupID
+	} else {
+		log.Println(string(out))
+	}
+
 	return nil
 }

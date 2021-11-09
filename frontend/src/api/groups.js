@@ -4,13 +4,13 @@ export async function getAll() {
   return fetchJSON(`/api/groups`, {});
 }
 
-export async function create(groupname) {
+export async function create(groupid) {
   const res = await fetchURL(`/api/groups`, {
     method: "POST",
     body: JSON.stringify({
       what: "group",
       which: [],
-      data: groupname,
+      data: groupid,
     }),
   });
 
@@ -19,9 +19,14 @@ export async function create(groupname) {
   }
 }
 
-export async function remove(id) {
-  const res = await fetchURL(`/api/groups/${id}`, {
+export async function remove(groupid) {
+  const res = await fetchURL(`/api/groups`, {
     method: "DELETE",
+    body: JSON.stringify({
+      what: "group",
+      which: [],
+      data: groupid,
+    }),
   });
 
   if (res.status !== 200) {

@@ -47,6 +47,7 @@ export default {
   data: function () {
     return {
       groupname: "",
+       groups: [],
     };
   },
   computed: {
@@ -70,11 +71,8 @@ export default {
       try {
         await api.create(this.groupname);
        // this.$router.go(this.$router.currentRoute);
-        BUS.$emit('bus:groupaddapply',JSON.stringify({
-              id: "SUSCCESS",
-              gid: "1111111111",
-              members: ""
-        }));
+       this.groups = await api.getAll();
+        BUS.$emit('bus:groupaddapply',JSON.stringify(this.groups));
       } catch (e) {
         this.$showError(e);
       }
