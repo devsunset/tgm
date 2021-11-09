@@ -16,14 +16,88 @@ type Group struct {
 	ID      string `json:"id"`
 	Gid     string `json:"gid"`
 	Members string `json:"members"`
+	Primary string `json:"primary"`
 }
+type User struct {
+	ID    string `json:"id"`
+	Uid   string `json:"uid"`
+	Gid   string `json:"gid"`
+	Home  string `json:"home"`
+	Shell string `json:"shell"`
+}
+
 type Store interface {
 	Gets() ([]Group, error)
 	Save(ID string) error
 	Delete(ID string) error
 }
 
+func getUsers() ([]User, error) {
+	var LinuxUsers [][]string
+	users := []User{}
+
+	// this is for Linux/Unix machines
+	file, err := os.Open("/etc/passwd")
+	if err != nil {
+		log.Print(err)
+		return users, err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+
+		if equal := strings.Index(line, "#"); equal < 0 {
+			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+				return divide == ':'
+			})
+
+			if len(lineSlice) > 0 {
+				uid, err := strconv.Atoi(lineSlice[2])
+				if err == nil {
+					if uid >= 1000 && uid <= 65500 {
+						LinuxUsers = append(LinuxUsers, lineSlice)
+					}
+				}
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			return users, err
+		}
+	}
+
+	for _, data := range LinuxUsers {
+		user := User{}
+		user.ID = data[0]
+		user.Uid = data[2]
+		user.Gid = data[3]
+		user.Home = data[5]
+		user.Shell = data[6]
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
+func checkPrimary(gid string, users []User) bool {
+	for _, user := range users {
+		if user.Gid == gid {
+			return true
+		}
+	}
+	return false
+}
+
 func getGroups() ([]Group, error) {
+	users, _ := getUsers()
+
 	var LinuxGroups [][]string
 	groups := []Group{}
 
@@ -69,6 +143,11 @@ func getGroups() ([]Group, error) {
 		group.ID = data[0]
 		group.Gid = data[2]
 		group.Members = data[3]
+		if checkPrimary(data[2], users) {
+			group.Primary = "P"
+		} else {
+			group.Primary = ""
+		}
 		groups = append(groups, group)
 	}
 

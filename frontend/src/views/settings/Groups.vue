@@ -28,7 +28,8 @@
                 <td>{{ group.gid }}</td>
                 <td>{{ group.members }}</td>
                 <td class="small">
-                  <i class="material-icons"   @click="deleteLink(group.id)">mode_delete</i>
+                     <i v-if="group.primary==='P'" >&nbsp;</i>
+                     <i  v-else class="material-icons"   @click="deleteLink(group.id)">mode_delete</i>
                 </td>
             </tr>
 
