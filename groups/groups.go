@@ -2,6 +2,7 @@ package groups
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -74,6 +75,7 @@ func getUsers() ([]User, error) {
 	}
 
 	for _, data := range LinuxUsers {
+		fmt.Println(data)
 		user := User{}
 		user.ID = data[0]
 		user.Uid = data[2]
@@ -143,7 +145,7 @@ func getGroups() ([]Group, error) {
 		group.ID = data[0]
 		group.Gid = data[2]
 		group.Members = data[3]
-		if checkPrimary(data[3], users) {
+		if checkPrimary(data[2], users) {
 			group.Primary = "P"
 		} else {
 			group.Primary = ""
