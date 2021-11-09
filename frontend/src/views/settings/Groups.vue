@@ -88,6 +88,7 @@ mounted() {
         for (let i = 0; i < data.length; i++) {
           this.groups.push(data[i]);
         }
+        this.$showSuccess(this.$t("settings.groupCreated"));
       });
     },
   async created() {
@@ -119,6 +120,7 @@ mounted() {
                 for (let i = 0; i < data.length; i++) {
                   this.groups.push(data[i]);
                 }
+             this.$showSuccess(this.$t("settings.groupDeleted"));
              this.closeHovers();
         }else  if(result.RESULT_CODE ==="F"){
            this.closeHovers();

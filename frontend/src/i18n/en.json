@@ -166,7 +166,7 @@
     "changePassword": "Change Password",
     "commandRunner": "Command runner",
     "commandRunnerHelp": "Here you can set commands that are executed in the named events. You must write one per line. The environment variables {0} and {1} will be available, being {0} relative to {1}. For more information about this feature and the available environment variables, please read the {2}.",
-    "commandsUpdated": "Commands updated!",
+    "commandsUpdated": "Commands updated",
     "createUserDir": "Auto create user home dir while adding new user",
     "customStylesheet": "Custom Stylesheet",
     "defaultUserDescription": "This are the default settings for new users.",
@@ -187,7 +187,7 @@
     "newPasswordConfirm": "Confirm your new password",
     "newUser": "New User",
     "password": "Password",
-    "passwordUpdated": "Password updated!",
+    "passwordUpdated": "Password updated",
     "path": "Path",
     "perm": {
       "create": "Create files and directories",
@@ -206,10 +206,10 @@
     "rules": "Rules",
     "rulesHelp": "Here you can define a set of allow and disallow rules for this specific user. The blocked files won't show up in the listings and they wont be accessible to the user. We support regex and paths relative to the users scope.\n",
     "scope": "Home Dir",
-    "settingsUpdated": "Settings updated!",
+    "settingsUpdated": "Settings updated",
     "shareDuration": "Share Duration",
     "shareManagement": "Share Management",
-    "shareDeleted": "Share deleted!",
+    "shareDeleted": "Share deleted",
     "singleClick": "Use single clicks to open files and directories",
     "themes": {
       "dark": "Dark",
@@ -219,11 +219,13 @@
     "user": "User",
     "userCommands": "Commands",
     "userCommandsHelp": "A space separated list with the available commands for this user. Example:\n",
-    "userCreated": "User created!",
+    "userCreated": "User created",
+    "groupCreated": "Group created",
     "userDefaults": "User default settings",
-    "userDeleted": "User deleted!",
+    "userDeleted": "User deleted",
+    "groupDeleted": "Group deleted",
     "userManagement": "User Management",
-    "userUpdated": "User updated!",
+    "userUpdated": "User updated",
     "username": "Username",
     "users": "Users",
     "usernamerule" : "Account ID accepts only uppercase and lowercase letters and numbers."
@@ -245,7 +247,7 @@
     "webconsole" : "Web Console"
   },
   "success": {
-    "linkCopied": "Link copied!"
+    "linkCopied": "Link copied"
   },
   "time": {
     "days": "Days",

@@ -109,7 +109,7 @@
     "displayName": "게시 이름:",
     "download": "파일 다운로드",
     "downloadMessage": "다운로드 포맷 설정.",
-    "error": "에러 발생!",
+    "error": "에러 발생",
     "fileInfo": "파일 정보",
     "filesSelected": "{count} 개의 파일이 선택되었습니다.",
     "lastModified": "최종 수정",
@@ -161,7 +161,7 @@
     "changePassword": "비밀번호 변경",
     "commandRunner": "명령 실행기",
     "commandRunnerHelp": "이벤트에 해당하는 명령을 설정하세요. 줄당 1개의 명령을 적으세요. 환경 변수{0} 와 {1}이 사용가능하며,  {0} 은 {1}에 상대 경로 입니다. 자세한 사항은 {2} 를 참조하세요.",
-    "commandsUpdated": "명령 수정됨!",
+    "commandsUpdated": "명령 수정됨",
     "createUserDir": "계정 추가 시 자동으로 홈디렉토리 생성",
     "customStylesheet": "커스텀 스타일시트",
     "defaultUserDescription": "아래 사항은 신규 계정들에 대한 기본 설정입니다.",
@@ -182,7 +182,7 @@
     "newPasswordConfirm": "새로운 비밀번호 확인",
     "newUser": "새로운 계정",
     "password": "비밀번호",
-    "passwordUpdated": "비밀번호 수정 완료!",
+    "passwordUpdated": "비밀번호 수정 완료",
     "path": "",
     "perm": {
       "create": "파일이나 디렉토리 생성하기",
@@ -201,7 +201,7 @@
     "rules": "룰",
     "rulesHelp": "계정별로 규칙을 허용/방지를 지정할 수 있습니다. 방지된 파일은 보이지 않고 계정들은 접근할 수 없습니다. 계정의 접근 허용 범위와 관련해 정규표현식(regex)과 경로를 지원합니다.\n",
     "scope": "홈디렉토리",
-    "settingsUpdated": "설정 수정됨!",
+    "settingsUpdated": "설정 수정됨",
     "shareDuration": "",
     "shareManagement": "",
     "singleClick": "클릭 한 번으로 파일 및 디렉토리 열기",
@@ -213,11 +213,12 @@
     "user": "계정",
     "userCommands": "명령어",
     "userCommandsHelp": "사용에게 허용할 명령어를 공백으로 구분하여 입력하세요. 예:\n",
-    "userCreated": "계정 생성됨!",
+    "userCreated": "계정 생성됨",
+    "groupCreated": "그룹 생성됨",
     "userDefaults": "계정 기본 설정",
-    "userDeleted": "계정 삭제됨!",
+    "groupDeleted": "그룹 삭제됨",
     "userManagement": "계정 관리",
-    "userUpdated": "계정 수정됨!",
+    "userUpdated": "계정 수정됨",
     "username": "계정 ID",
     "users": "계정",
     "usernamerule" : "계정 ID는 영문 대소문자 및 숫자만 허용됩니다."
@@ -239,7 +240,7 @@
     "webconsole" : "웹 콘솔"
   },
   "success": {
-    "linkCopied": "링크가 복사되었습니다!"
+    "linkCopied": "링크가 복사되었습니다"
   },
   "time": {
     "days": "일",
