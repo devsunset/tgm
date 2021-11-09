@@ -21,4 +21,5 @@ var (
 	ErrEmptyGroupID         = errors.New("group id is empty")
 	ErrExistsGroupID        = errors.New("group already exists")
 	ErrCreateGroupID        = errors.New("create group exception")
+	ErrDeleteGroupID        = errors.New("cannot remove the primary group of user")
 )

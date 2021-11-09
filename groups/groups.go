@@ -114,7 +114,7 @@ func Delete(ID string) error {
 
 	if out, err := groupCmd.Output(); err != nil {
 		log.Println(err, "There was an error by delete group", ID)
-		return errors.ErrCreateGroupID
+		return errors.ErrDeleteGroupID
 	} else {
 		log.Println(string(out))
 	}

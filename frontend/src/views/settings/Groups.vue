@@ -109,13 +109,23 @@ mounted() {
       this.showHover("deleteGroup");
     },
     async deleteGroupProcess(){
-        this.closeHovers();
-        await api.remove(this.groupid);
-        var data = await api.getAll();
-        this.groups = [];
-          for (let i = 0; i < data.length; i++) {
-            this.groups.push(data[i]);
-          }
+       
+        try {
+             var result =  await api.remove(this.groupid);
+        if(result.RESULT_CODE ==="S"){
+             var data = await api.getAll();
+              this.groups = [];
+                for (let i = 0; i < data.length; i++) {
+                  this.groups.push(data[i]);
+                }
+             this.closeHovers();
+        }else  if(result.RESULT_CODE ==="F"){
+           this.closeHovers();
+           this.$showError(result.RESULT_MSG);
+        }
+      } catch (e) {
+        this.$showError(e);
+      }
     },
   },
 };

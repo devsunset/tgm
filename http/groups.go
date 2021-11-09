@@ -86,8 +86,17 @@ var groupDeleteHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, 
 	err = groups.Delete(req.Data)
 
 	if err != nil {
-		return http.StatusInternalServerError, err
+		result := map[string]string{
+			"RESULT_CODE": "F",
+			"RESULT_MSG":  fmt.Sprint(err),
+		}
+		return renderJSON(w, r, result)
 	}
 
-	return http.StatusOK, nil
+	result := map[string]string{
+		"RESULT_CODE": "S",
+		"RESULT_MSG":  "",
+	}
+
+	return renderJSON(w, r, result)
 })
