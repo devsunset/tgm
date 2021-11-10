@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 	"sync"
@@ -139,57 +140,6 @@ func getAccounts() ([]Account, error) {
 	return accounts, nil
 }
 
-func checkPrimary(gid string, accounts []Account) bool {
-	for _, account := range accounts {
-		if account.Gid == gid {
-			return true
-		}
-	}
-	return false
-}
-
-func getUserShell(userId string, accounts []Account) string {
-	for _, account := range accounts {
-		if account.ID == userId {
-			return account.Shell
-		}
-	}
-	return ""
-}
-
-func getUserGroup(userId string, accounts []Account, groups []Group) string {
-	groupid := ""
-	gid := ""
-	for _, account := range accounts {
-		if account.ID == userId {
-			gid = account.Gid
-		}
-	}
-
-	for _, group := range groups {
-		if group.Gid == gid {
-			groupid = group.ID
-		}
-	}
-
-	for _, group := range groups {
-		members := group.Members
-		slice := strings.Split(members, ",")
-		for _, str := range slice {
-			str = strings.Trim(str, " ")
-			str = strings.Trim(str, " \n")
-			if str == userId {
-				if groupid == "" {
-					groupid = group.ID
-				} else {
-					groupid += "," + group.ID
-				}
-			}
-		}
-	}
-	return groupid
-}
-
 func getGroups() ([]Group, error) {
 	accounts, _ := getAccounts()
 
@@ -254,67 +204,67 @@ func getGroups() ([]Group, error) {
 	return groups, nil
 }
 
-func getShadow() ([]Account, error) {
-	var LinuxUsers [][]string
-	accounts := []Account{}
-
-	// this is for Linux/Unix machines
-	file, err := os.Open("/etc/shadow")
-	if err != nil {
-		log.Print(err)
-		return accounts, err
+func checkPrimary(gid string, accounts []Account) bool {
+	for _, account := range accounts {
+		if account.Gid == gid {
+			return true
+		}
 	}
-	defer file.Close()
+	return false
+}
 
-	reader := bufio.NewReader(file)
+func getUserShell(userId string, accounts []Account) string {
+	for _, account := range accounts {
+		if account.ID == userId {
+			return account.Shell
+		}
+	}
+	return ""
+}
 
-	for {
-		line, err := reader.ReadString('\n')
+func getUserGroup(userId string, accounts []Account, groups []Group) string {
+	groupid := ""
+	gid := ""
+	for _, account := range accounts {
+		if account.ID == userId {
+			gid = account.Gid
+		}
+	}
 
-		if equal := strings.Index(line, "#"); equal < 0 {
-			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
-				return divide == ':'
-			})
+	for _, group := range groups {
+		if group.Gid == gid {
+			groupid = group.ID
+		}
+	}
 
-			if len(lineSlice) > 0 {
-				uid, err := strconv.Atoi(lineSlice[2])
-				if err == nil {
-					if uid >= 1000 && uid <= 65500 {
-						LinuxUsers = append(LinuxUsers, lineSlice)
-					}
+	for _, group := range groups {
+		members := group.Members
+		slice := strings.Split(members, ",")
+		for _, str := range slice {
+			str = strings.Trim(str, " ")
+			str = strings.Trim(str, " \n")
+			if str == userId {
+				if groupid == "" {
+					groupid = group.ID
+				} else {
+					groupid += "," + group.ID
 				}
 			}
 		}
-
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			log.Print(err)
-			return accounts, err
-		}
 	}
+	return groupid
+}
 
-	for _, data := range LinuxUsers {
-		account := Account{}
-		account.ID = data[0]
-		account.Uid = data[2]
-		account.Gid = data[3]
-		if len(data) == 6 {
-			account.Home = data[4]
-			account.Shell = data[5]
-		} else if len(data) == 7 {
-			account.Home = data[5]
-			account.Shell = data[6]
-		} else {
-			account.Home = ""
-			account.Shell = ""
-		}
-
-		accounts = append(accounts, account)
+func getUserPasswdStatus(userId string) string {
+	argGroup := []string{"-S", userId}
+	cmd := exec.Command("passwd", argGroup...)
+	if out, err := cmd.Output(); err != nil {
+		//log.Println(err, "There was an error by account status check", userId)
+		return ""
+	} else {
+		//log.Println(string(out))
+		return string(out)
 	}
-
-	return accounts, nil
 }
 
 // Gets gets a list of all users.
@@ -332,6 +282,17 @@ func (s *Storage) Gets(baseScope string) ([]*User, error) {
 		}
 		user.Shell = getUserShell(user.Username, accounts)
 		user.Group = getUserGroup(user.Username, accounts, groups)
+		passwdStatus := getUserPasswdStatus(user.Username)
+		if passwdStatus == "" {
+			user.Lock = ""
+		} else {
+			slice := strings.Split(passwdStatus, " ")
+			if len(slice) > 2 {
+				user.Lock = slice[1]
+			} else {
+				user.Lock = ""
+			}
+		}
 	}
 	return users, err
 }

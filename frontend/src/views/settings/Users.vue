@@ -20,7 +20,6 @@
               <th>Shell</th>
               <th>{{ $t("settings.scope") }}</th>
               <th>Group</th>
-              <th>Lock</th>
               <th></th>
             </tr>
 
@@ -33,11 +32,9 @@
                <td>{{ user.shell }}</td>
               <td>{{ user.scope }}</td>
               <td>{{ user.group }}</td>
-              <td>
-                    <i v-if="user.perm.admin" class="material-icons">locked</i
-                ><i v-else>&nbsp;</i>
-              </td>
               <td class="small">
+                 <i v-if="user.lock === 'LK'" class="material-icons">locked</i
+                ><i v-else>&nbsp;</i>
                 <router-link :to="'/settings/users/' + user.id"
                   ><i class="material-icons">mode_edit</i></router-link
                 >
