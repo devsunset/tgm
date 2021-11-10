@@ -22,7 +22,6 @@ func HintPwd(password string) string {
 	} else {
 		return "INVALID_PASSWORD"
 	}
-	return str
 }
 
 // CheckPwd checks if a password is correct.

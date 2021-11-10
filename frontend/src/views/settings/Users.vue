@@ -29,9 +29,9 @@
                 ><i v-else>&nbsp;</i>
               </td>
               <td>{{ user.username }}</td>
-               <td>To-Do</td>
+               <td>{{ user.shell }}</td>
               <td>{{ user.scope }}</td>
-              <td>To-Do</td>
+              <td>{{ user.group }}</td>
               <td class="small">
                 <router-link :to="'/settings/users/' + user.id"
                   ><i class="material-icons">mode_edit</i></router-link
