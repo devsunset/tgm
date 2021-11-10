@@ -260,7 +260,7 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 
 	_, disableExec := getParamB(flags, "disable-exec")
 	server.EnableExec = !disableExec
-	
+
 	_, disableCmdLimit := getParamB(flags, "disable-cmd-limit")
 	server.EnableCmdLimit = !disableCmdLimit
 
@@ -276,7 +276,7 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 // https://github.com/spf13/viper/pull/331
 func getParamB(flags *pflag.FlagSet, key string) (string, bool) {
 	value, _ := flags.GetString(key)
-	
+
 	// If set on Flags, use it.
 	if flags.Changed(key) {
 		return value, true

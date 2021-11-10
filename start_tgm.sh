@@ -18,5 +18,6 @@ do
 done
 
 #echo $HOST_IP
-sudo ./tgm -a $HOST_IP -l tgm.log &
+sudo ./tgm -a $HOST_IP -l tgm.log  --disable-cmd-list=true &
+#sudo ./tgm -a $HOST_IP -l tgm.log  --disable-cmd-list=false &
 echo "tgm service start success ..."
