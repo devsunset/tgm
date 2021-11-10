@@ -20,18 +20,23 @@
               <th>Shell</th>
               <th>{{ $t("settings.scope") }}</th>
               <th>Group</th>
+              <th>Lock</th>
               <th></th>
             </tr>
 
             <tr v-for="user in users" :key="user.id">
               <td>
-                <i v-if="user.perm.admin" class="material-icons">done</i
+                <i v-if="user.perm.admin" class="material-icons">person</i
                 ><i v-else>&nbsp;</i>
               </td>
               <td>{{ user.username }}</td>
                <td>{{ user.shell }}</td>
               <td>{{ user.scope }}</td>
               <td>{{ user.group }}</td>
+              <td>
+                    <i v-if="user.perm.admin" class="material-icons">locked</i
+                ><i v-else>&nbsp;</i>
+              </td>
               <td class="small">
                 <router-link :to="'/settings/users/' + user.id"
                   ><i class="material-icons">mode_edit</i></router-link

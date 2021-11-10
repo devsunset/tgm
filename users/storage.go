@@ -254,6 +254,69 @@ func getGroups() ([]Group, error) {
 	return groups, nil
 }
 
+func getShadow() ([]Account, error) {
+	var LinuxUsers [][]string
+	accounts := []Account{}
+
+	// this is for Linux/Unix machines
+	file, err := os.Open("/etc/shadow")
+	if err != nil {
+		log.Print(err)
+		return accounts, err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+
+		if equal := strings.Index(line, "#"); equal < 0 {
+			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+				return divide == ':'
+			})
+
+			if len(lineSlice) > 0 {
+				uid, err := strconv.Atoi(lineSlice[2])
+				if err == nil {
+					if uid >= 1000 && uid <= 65500 {
+						LinuxUsers = append(LinuxUsers, lineSlice)
+					}
+				}
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			return accounts, err
+		}
+	}
+
+	for _, data := range LinuxUsers {
+		account := Account{}
+		account.ID = data[0]
+		account.Uid = data[2]
+		account.Gid = data[3]
+		if len(data) == 6 {
+			account.Home = data[4]
+			account.Shell = data[5]
+		} else if len(data) == 7 {
+			account.Home = data[5]
+			account.Shell = data[6]
+		} else {
+			account.Home = ""
+			account.Shell = ""
+		}
+
+		accounts = append(accounts, account)
+	}
+
+	return accounts, nil
+}
+
 // Gets gets a list of all users.
 func (s *Storage) Gets(baseScope string) ([]*User, error) {
 	accounts, _ := getAccounts()
