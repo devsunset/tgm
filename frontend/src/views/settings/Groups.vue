@@ -6,6 +6,11 @@
         <div class="card-title">
           <h2>{{ $t("sidebar.groupManagement") }}</h2>
 
+          <div  class="card-content" style="padding-top:15px;padding-right:30px">
+            <input type="checkbox"  v-model="primarygroupvisible" />
+            {{ $t("settings.viewuserprimarygroupvisible") }}
+          </div>
+
         <button
           @click="$store.commit('showHover', 'newGroup')"
           class="button">
@@ -24,10 +29,10 @@
             </tr>
 
             <tr v-for="group in groups" :key="group.id">
-                <td>{{ group.id }}</td>
-                <td>{{ group.gid }}</td>
-                <td>{{ group.members }}</td>
-                <td class="small">
+                <td v-show=" group.primary==='P' ?  primarygroupvisible : true">{{ group.id }}</td>
+                <td v-show=" group.primary==='P' ?  primarygroupvisible : true">{{ group.gid }}</td>
+                <td v-show=" group.primary==='P' ?  primarygroupvisible : true">{{ group.members }}</td>
+                <td class="small" v-show=" group.primary==='P' ?  primarygroupvisible : true">
                      <i v-if="group.primary==='P'" >&nbsp;</i>
                      <i  v-else class="material-icons"   @click="deleteLink(group.id)">mode_delete</i>
                 </td>
@@ -79,6 +84,7 @@ export default {
       error: null,
       groups: [],
       groupid:"",
+      primarygroupvisible:false,
     };
   },
 mounted() {

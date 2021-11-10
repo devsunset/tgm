@@ -228,7 +228,8 @@
     "userUpdated": "User updated",
     "username": "Username",
     "users": "Users",
-    "usernamerule" : "Account ID accepts only uppercase and lowercase letters and numbers."
+    "usernamerule" : "Account ID accepts only uppercase and lowercase letters and numbers.",
+    "viewuserprimarygroupvisible" : "Show user primary group"
   },
   "sidebar": {
     "help": "Help",

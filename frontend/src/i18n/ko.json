@@ -221,7 +221,8 @@
     "userUpdated": "계정 수정됨",
     "username": "계정 ID",
     "users": "계정",
-    "usernamerule" : "계정 ID는 영문 대소문자 및 숫자만 허용됩니다."
+    "usernamerule" : "계정 ID는 영문 대소문자 및 숫자만 허용됩니다.",
+    "viewuserprimarygroupvisible" : "사용자 기본 그룹 표시"
   },
   "sidebar": {
     "help": "도움말",

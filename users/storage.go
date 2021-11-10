@@ -2,7 +2,6 @@ package users
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -175,7 +174,6 @@ func getUserGroup(userId string, accounts []Account, groups []Group) string {
 
 	for _, group := range groups {
 		members := group.Members
-		fmt.Println(members)
 		slice := strings.Split(members, ",")
 		for _, str := range slice {
 			str = strings.Trim(str, " ")
