@@ -4,8 +4,8 @@
     <div class="column" style="width:100%">
       <form @submit="save" class="card">
         <div class="card-title">
-          <h2 v-if="user.id === 0">{{ $t("settings.newUser") }}</h2>
-          <h2 v-else>{{ $t("settings.user") }} {{ user.username }}</h2>
+          <h2 v-if="user.id === 0">{{ $t("settings.newUser") }}  개발 진행 중 - 동작 완전하지 않음</h2>
+          <h2 v-else>{{ $t("settings.user") }} {{ user.username }} 개발 진행 중 - 동작 완전하지 않음</h2>
         </div>
 
         <div class="card-content">
@@ -141,6 +141,11 @@ export default {
       };
 
       try {
+          // PASSWORD CHECK
+          var pw = user.password
+         var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+          var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
         if (this.isNew) {
           // USERNAME CHECK
           var regUserName = /^[A-Za-z0-9+]*$/;
@@ -149,10 +154,6 @@ export default {
             return;
           }
 
-          // PASSWORD CHECK
-          var pw = user.password
-          var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-          var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
           if(false === reg.test(pw)) {
             this.$showError(this.$t("login.passwordrule1"));
             return;
@@ -176,10 +177,7 @@ export default {
           this.$router.push({ path: loc });
           this.$showSuccess(this.$t("settings.userCreated"));
         } else {
-          // PASSWORD CHECK
-          var pw = user.password
-          var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-          var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
           if (pw !== ""){
             if(false === reg.test(pw)) {
               this.$showError(this.$t("login.passwordrule1"));

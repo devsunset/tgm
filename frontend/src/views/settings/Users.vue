@@ -4,14 +4,14 @@
     <div class="column" style="width:100%">
       <div class="card">
         <div class="card-title">
-          <h2>{{ $t("settings.userManagement") }} -  (작업중)</h2>
+          <h2>{{ $t("settings.userManagement") }}</h2>
 
           <label for="username" style="padding-top:15px;padding-right:10px">{{ $t("settings.username") }}</label>
             <input
               :class="userNameClass"
               type="text"
               v-model="username"
-              @click="userSearch"
+              @keyup.enter="userSearch"
               id="username"
             />
             <div style="padding-right:20px">
