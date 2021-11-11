@@ -26,7 +26,7 @@ type StorageBackend interface {
 
 type Store interface {
 	Get(baseScope string, id interface{}) (user *User, err error)
-	Gets(baseScope string) ([]*User, error)
+	Gets(baseScope string, userId string) ([]*User, error)
 	Update(user *User, fields ...string) error
 	Save(user *User) error
 	Delete(id interface{}) error
@@ -268,7 +268,7 @@ func getUserPasswdStatus(userId string) string {
 }
 
 // Gets gets a list of all users.
-func (s *Storage) Gets(baseScope string) ([]*User, error) {
+func (s *Storage) Gets(baseScope string, userId string) ([]*User, error) {
 	accounts, _ := getAccounts()
 	groups, _ := getGroups()
 	users, err := s.back.Gets()
@@ -294,6 +294,19 @@ func (s *Storage) Gets(baseScope string) ([]*User, error) {
 			}
 		}
 	}
+
+	userId = strings.Trim(userId, " ")
+	if userId != "" {
+		searchUsers := []*User{}
+
+		for _, user := range users {
+			if strings.Contains(user.Username, userId) {
+				searchUsers = append(searchUsers, user)
+			}
+		}
+		return searchUsers, nil
+	}
+
 	return users, err
 }
 

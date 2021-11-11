@@ -5,8 +5,22 @@
       <div class="card">
         <div class="card-title">
           <h2>{{ $t("settings.userManagement") }} -  (작업중)</h2>
+
+          <label for="username" style="padding-top:15px;padding-right:10px">{{ $t("settings.username") }}</label>
+            <input
+              :class="userNameClass"
+              type="text"
+              v-model="username"
+              @click="userSearch"
+              id="username"
+            />
+            <div style="padding-right:20px">
+            <button class="button" @click="userSearch">
+              {{ $t("buttons.search") }}
+            </button>
+            </div>
           <router-link to="/settings/users/new"
-            ><button class="button">
+            ><button class="button" >
               {{ $t("buttons.new") }}
             </button></router-link
           >
@@ -65,13 +79,14 @@ export default {
     return {
       error: null,
       users: [],
+      username: "",
     };
   },
   async created() {
     this.setLoading(true);
 
     try {
-      this.users = await api.getAll();
+      this.users = await api.getAll("");
     } catch (e) {
       this.error = e;
     } finally {
@@ -83,6 +98,18 @@ export default {
   },
   methods: {
     ...mapMutations(["setLoading"]),
+    userSearch: async function () {
+      //this.setLoading(true);
+      try {
+        this.groups = [];
+        this.users = await api.getAll(this.username);
+      } catch (e) {
+        this.error = e;
+      } 
+      //finally {
+      //  this.setLoading(false);
+      //}
+    },
   },
 };
 </script>

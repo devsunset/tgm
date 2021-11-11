@@ -40,7 +40,7 @@ list or set it to 0.`,
 		}
 
 		if mustGetBool(cmd.Flags(), "replace") {
-			oldUsers, err := d.store.Users.Gets("")
+			oldUsers, err := d.store.Users.Gets("", "")
 			checkErr(err)
 
 			err = marshal("users.backup.json", list)

@@ -6,7 +6,6 @@ require (
 	github.com/DataDog/zstd v1.4.0 // indirect
 	github.com/Sereal/Sereal v0.0.0-20190430203904-6faf9605eb56 // indirect
 	github.com/asdine/storm v2.1.2+incompatible
-	github.com/br0xen/boltbrowser v0.0.0-20210531150353-7f10a81cece0 // indirect
 	github.com/caddyserver/caddy v1.0.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/disintegration/imaging v1.6.2

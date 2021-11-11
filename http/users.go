@@ -18,9 +18,33 @@ var (
 	NonModifiableFieldsForNonAdmin = []string{"Username", "Scope", "LockPassword", "Perm", "Commands", "Rules"}
 )
 
+type requestUserData struct {
+	What  string   `json:"what"`  // Answer to: what data type?
+	Which []string `json:"which"` // Answer to: which fields?
+	Data  string   `json:"data"`  // Answer to: which fields?
+}
+
 type modifyUserRequest struct {
 	modifyRequest
 	Data *users.User `json:"data"`
+}
+
+func getUserParameter(_ http.ResponseWriter, r *http.Request) (*requestUserData, error) {
+	if r.Body == nil {
+		return nil, errors.ErrEmptyRequest
+	}
+
+	req := &requestUserData{}
+	err := json.NewDecoder(r.Body).Decode(req)
+	if err != nil {
+		return nil, err
+	}
+
+	if req.What != "user" {
+		return nil, errors.ErrInvalidDataType
+	}
+
+	return req, nil
 }
 
 func getUserID(r *http.Request) (uint, error) {
@@ -67,7 +91,8 @@ func withSelfOrAdmin(fn handleFunc) handleFunc {
 }
 
 var usersGetHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
-	users, err := d.store.Users.Gets(d.server.Root)
+	req, err := getUserParameter(w, r)
+	users, err := d.store.Users.Gets(d.server.Root, req.Data)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

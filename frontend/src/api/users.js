@@ -1,7 +1,21 @@
 import { fetchURL, fetchJSON } from "./utils";
 
-export async function getAll() {
-  return fetchJSON(`/api/users`, {});
+export async function getAll(userId) {
+  //return fetchJSON(`/api/users`, {});
+  const res = await fetchURL(`/api/users/search`, {
+    method: "POST",
+    body: JSON.stringify({
+      what: "user",
+      which: [],
+      data: userId,
+    }),
+  });
+
+  if (res.status === 200) {
+    return res.json();
+  } else {
+    throw new Error(res.status);
+  }
 }
 
 export async function get(id) {
