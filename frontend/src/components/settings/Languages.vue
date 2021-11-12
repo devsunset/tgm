@@ -17,32 +17,8 @@ export default {
         ko: "ko",
       },
     };
-    /*
-    let dataObj = {
-      locales: {
-        ar: "ar",
-        de: "de",
-        en: "en",
-        es: "es",
-        fr: "fr",
-        is: "is",
-        it: "it",
-        ja: "ja",
-        ko: "ko",
-        "nl-be": "nlBE",
-        pl: "pl",
-        "pt-br": "ptBR",
-        pt: "pt",
-        ro: "ro",
-        ru: "ru",
-        "sv-se": "svSE",
-        "zh-cn": "zhCN",
-        "zh-tw": "zhTW",
-      },
-    };
-    */
 
-    Object.defineProperty(dataObj, "locales", {
+Object.defineProperty(dataObj, "locales", {
       configurable: false,
       writable: false,
     });

@@ -31,7 +31,24 @@
           name="passwordConf"
       />
   </p>
-    <p>
+    
+<p v-if="user.perm.admin == false">
+   <label for="shell">Shell - 작업중</label>
+ </p>
+
+<p v-if="user.perm.admin == false">
+  <label for="group">Group - 작업중</label>
+ </p>
+
+ <p v-if="user.perm.admin == false">
+  <label>계정 유효 일자 - 작업중</label>
+ </p>
+
+  <p v-if="user.perm.admin == false">
+  <label>암호 기간 만료 설정 - 작업중</label>
+ </p>
+
+<p>
       <label for="scope">{{ $t("settings.scope") }}</label>
       <input
         :class="scopeClass"
@@ -42,6 +59,11 @@
         style="display:inline-block;"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
     </p>
+
+  <p v-if="user.perm.admin == false">
+  <label>Quota - 작업중</label>
+ </p>
+
     <p>
        <b v-if="user.perm.admin">&nbsp;</b>
        <b v-else> [ {{ $t("settings.tgmaccount") }} ]</b>
