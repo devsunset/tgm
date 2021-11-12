@@ -31,8 +31,8 @@
             <tr>
               <th>{{ $t("settings.admin") }}</th>
               <th>{{ $t("settings.username") }}</th>
+               <th>{{ $t("settings.scope") }}</th>
               <th>Shell</th>
-              <th>{{ $t("settings.scope") }}</th>
               <th>Group</th>
               <th></th>
               <th></th>
@@ -44,8 +44,8 @@
                 ><i v-else>&nbsp;</i>
               </td>
               <td>{{ user.username }}</td>
-               <td>{{ user.shell }}</td>
               <td>{{ user.scope }}</td>
+              <td>{{ user.shell }}</td>
               <td>{{ user.group }}</td>
               <td class="small">
                     <i v-if="user.lock === 'LK'" class="material-icons">locked</i

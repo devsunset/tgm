@@ -152,8 +152,11 @@
     "video": "Video"
   },
   "settings": {
+    "linuxaccount": "LINUX account setting items",
+    "tgmaccount": "TGM  SITE setting items",
     "admin": "Admin",
     "administrator": "Administrator",
+    "tgmadministratordesc": "TGM administrator ",
     "allowCommands": "Execute commands",
     "allowEdit": "Edit, rename and delete files or directories",
     "allowNew": "Create new files and directories",

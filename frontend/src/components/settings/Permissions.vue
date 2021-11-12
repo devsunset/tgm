@@ -3,9 +3,9 @@
     <h3>{{ $t("settings.permissions") }}</h3>
     <p v-show="false" class="small">{{ $t("settings.permissionsHelp") }}</p>
 
-    <p>
+    <p v-show="admin">
       <input type="checkbox" v-model="admin" disabled/>
-      {{ $t("settings.administrator") }}
+      {{ $t("settings.administrator") }}  ({{ $t("settings.tgmadministratordesc") }})
     </p>
 
     <p>

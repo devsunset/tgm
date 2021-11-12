@@ -1,5 +1,9 @@
 <template>
   <div>
+    <p>
+       <b v-if="user.perm.admin"> [ {{ $t("settings.tgmaccount") }} ]</b>
+       <b v-else> [ {{ $t("settings.linuxaccount") }} ]</b>
+    </p>
     <p v-if="!isDefault">
       <label for="username">{{ $t("settings.username") }}</label>
       <input
@@ -10,7 +14,6 @@
         :disabled="!this.isNew"
       />
     </p>
-
     <p v-if="!isDefault">
       <label for="password">{{ $t("settings.password") }}</label>
       <input
@@ -28,7 +31,6 @@
           name="passwordConf"
       />
   </p>
-
     <p>
       <label for="scope">{{ $t("settings.scope") }}</label>
       <input
@@ -40,7 +42,10 @@
         style="display:inline-block;"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
     </p>
-
+    <p>
+       <b v-if="user.perm.admin">&nbsp;</b>
+       <b v-else> [ {{ $t("settings.tgmaccount") }} ]</b>
+    </p>
     <p>
       <label for="locale">{{ $t("settings.language") }}</label>
       <languages
@@ -49,8 +54,7 @@
         :locale.sync="user.locale"
       ></languages>
     </p>
-
-    <p v-if="!isDefault">
+    <p v-if="!isDefault" v-show="user.perm.admin == false">
       <input
         type="checkbox"
         :disabled="user.perm.admin"
@@ -58,10 +62,8 @@
       />
       {{ $t("settings.lockPassword") }}
     </p>
-
     <permissions :perm.sync="user.perm" />
     <commands v-if="isExecEnabled && isCmdLimitEnabled" :commands.sync="user.commands" />
-
     <div v-if="!isDefault && false">
       <h3>{{ $t("settings.rules") }}</h3>
       <p class="small">{{ $t("settings.rulesHelp") }}</p>

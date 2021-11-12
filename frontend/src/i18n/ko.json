@@ -147,8 +147,11 @@
     "video": "비디오"
   },
   "settings": {
+    "linuxaccount": "LINUX 계정 설정 항목",
+    "tgmaccount": "TGM  SITE 설정 항목", 
     "admin": "관리자",
     "administrator": "관리자",
+    "tgmadministratordesc": "TGM 관리자 ",
     "allowCommands": "명령 실행",
     "allowEdit": "파일/디렉토리의 수정/변경/삭제 허용",
     "allowNew": "파일/디렉토리 생성 허용",
