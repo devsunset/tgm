@@ -52,12 +52,18 @@
 
  <p v-if="user.perm.admin == false">
   <label>계정 유효 일자 - 작업중</label>
+  <input type="date" id="start" name="trip-start"
+       value="2021-11-15"   min="2021-11-15" max="2022-12-31">
  </p>
 
   <p v-if="user.perm.admin == false">
-  <label>암호 기간 만료 설정 - 작업중</label>
-  암호 기간 만료일 <input type="" name="">일<br>
-  암호 변경 경고일 <input type="" name="">일<br>
+  <label>암호 기간 만료일 - 작업중</label>
+  <input type="text" @input="bindNumber1" :value="number1" maxlength="4" style="width: 50px;"> 일<br>
+ </p>
+
+  <p v-if="user.perm.admin == false">
+  <label>암호 변경 경고일 - 작업중</label>
+  <input type="text" @input="bindNumber2" :value="number2" maxlength="4" style="width: 50px;"> 일<br>
  </p>
 
 <p>
@@ -121,6 +127,8 @@ export default {
   data: function () {
     return {      
       passwordConf: "",
+      number1: '',
+      number2: '',
     };
   },
   components: {
@@ -184,10 +192,38 @@ export default {
       }
     },
   },
+  methods:{
+    bindNumber1(event){
+      this.number1 = event.target.value;
+    },
+    bindNumber2(event){
+      this.number2= event.target.value;
+    },
+  },
   watch: {
     "user.perm.admin": function () {
       if (!this.user.perm.admin) return;
       this.user.lockPassword = false;
+    },
+   number1(val){
+      const reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z]/;
+
+      // 한글, 영문 체크
+      if(reg.exec(val)!==null) this.number1 = val.replace(/[^0-9]/g,'');
+
+      this.number1 = val.replace('-','');
+
+      // .... 만 입력하게 될 경우 체크
+      if(isNaN(parseFloat(val))) this.number1 = '';
+    },
+    number2(val){
+      const reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z]/;
+
+      // 한글, 영문 체크
+      if(reg.exec(val)!==null) this.number2 = val.replace(/[^0-9]/g,'');
+
+      // .... 만 입력하게 될 경우 체크
+      if(isNaN(parseFloat(val))) this.number2 = '';
     },
   },
 };
