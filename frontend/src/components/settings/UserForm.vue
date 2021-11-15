@@ -34,10 +34,20 @@
     
 <p v-if="user.perm.admin == false">
    <label for="shell">Shell - 작업중</label>
- </p>
+   <shells
+      class="input input--block"
+      id="shell"
+      :shell.sync="user.shell"
+    ></shells>
+</p>
 
 <p v-if="user.perm.admin == false">
   <label for="group">Group - 작업중</label>
+   <groups
+      class="input input--block"
+      id="group"
+      :group.sync="user.group"
+    ></groups>
  </p>
 
  <p v-if="user.perm.admin == false">
@@ -46,6 +56,8 @@
 
   <p v-if="user.perm.admin == false">
   <label>암호 기간 만료 설정 - 작업중</label>
+  암호 기간 만료일 <input type="" name="">일<br>
+  암호 변경 경고일 <input type="" name="">일<br>
  </p>
 
 <p>
@@ -61,7 +73,7 @@
     </p>
 
   <p v-if="user.perm.admin == false">
-  <label>Quota - 작업중</label>
+  <label>Quota - 요구사항 정의 fix 후 진행 예정</label>
  </p>
 
     <p>
@@ -96,6 +108,8 @@
 
 <script>
 import Languages from "./Languages";
+import Shells from "./Shells";
+import Groups from "./Groups";
 import Rules from "./Rules";
 import Permissions from "./Permissions";
 import Commands from "./Commands";
@@ -112,6 +126,8 @@ export default {
   components: {
     Permissions,
     Languages,
+    Shells,
+    Groups,
     Rules,
     Commands,
   },
