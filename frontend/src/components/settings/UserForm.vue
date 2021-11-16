@@ -82,6 +82,11 @@
   <label>Quota - 요구사항 정의 fix 후 진행 예정</label>
  </p>
 
+<br>
+<br>
+<br>
+
+ 
     <p>
        <b v-if="user.perm.admin">&nbsp;</b>
        <b v-else> [ {{ $t("settings.tgmaccount") }} ]</b>
