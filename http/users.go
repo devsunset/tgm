@@ -275,3 +275,54 @@ func getShells() (map[string]string, error) {
 	}
 	return m, nil
 }
+
+var userGetGroupsHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	shells, err := getGroups()
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return renderJSON(w, r, shells)
+})
+
+func getGroups() (map[string]string, error) {
+	var m map[string]string
+	m = make(map[string]string)
+	// this is for Linux/Unix machines
+	file, err := os.Open("/etc/group")
+	if err != nil {
+		log.Print(err)
+		return m, err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+
+		if equal := strings.Index(line, "#"); equal < 0 {
+			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+				return divide == ':'
+			})
+
+			if len(lineSlice) > 0 {
+				gid, err := strconv.Atoi(lineSlice[2])
+				if err == nil {
+					if gid >= 1000 && gid <= 65500 {
+						m[lineSlice[0]] = lineSlice[0]
+					}
+				}
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			return m, err
+		}
+	}
+
+	return m, nil
+}

@@ -68,4 +68,9 @@ export async function getShells() {
   return fetchJSON(`/api/users/shells`, {});
 }
 
+export async function getGroups() {
+  return fetchJSON(`/api/users/groups`, {});
+}
+
+
 
