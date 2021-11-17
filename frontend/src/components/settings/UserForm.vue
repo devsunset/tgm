@@ -52,19 +52,32 @@
 
  <p v-if="user.perm.admin == false">
   <label>계정 유효 일자 - 작업중</label>
-  <input type="date" id="start" name="trip-start"
-       value="2021-11-15"   min="2021-11-15" max="2022-12-31">
+  <date-picker
+        v-model="value1"
+        format="YYYY-MM-DD"
+        type="date"
+        placeholder="Select date"
+      ></date-picker>
  </p>
 
   <p v-if="user.perm.admin == false">
   <label>암호 기간 만료일 - 작업중</label>
-  <input type="text" @input="bindNumber1" :value="number1" maxlength="4" style="width: 50px;"> 일<br>
+  <input type="number" min="30" max="9999" pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
  </p>
 
   <p v-if="user.perm.admin == false">
   <label>암호 변경 경고일 - 작업중</label>
-  <input type="text" @input="bindNumber2" :value="number2" maxlength="4" style="width: 50px;"> 일<br>
+  <input type="number" min="7" max="9999"  pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
  </p>
+
+<p>
+   <input
+        type="checkbox"
+        :disabled="user.perm.admin"
+        v-model="user.lockAccount"
+      />
+      계정 Lock
+</p>
 
 <p>
       <label for="scope">{{ $t("settings.scope") }}</label>
@@ -74,12 +87,12 @@
         v-model="user.scope"
         id="scope"
         :disabled="!this.isNew && $route.path != '/settings/global'"
-        style="display:inline-block;"
+        style="display:inline-block"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
     </p>
 
   <p v-if="user.perm.admin == false">
-  <label>Quota - 요구사항 정의 fix 후 진행 예정</label>
+  <label>===== [[Quota - 요구사항 정의 fix 후 진행 예정]] =====</label>
  </p>
 
 <br>
@@ -126,12 +139,15 @@ import Permissions from "./Permissions";
 import Commands from "./Commands";
 import { enableExec } from "@/utils/constants";
 import { enableCmdLimit } from "@/utils/constants";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 
 export default {
   name: "user",
   data: function () {
     return {      
       passwordConf: "",
+      value1: "",
       number1: '',
       number2: '',
     };
@@ -141,6 +157,7 @@ export default {
     Languages,
     Shells,
     Groups,
+    DatePicker,
     Rules,
     Commands,
   },
@@ -197,38 +214,10 @@ export default {
       }
     },
   },
-  methods:{
-    bindNumber1(event){
-      this.number1 = event.target.value;
-    },
-    bindNumber2(event){
-      this.number2= event.target.value;
-    },
-  },
   watch: {
     "user.perm.admin": function () {
       if (!this.user.perm.admin) return;
       this.user.lockPassword = false;
-    },
-   number1(val){
-      const reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z]/;
-
-      // 한글, 영문 체크
-      if(reg.exec(val)!==null) this.number1 = val.replace(/[^0-9]/g,'');
-
-      this.number1 = val.replace('-','');
-
-      // .... 만 입력하게 될 경우 체크
-      if(isNaN(parseFloat(val))) this.number1 = '';
-    },
-    number2(val){
-      const reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z]/;
-
-      // 한글, 영문 체크
-      if(reg.exec(val)!==null) this.number2 = val.replace(/[^0-9]/g,'');
-
-      // .... 만 입력하게 될 경우 체크
-      if(isNaN(parseFloat(val))) this.number2 = '';
     },
   },
 };

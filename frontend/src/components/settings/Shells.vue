@@ -33,7 +33,7 @@ async created() {
   },
   methods: {
     change(event) {
-      alert(event.target.value);
+      console.log(event.target.value);
       //this.$emit("update:locale", event.target.value);
     },
   },
