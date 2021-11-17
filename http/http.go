@@ -58,6 +58,7 @@ func NewHandler(
 	users.Handle("/{id:[0-9]+}", monkey(userPutHandler, "")).Methods("PUT")
 	users.Handle("/{id:[0-9]+}", monkey(userGetHandler, "")).Methods("GET")
 	users.Handle("/{id:[0-9]+}", monkey(userDeleteHandler, "")).Methods("DELETE")
+	users.Handle("/shells", monkey(userGetShellsHandler, "")).Methods("GET")
 
 	groups := api.PathPrefix("/groups").Subrouter()
 	groups.Handle("", monkey(groupsGetHandler, "")).Methods("GET")

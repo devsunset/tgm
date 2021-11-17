@@ -1,9 +1,13 @@
 package http
 
 import (
+	"bufio"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -230,3 +234,44 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 
 	return http.StatusOK, nil
 })
+
+var userGetShellsHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	shells, err := getShells()
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return renderJSON(w, r, shells)
+})
+
+func getShells() (map[string]string, error) {
+	var m map[string]string
+	m = make(map[string]string)
+	// this is for Linux/Unix machines
+	file, err := os.Open("/etc/shells")
+	if err != nil {
+		log.Print(err)
+		return m, err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	re := regexp.MustCompile(`\r?\n`)
+
+	for {
+		line, err := reader.ReadString('\n')
+		line = re.ReplaceAllString(line, "")
+
+		if strings.HasPrefix(line, "/bin/") {
+			m[line] = line
+		}
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			return m, err
+		}
+	}
+	return m, nil
+}

@@ -63,3 +63,9 @@ export async function remove(id) {
     throw new Error(res.status);
   }
 }
+
+export async function getShells() {
+  return fetchJSON(`/api/users/shells`, {});
+}
+
+
