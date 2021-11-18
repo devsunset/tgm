@@ -2,6 +2,7 @@ package users
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -74,6 +75,17 @@ func (s *Storage) Get(baseScope string, id interface{}) (user *User, err error) 
 	if err := user.Clean(baseScope); err != nil {
 		return nil, err
 	}
+
+	if strings.Compare(user.Username, "admin") != 0 {
+		fmt.Println("==================== : 사용자", user.Username)
+		user.Shell = "/bin/zsh"
+		user.Group = "testGroup"
+		user.ExpireDay = "2021-12-24"
+		user.PasswrodExpireDay = "90"
+		user.PasswordExpireWarningDay = "7"
+		user.LockAccount = true
+	}
+
 	return
 }
 

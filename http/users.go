@@ -262,7 +262,7 @@ func getShells() (map[string]string, error) {
 		line, err := reader.ReadString('\n')
 		line = re.ReplaceAllString(line, "")
 
-		if strings.HasPrefix(line, "/bin/") {
+		if strings.HasPrefix(line, "/bin/bash") || strings.HasPrefix(line, "/bin/tcsh") || strings.HasPrefix(line, "/bin/zsh") {
 			m[line] = line
 		}
 		if err == io.EOF {

@@ -21,24 +21,28 @@ const (
 
 // User describes a user.
 type User struct {
-	ID           uint          `storm:"id,increment" json:"id"`
-	Username     string        `storm:"unique" json:"username"`
-	Password     string        `json:"password"`
-	PasswordHint string        `json:"passwordHint"`
-	Scope        string        `json:"scope"`
-	Locale       string        `json:"locale"`
-	LockPassword bool          `json:"lockPassword"`
-	ViewMode     ViewMode      `json:"viewMode"`
-	SingleClick  bool          `json:"singleClick"`
-	Perm         Permissions   `json:"perm"`
-	Commands     []string      `json:"commands"`
-	Sorting      files.Sorting `json:"sorting"`
-	Fs           afero.Fs      `json:"-" yaml:"-"`
-	Rules        []rules.Rule  `json:"rules"`
-	HideDotfiles bool          `json:"hideDotfiles"`
-	Shell        string        `json:"shell"`
-	Group        string        `json:"group"`
-	Lock         string        `json:"lock"`
+	ID                       uint          `storm:"id,increment" json:"id"`
+	Username                 string        `storm:"unique" json:"username"`
+	Password                 string        `json:"password"`
+	PasswordHint             string        `json:"passwordHint"`
+	Scope                    string        `json:"scope"`
+	Locale                   string        `json:"locale"`
+	LockPassword             bool          `json:"lockPassword"`
+	ViewMode                 ViewMode      `json:"viewMode"`
+	SingleClick              bool          `json:"singleClick"`
+	Perm                     Permissions   `json:"perm"`
+	Commands                 []string      `json:"commands"`
+	Sorting                  files.Sorting `json:"sorting"`
+	Fs                       afero.Fs      `json:"-" yaml:"-"`
+	Rules                    []rules.Rule  `json:"rules"`
+	HideDotfiles             bool          `json:"hideDotfiles"`
+	Shell                    string        `json:"shell"`
+	Group                    string        `json:"group"`
+	ExpireDay                string        `json:"expireDay"`
+	PasswrodExpireDay        string        `json:"passwordExpireDay"`
+	PasswordExpireWarningDay string        `json:"passwordExpireWarningDay"`
+	LockAccount              bool          `json:"lockAccount"`
+	Lock                     string        `json:"lock"`
 }
 
 // GetRules implements rules.Provider.

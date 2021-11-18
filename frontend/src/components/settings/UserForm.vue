@@ -52,22 +52,17 @@
 
  <p v-if="user.perm.admin == false">
   <label>계정 유효 일자 - 작업중</label>
-  <date-picker
-        v-model="value1"
-        format="YYYY-MM-DD"
-        type="date"
-        placeholder="Select date"
-      ></date-picker>
+      <date-picker v-model="user.expireDay" value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
  </p>
 
   <p v-if="user.perm.admin == false">
   <label>암호 기간 만료일 - 작업중</label>
-  <input type="number" min="30" max="9999" pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
+  <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
  </p>
 
   <p v-if="user.perm.admin == false">
   <label>암호 변경 경고일 - 작업중</label>
-  <input type="number" min="7" max="9999"  pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
+  <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
  </p>
 
 <p>
@@ -94,12 +89,7 @@
   <p v-if="user.perm.admin == false">
   <label>===== [[Quota - 요구사항 정의 fix 후 진행 예정]] =====</label>
  </p>
-
 <br>
-<br>
-<br>
-
- 
     <p>
        <b v-if="user.perm.admin">&nbsp;</b>
        <b v-else> [ {{ $t("settings.tgmaccount") }} ]</b>
@@ -147,9 +137,6 @@ export default {
   data: function () {
     return {      
       passwordConf: "",
-      value1: "",
-      number1: '',
-      number2: '',
     };
   },
   components: {
@@ -218,6 +205,24 @@ export default {
     "user.perm.admin": function () {
       if (!this.user.perm.admin) return;
       this.user.lockPassword = false;
+    },
+    "user.passwordExpireDay": function () {
+       if (this.user.passwordExpireDay > 365) {
+         this.user.passwordExpireDay = 365;
+        }
+
+       if (this.user.passwordExpireDay < 30) {
+          this.user.passwordExpireDay = 30;
+        }
+    },
+      "user.passwordExpireWarningDay": function () {
+       if (this.user.passwordExpireWarningDay > 30) {
+          this.user.passwordExpireWarningDay = 30;
+        }
+        
+        if (this.user.passwordExpireWarningDay < 7) {
+          this.user.passwordExpireWarningDay = 7;
+        }
     },
   },
 };
