@@ -9,7 +9,7 @@
       <input
         :class="userNameClass"
         type="text"
-        v-model="user.username"
+        v-model.trim="user.username"
         id="username"
         :disabled="!this.isNew"
       />
@@ -20,14 +20,14 @@
         :class="passwordClass"
         type="password"
         :placeholder="passwordPlaceholder"
-        v-model="user.password"
+        v-model.trim="user.password"
         name="password"
       />
       <input
           :class="passwordSubClass"
           type="password"
-          :placeholder="$t('settings.newPasswordConfirm')"
-          v-model="passwordConf"
+          :placeholder="$t('login.passwordConfirm')"
+          v-model.trim="passwordConf"
           name="passwordConf"
       />
   </p>
@@ -65,7 +65,7 @@
   <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
  </p>
 
-<p>
+<p v-if="!isNew">
    <input
         type="checkbox"
         :disabled="user.perm.admin"
@@ -84,10 +84,10 @@
         :disabled="!this.isNew && $route.path != '/settings/global'"
         style="display:inline-block"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
-    </p>
+</p>
 
   <p v-if="user.perm.admin == false">
-  <label>===== [[Quota - 요구사항 정의 fix 후 진행 예정]] =====</label>
+  <label>[[[Quota - 요구사항 정의 fix 후 진행 예정]]]</label>
  </p>
 <br>
     <p>
@@ -151,7 +151,7 @@ export default {
   props: ["user", "isNew", "isDefault"],
   computed: {
     passwordPlaceholder() {
-      return this.isNew ? "" : this.$t("settings.avoidChanges");
+      return this.isNew ? this.$t("settings.password") : this.$t("settings.avoidChanges");
     },
     userNameClass() {
       return this.isNew ? "input input--block" :"input input--gray";
@@ -201,6 +201,26 @@ export default {
       }
     },
   },
+ mounted: function () {
+
+    if (this.user.expireDay == null || this.user.expireDay == undefined || this.user.expireDay == "") {
+        let date = new Date();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        this.user.expireDay = date.getFullYear()+1 + '-' + month + '-' + day ;
+    }
+
+    if (this.user.passwordExpireDay == null || this.user.passwordExpireDay == undefined || this.user.passwordExpireDay == "") {
+        this.user.passwordExpireDay = 90;
+    }
+   
+    if (this.user.passwordExpireWarningDay== null || this.user.passwordExpireWarningDay == undefined || this.user.passwordExpireWarningDay == "") {
+          this.user.passwordExpireWarningDay = 7;
+    }
+
+  },
   watch: {
     "user.perm.admin": function () {
       if (!this.user.perm.admin) return;
@@ -227,3 +247,4 @@ export default {
   },
 };
 </script>
+
