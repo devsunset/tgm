@@ -1,21 +1,21 @@
 package main
 
 import (
-	"bufio"	
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
-	"os/exec"	
-	"strings"
+	"os/exec"
 	"strconv"
+	"strings"
 )
 
 ////////////////////////////////////////
 const (
 	groupFile string = "/etc/group"
-	userFile string = "/etc/passwd"
+	userFile  string = "/etc/passwd"
 	shellFile string = "/etc/shells"
 )
 
@@ -37,6 +37,7 @@ type User struct {
 	Group     string `json:group`
 	Shell     string `json:shell`
 }
+
 ////////////////////////////////////////
 
 // Read json file and return slice of byte.
@@ -97,6 +98,7 @@ func checkAccount(s []string, u string) bool {
 	}
 	return false
 }
+
 ////////////////////////////////////////
 // Group is created by executing shell command groupadd
 func AddGroup(g *Group) bool {
@@ -136,12 +138,12 @@ func DeleteGroup(g *Group) bool {
 func AddNewUser(u *User) (bool, string) {
 	encrypt := "test1qazxsw2"
 
-	argUser := []string{"-m", "-d", u.Directory, "-G", u.Group, "-s", u.Shell, u.Name,"-e","2021-12-31"}
+	argUser := []string{"-m", "-d", u.Directory, "-G", u.Group, "-s", u.Shell, u.Name, "-e", "2021-12-31"}
 	argPass := []string{"-c", fmt.Sprintf("echo %s:%s | chpasswd", u.Name, encrypt)}
-	argChage := []string{"-M", "90", "-W","9", u.Name}
+	argChage := []string{"-M", "90", "-W", "9", u.Name}
 
 	// Password expires										: never
-	// Password inactive									: never				chage  -I 
+	// Password inactive									: never				chage  -I
 	// Minimum number of days between password change		: 0					chage  -m
 	// Maximum number of days between password change		: 99999				chage  -M
 	// Number of days of warning before password expires	: 7   				chage  -W
@@ -172,7 +174,7 @@ func AddNewUser(u *User) (bool, string) {
 
 			fmt.Println(err)
 			return false, ""
-		}else{
+		} else {
 			if _, err := chageCmd.Output(); err != nil {
 
 				fmt.Println(err)
@@ -201,6 +203,7 @@ func DeleteUser(u *User) bool {
 		return true
 	}
 }
+
 ////////////////////////////////////////
 func groupadd() {
 	fmt.Println("groupadd jsonfile/group.json execute ...\n")
@@ -252,7 +255,7 @@ func groupdel() {
 func getgroups() {
 	fmt.Println("getgroups execute ...\n")
 
-	var LinuxGroups [] []string
+	var LinuxGroups [][]string
 
 	// this is for Linux/Unix machines
 	file, err := os.Open(groupFile)
@@ -277,7 +280,7 @@ func getgroups() {
 			if len(lineSlice) > 0 {
 				gid, err := strconv.Atoi(lineSlice[2])
 				if err == nil {
-					if gid >= 1000 && gid <=65500 {
+					if gid >= 1000 && gid <= 65500 {
 						LinuxGroups = append(LinuxGroups, lineSlice)
 					}
 				}
@@ -293,7 +296,7 @@ func getgroups() {
 		}
 	}
 
-	for _, groups := range LinuxGroups {		
+	for _, groups := range LinuxGroups {
 		if err != nil {
 			panic(err)
 		}
@@ -303,6 +306,7 @@ func getgroups() {
 		fmt.Println("*********************************")
 	}
 }
+
 ////////////////////////////////////////
 func useradd() {
 	fmt.Println("useradd user.json execute ...\n")
@@ -354,7 +358,7 @@ func userdel() {
 func getusers() {
 	fmt.Println("getusers execute ...\n")
 
-	var LinuxUsers [] []string
+	var LinuxUsers [][]string
 
 	// this is for Linux/Unix machines
 	file, err := os.Open(userFile)
@@ -379,7 +383,7 @@ func getusers() {
 			if len(lineSlice) > 0 {
 				uid, err := strconv.Atoi(lineSlice[2])
 				if err == nil {
-					if uid >= 1000 && uid <=65500 {
+					if uid >= 1000 && uid <= 65500 {
 						LinuxUsers = append(LinuxUsers, lineSlice)
 					}
 				}
@@ -433,16 +437,16 @@ func getshells() {
 		}
 
 		if equal := strings.Index(line, "#"); equal < 0 {
-			Shelles = append(Shelles,line)
+			Shelles = append(Shelles, line)
 		}
-		
+
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
 	}
 
-	for _, shell := range Shelles {		
+	for _, shell := range Shelles {
 		if err != nil {
 			panic(err)
 		}
@@ -477,6 +481,7 @@ func getaccountinfo() {
 		fmt.Printf("Output: %s\n", outPasswd)
 	}
 }
+
 ////////////////////////////////////////
 func main() {
 	if len(os.Args) == 1 {
@@ -529,7 +534,7 @@ func main() {
 		root:x:0:0:root:/root:/bin/bash
 		# 사용자명:패스워드:UID:GID:사용자정보:홈디렉토리:쉘
 
-		> useradd [options] 사용자명 
+		> useradd [options] 사용자명
 		# options
 		# -c [텍스트] : 사용자정보
 		# -m : 홈디렉토리 생성
@@ -540,7 +545,7 @@ func main() {
 		# -g [GID] : GID 직접 지정
 		# -s [Shell] : shell 지정
 
-		> usermod [options] 사용자명 
+		> usermod [options] 사용자명
 		# options
 		# -c [텍스트] : 사용자정보 수정
 		# -d [폴더] : 홈디렉토리 변경
@@ -552,7 +557,7 @@ func main() {
 		> usermod -g user2 user1
 		# user1의 기본 그룹을 user2로 변경
 		# -G [groups] : 사용자 그룹 추가,변경(제거). 기본 그룹은 영향을 받지 않는다.
-		> usermod -a -G group1,group2 user1 
+		> usermod -a -G group1,group2 user1
 		# user1에 group1,group2를 추가. -a 옵션은 기존그룹에 추가할지 안할지 여부이다.
 		> usermod -G group1 user1
 		# 그룹을 제거하는 방법. -a를 주지 않아 기존 그룹을 유지하지 않았다.
@@ -592,14 +597,14 @@ func main() {
 		> chage -l tgm1
 		Last password change								: Aug 30, 2021
 		Password expires									: never
-		Password inactive									: never				chage  -I 
+		Password inactive									: never				chage  -I
 		Account expires										: never				passwd -E
 		Minimum number of days between password change		: 0					chage  -m
 		Maximum number of days between password change		: 99999				chage  -M
 		Number of days of warning before password expires	: 7   				chage  -W
 
 		userdel [options] 사용자명
-		# options 
+		# options
 		# -r : 사용자의 홈디렉토리, 메일박스, 임시디렉토리 까지 같이 삭제.
 			그룹은 기본적으로 속한 사용자가 없으면 자동 삭제된다
 
