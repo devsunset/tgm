@@ -31,8 +31,8 @@
             <tr>
               <th>{{ $t("settings.admin") }}</th>
               <th>{{ $t("settings.username") }}</th>
-              <th>Shell</th>
-              <th>Group</th>
+              <th>{{ $t("settings.shell") }}</th>
+              <th>{{ $t("settings.group") }}</th>
               <th>{{ $t("settings.scope") }}</th>
               <th></th>
               <th></th>

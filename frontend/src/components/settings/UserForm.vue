@@ -33,7 +33,7 @@
   </p>
     
 <p v-if="user.perm.admin == false">
-   <label for="shell">Shell - 작업중</label>
+   <label for="shell">{{ $t("settings.shell") }} - 작업중</label>
    <shells
       class="input input--block"
       id="shell"
@@ -42,7 +42,7 @@
 </p>
 
 <p v-if="user.perm.admin == false">
-  <label for="group">Group - 작업중</label>
+  <label for="group">{{ $t("settings.group") }} - 작업중</label>
    <groups
       class="input input--block"
       id="group"
@@ -51,18 +51,18 @@
  </p>
 
  <p v-if="user.perm.admin == false">
-  <label>계정 유효 일자 - 작업중</label>
+  <label>{{ $t("settings.accountexpireday") }} - 작업중</label>
       <date-picker v-model="user.expireDay" value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
  </p>
 
   <p v-if="user.perm.admin == false">
-  <label>암호 기간 만료일 - 작업중</label>
-  <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
+  <label>{{ $t("settings.passwordexpireday") }} - 작업중</label>
+  <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
   <p v-if="user.perm.admin == false">
-  <label>암호 변경 경고일 - 작업중</label>
-  <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> 일<br>
+  <label>{{ $t("settings.passwordexpirewarningday") }} - 작업중</label>
+  <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
 <p v-if="!isNew">
@@ -87,7 +87,7 @@
 </p>
 
   <p v-if="user.perm.admin == false">
-  <label>[[[Quota - 요구사항 정의 fix 후 진행 예정]]]</label>
+  <label>[[[Quota - 요구사항 Fix 후 진행 예정]]]</label>
  </p>
 <br>
     <p>

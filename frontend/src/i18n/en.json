@@ -232,7 +232,13 @@
     "username": "Account",
     "users": "Users",
     "usernamerule" : "Account accepts only uppercase and lowercase letters and numbers.",
-    "viewuserprimarygroupvisible" : "Show user primary group"
+    "viewuserprimarygroupvisible" : "Show user primary group",
+    "inputusername" : "Please enter your account",
+    "shell" : "Shell",
+    "group" : "Group",
+    "accountexpireday" : "Account effective date",
+    "passwordexpireday" : "Password expiration date ",
+    "passwordexpirewarningday" : "Password change warning date"    
   },
   "sidebar": {
     "help": "Help",

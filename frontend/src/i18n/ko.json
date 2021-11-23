@@ -225,7 +225,13 @@
     "username": "계정",
     "users": "계정",
     "usernamerule" : "계정은 영문 대소문자 및 숫자만 허용됩니다.",
-    "viewuserprimarygroupvisible" : "사용자 기본 그룹 표시"
+    "viewuserprimarygroupvisible" : "사용자 기본 그룹 표시",
+    "inputusername" : "계정을 입력해 주세요",
+    "shell" : "Shell",
+    "group" : "Group",
+    "accountexpireday" : "계정 유효 일자",
+    "passwordexpireday" : "암호 기간 만료일",
+    "passwordexpirewarningday" : "암호 변경 경고일"
   },
   "sidebar": {
     "help": "도움말",

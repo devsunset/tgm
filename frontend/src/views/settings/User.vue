@@ -143,8 +143,7 @@ export default {
       try {
         var blank_pattern = /^\s+|\s+$/g;
         if( user.username == '' || user.username == null || user.username.replace( blank_pattern, '' ) == "" ){
-           // this.$showError(this.$t("login.passwordrule2"));
-          this.$showError("계정 ID를 입력해 주세요.");
+          this.$showError(this.$t("settings.inputusername"));
           return;
         }
 
