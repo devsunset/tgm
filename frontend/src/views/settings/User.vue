@@ -103,12 +103,12 @@ export default {
             ...defaults,
             username: "",
             password: "",
-            shell: "",
+            shell: "/bin/bash",
             group : "",
             expireDay : "",
             passwordExpireDay : "",
             passwordExpireWarningDay : "",
-            lockAccount : "",
+            lockAccount : false,
             rules: [],
             lockPassword: false,
             id: 0,
@@ -209,6 +209,7 @@ export default {
           }
         }
 
+        alert("To-Do ---> Check Validation !");
         alert("shell: "+this.user.shell)
         alert("group: "+this.user.group)
         alert("expireDay: "+this.user.expireDay)
@@ -216,7 +217,7 @@ export default {
         alert("passwordExpireWarningDay: "+this.user.passwordExpireWarningDay)
         alert("lockAccount: "+this.user.lockAccount)
         alert("home: "+this.user.scope)
-       
+        alert(JSON.stringify(user))
 
         if (this.isNew) {
           const loc = await api.create(user);

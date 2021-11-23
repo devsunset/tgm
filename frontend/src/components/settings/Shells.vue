@@ -17,23 +17,22 @@ export default {
        shells:  {},
     };
 
-// Object.defineProperty(dataObj, "shells", {
-//       configurable: false,
-//       writable: false,
-//     });
-
     return dataObj;
   },
 async created() {
     try {
       this.shells = await api.getShells();
+      // Object.keys(this.shells).forEach(function (key) {
+      //   this.$emit("update:shell", key); 
+      //   return
+      // });
+
     } catch (e) {
       this.error = e;
     }
   },
   methods: {
     change(event) {
-      console.log(event.target.value);
       this.$emit("update:shell", event.target.value);
     },
   },

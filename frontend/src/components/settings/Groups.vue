@@ -17,11 +17,6 @@ export default {
        groups:  {},
     };
 
-// Object.defineProperty(dataObj, "groups", {
-//       configurable: false,
-//       writable: false,
-//     });
-
     return dataObj;
   },
 async created() {
@@ -33,7 +28,6 @@ async created() {
   },
   methods: {
     change(event) {
-      console.log(event.target.value);
       this.$emit("update:group", event.target.value);
     },
   },
