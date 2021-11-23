@@ -231,7 +231,8 @@
     "group" : "Group",
     "accountexpireday" : "계정 유효 일자",
     "passwordexpireday" : "암호 기간 만료일",
-    "passwordexpirewarningday" : "암호 변경 경고일"
+    "passwordexpirewarningday" : "암호 변경 경고일",
+    "accountlock" : "계정 Lock"
   },
   "sidebar": {
     "help": "도움말",

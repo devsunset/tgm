@@ -57,12 +57,12 @@
 
   <p v-if="user.perm.admin == false">
   <label>{{ $t("settings.passwordexpireday") }} - 작업중</label>
-  <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> <label>{{ $t("time.days") }}</label><br>
+  <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
   <p v-if="user.perm.admin == false">
   <label>{{ $t("settings.passwordexpirewarningday") }} - 작업중</label>
-  <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> <label>{{ $t("time.days") }}</label><br>
+  <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
 <p v-if="!isNew">
@@ -71,7 +71,7 @@
         :disabled="user.perm.admin"
         v-model="user.lockAccount"
       />
-      계정 Lock
+      {{ $t("settings.accountlock") }}
 </p>
 
 <p>

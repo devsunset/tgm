@@ -34,7 +34,7 @@ async created() {
   methods: {
     change(event) {
       console.log(event.target.value);
-      //this.$emit("update:locale", event.target.value);
+      this.$emit("update:group", event.target.value);
     },
   },
 };

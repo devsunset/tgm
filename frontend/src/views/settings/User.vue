@@ -103,6 +103,12 @@ export default {
             ...defaults,
             username: "",
             password: "",
+            shell: "",
+            group : "",
+            expireDay : "",
+            passwordExpireDay : "",
+            passwordExpireWarningDay : "",
+            lockAccount : "",
             rules: [],
             lockPassword: false,
             id: 0,
@@ -141,16 +147,10 @@ export default {
       };
 
       try {
-        var blank_pattern = /^\s+|\s+$/g;
-        if( user.username == '' || user.username == null || user.username.replace( blank_pattern, '' ) == "" ){
-          this.$showError(this.$t("settings.inputusername"));
-          return;
-        }
-
           // PASSWORD CHECK
-          var pw = user.password
-         var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-          var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        var pw = user.password
+        var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
         if (this.isNew) {
           // USERNAME CHECK
@@ -159,6 +159,13 @@ export default {
             this.$showError(this.$t("settings.usernamerule"));
             return;
           }
+
+          var blank_pattern = /^\s+|\s+$/g;
+          if( user.username == '' || user.username == null || user.username.replace( blank_pattern, '' ) == "" ){
+            this.$showError(this.$t("settings.inputusername"));
+            return;
+          }
+
 
           if(false === reg.test(pw)) {
             this.$showError(this.$t("login.passwordrule1"));
@@ -178,10 +185,6 @@ export default {
               return;
             }
           }
-                              
-          const loc = await api.create(user);
-          this.$router.push({ path: loc });
-          this.$showSuccess(this.$t("settings.userCreated"));
         } else {
 
           if (pw !== ""){
@@ -204,12 +207,26 @@ export default {
               }
             }
           }
-          
+        }
+
+        alert("shell: "+this.user.shell)
+        alert("group: "+this.user.group)
+        alert("expireDay: "+this.user.expireDay)
+        alert("passwordExpireDay: "+this.user.passwordExpireDay)
+        alert("passwordExpireWarningDay: "+this.user.passwordExpireWarningDay)
+        alert("lockAccount: "+this.user.lockAccount)
+        alert("home: "+this.user.scope)
+       
+
+        if (this.isNew) {
+          const loc = await api.create(user);
+          this.$router.push({ path: loc });
+          this.$showSuccess(this.$t("settings.userCreated"));
+        } else {
           await api.update(user);
           if (user.id === this.$store.state.user.id) {
             this.setUser({ ...deepClone(user) });
           }
-
           this.$showSuccess(this.$t("settings.userUpdated"));
         }
       } catch (e) {
