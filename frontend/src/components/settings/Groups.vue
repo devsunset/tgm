@@ -1,5 +1,5 @@
 <template>
-   <select v-on:change="change" multiple>
+   <select v-on:change="change" multiple v-model="groupsselected">
     <option v-for="(s, value) in groups" :key="value" :value="value">
         {{value}}
     </option>
@@ -12,14 +12,13 @@ import { users as api } from "@/api";
 export default {
   name: "groups",
   props: ["group"],
-  data() {
-    let dataObj = {
-       groups:  {},
+  data: () => {
+    return {
+      groups:  {},
+      groupsselected : {},
     };
-
-    return dataObj;
   },
-async created() {
+  async created() {
     try {
       this.groups = await api.getGroups();
     } catch (e) {
@@ -28,7 +27,8 @@ async created() {
   },
   methods: {
     change(event) {
-      this.$emit("update:group", event.target.value);
+      console.log(event.target.value);
+      this.$emit("update:group", this.groupsselected );
     },
   },
 };

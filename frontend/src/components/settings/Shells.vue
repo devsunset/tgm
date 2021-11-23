@@ -12,21 +12,16 @@ import { users as api } from "@/api";
 export default {
   name: "shells",
   props: ["shell"],
-  data() {
-    let dataObj = {
-       shells:  {},
+  data: () => {
+    return {
+      shells:  {},
     };
-
-    return dataObj;
   },
-async created() {
+  async created() {
     try {
       this.shells = await api.getShells();
       // Object.keys(this.shells).forEach(function (key) {
-      //   this.$emit("update:shell", key); 
-      //   return
       // });
-
     } catch (e) {
       this.error = e;
     }
