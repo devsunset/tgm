@@ -209,6 +209,8 @@ export default {
           }
         }
 
+        this.user.group = this.user.group.join(',');
+
         alert("[[[ To-Do ]]] ---> Check Validation");
         alert("shell: "+this.user.shell)
         alert("group: "+this.user.group)
