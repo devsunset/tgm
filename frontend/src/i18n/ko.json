@@ -88,8 +88,8 @@
     "passwordsDontMatch": "비밀번호가 일치하지 않습니다",
     "signup": "가입하기",
     "submit": "로그인",
-    "username": "계정 ID",
-    "usernameTaken": "계정 ID가 존재합니다",
+    "username": "계정",
+    "usernameTaken": "계정이 존재합니다",
     "wrongCredentials": "유효하지 않은 정보입니다.",
     "rememberme" : "로그인 유지",
     "passwordrule1" : "비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.",
@@ -222,9 +222,9 @@
     "groupDeleted": "그룹 삭제됨",
     "userManagement": "계정 관리",
     "userUpdated": "계정 수정됨",
-    "username": "계정 ID",
+    "username": "계정",
     "users": "계정",
-    "usernamerule" : "계정 ID는 영문 대소문자 및 숫자만 허용됩니다.",
+    "usernamerule" : "계정은 영문 대소문자 및 숫자만 허용됩니다.",
     "viewuserprimarygroupvisible" : "사용자 기본 그룹 표시"
   },
   "sidebar": {

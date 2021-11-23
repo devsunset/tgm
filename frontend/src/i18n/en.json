@@ -91,8 +91,8 @@
     "passwordsDontMatch": "Passwords don't match",
     "signup": "Signup",
     "submit": "Login",
-    "username": "Username",
-    "usernameTaken": "Username already taken",
+    "username": "Account",
+    "usernameTaken": "Account already taken",
     "wrongCredentials": "Wrong credentials",
     "rememberme" : "Remember me",
     "passwordrule1" : "Password must be at least 8 characters and contain all numbers/uppercase/lowercase/special characters.",
@@ -229,9 +229,9 @@
     "groupDeleted": "Group deleted",
     "userManagement": "User Management",
     "userUpdated": "User updated",
-    "username": "Username",
+    "username": "Account",
     "users": "Users",
-    "usernamerule" : "Account ID accepts only uppercase and lowercase letters and numbers.",
+    "usernamerule" : "Account accepts only uppercase and lowercase letters and numbers.",
     "viewuserprimarygroupvisible" : "Show user primary group"
   },
   "sidebar": {
