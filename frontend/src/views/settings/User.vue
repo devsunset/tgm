@@ -210,12 +210,17 @@ export default {
             return;
       }
 
-      if( this.user.group == '' || this.user.group == null || this.user.group =="" ){
-            console.log(this.user.group);
-      }else{
-           alert(this.user.group.toString())
-            this.user.group = this.user.group.toString();
+      if (this.$refs.childform.value.length > 0) {
+          var s = "";
+          for (var i = 0; i < this.$refs.childform.value.length; i++) {
+            s += this.$refs.childform.value[i].code + ","
+          }
+          this.user.group = s.substring(0, s.length - 1);
+      }else {
+          this.user.group = "";
       }
+
+      alert(this.user.group);
 
       if( this.user.expireDay == '' || this.user.expireDay == null || this.user.expireDay =="" || this.user.expireDay.replace( blank_pattern, '' ) == "" ){
             this.$showError("계정 유효 일자를 입력해 주세요");

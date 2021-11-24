@@ -154,7 +154,6 @@ export default {
     try {
       this.groupsvalue = await api.getGroups();
       for (const [key, value] of Object.entries(this.groupsvalue)) {
-        console.log(`${key}: ${value}`);
         this.options.push({
           code: key,
           name: value,

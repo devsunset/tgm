@@ -33,6 +33,14 @@ type modifyUserRequest struct {
 	Data *users.User `json:"data"`
 }
 
+type User struct {
+	ID    string `json:"id"`
+	Uid   string `json:"uid"`
+	Gid   string `json:"gid"`
+	Home  string `json:"home"`
+	Shell string `json:"shell"`
+}
+
 func getUserParameter(_ http.ResponseWriter, r *http.Request) (*requestUserData, error) {
 	if r.Body == nil {
 		return nil, errors.ErrEmptyRequest
@@ -285,6 +293,7 @@ var userGetGroupsHandler = withAdmin(func(w http.ResponseWriter, r *http.Request
 })
 
 func getGroups() (map[string]string, error) {
+	users, _ := getUsers()
 	var m map[string]string
 	m = make(map[string]string)
 	// this is for Linux/Unix machines
@@ -309,7 +318,9 @@ func getGroups() (map[string]string, error) {
 				gid, err := strconv.Atoi(lineSlice[2])
 				if err == nil {
 					if gid >= 1000 && gid <= 65500 {
-						m[lineSlice[0]] = lineSlice[0]
+						if checkGroup(lineSlice[0], users) {
+							m[lineSlice[0]] = lineSlice[0]
+						}
 					}
 				}
 			}
@@ -317,10 +328,83 @@ func getGroups() (map[string]string, error) {
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			log.Print(err)
 			return m, err
 		}
 	}
 	return m, nil
+}
+
+func getUsers() ([]User, error) {
+	var LinuxUsers [][]string
+	users := []User{}
+
+	// this is for Linux/Unix machines
+	file, err := os.Open("/etc/passwd")
+	if err != nil {
+		log.Print(err)
+		return users, err
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+
+		if equal := strings.Index(line, "#"); equal < 0 {
+			lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+				return divide == ':'
+			})
+
+			if len(lineSlice) > 0 {
+				uid, err := strconv.Atoi(lineSlice[2])
+				if err == nil {
+					if uid >= 1000 && uid <= 65500 {
+						LinuxUsers = append(LinuxUsers, lineSlice)
+					}
+				}
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			return users, err
+		}
+	}
+
+	for _, data := range LinuxUsers {
+		user := User{}
+		user.ID = data[0]
+		user.Uid = data[2]
+		user.Gid = data[3]
+		if len(data) == 6 {
+			user.Home = data[4]
+			user.Shell = data[5]
+		} else if len(data) == 7 {
+			user.Home = data[5]
+			user.Shell = data[6]
+		} else {
+			user.Home = ""
+			user.Shell = ""
+		}
+
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
+func checkGroup(group string, users []User) bool {
+	for _, user := range users {
+		if user.ID == group {
+			return false
+		}
+	}
+	return true
 }
