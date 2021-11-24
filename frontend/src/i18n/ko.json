@@ -232,7 +232,10 @@
     "accountexpireday" : "계정 유효 일자",
     "passwordexpireday" : "암호 기간 만료일",
     "passwordexpirewarningday" : "암호 변경 경고일",
-    "accountlock" : "계정 Lock"
+    "accountlock" : "계정 Lock",
+    "inputshell" : "Shell을 선택해 주세요",
+    "inputexpireday" : "계정 유효 일자를 입력해 주세요",
+    "inputhome" : "홈디렉토리를  입력해 주세요"
   },
   "sidebar": {
     "help": "도움말",

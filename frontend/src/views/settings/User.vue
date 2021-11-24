@@ -206,7 +206,7 @@ export default {
         }
 
       if( user.shell == '' || user.shell == null || user.shell =="" || user.shell.replace( blank_pattern, '' ) == "" ){
-             this.$showError("Shell을 선택해 주세요");
+            this.$showError(this.$t("settings.inputshell")); 
             return;
       }
 
@@ -220,9 +220,8 @@ export default {
           user.group = "";
       }
 
-
       if( user.expireDay == '' || user.expireDay == null || user.expireDay =="" || user.expireDay.replace( blank_pattern, '' ) == "" ){
-            this.$showError("계정 유효 일자를 입력해 주세요");
+            this.$showError(this.$t("settings.inputexpireday")); 
             return;
       }else{
            user.expireDay = this.user.expireDay.toString();
@@ -232,7 +231,7 @@ export default {
       user.passwordExpireWarningDay = this.user.passwordExpireWarningDay.toString();
 
       if( user.scope == '' || user.scope == null || user.scope =="" || user.scope.replace( blank_pattern, '' ) == "" ){
-            this.$showError("홈디렉토리를  입력해 주세요.");
+            this.$showError(this.$t("settings.inputhome")); 
             return;
       }
           

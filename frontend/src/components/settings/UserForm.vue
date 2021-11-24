@@ -81,7 +81,7 @@
         style="display:inline-block"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
 </p>
-
+<br>
   <p v-if="user.perm.admin == false">
     <b>[[[Quota - 요구사항 Fix 후 진행 예정]]]</b>
  </p>

@@ -239,7 +239,10 @@
     "accountexpireday" : "Account effective date",
     "passwordexpireday" : "Password expiration date ",
     "passwordexpirewarningday" : "Password change warning date",
-    "accountlock" : "Account Lock"    
+    "accountlock" : "Account Lock" ,
+    "inputshell" : "Select shell" ,
+    "inputexpireday" : "Please enter your account expire day" ,
+    "inputhome" : "Please enter home" 
   },
   "sidebar": {
     "help": "Help",
