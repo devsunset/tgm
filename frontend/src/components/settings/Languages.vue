@@ -13,8 +13,8 @@ export default {
   data() {
     let dataObj = {
       locales: {
-        en: "en",
         ko: "ko",
+        en: "en",
       },
     };
 

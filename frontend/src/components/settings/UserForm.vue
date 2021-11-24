@@ -43,11 +43,11 @@
 
 <p v-if="user.perm.admin == false">
   <label for="group">{{ $t("settings.group") }} - 작업중</label>
-   <groups
+   <!-- <groups
       class="input input--block"
       id="group"
       :group.sync="user.group"
-    ></groups>
+    ></groups> -->
  </p>
 
  <p v-if="user.perm.admin == false">
@@ -123,7 +123,7 @@
 <script>
 import Languages from "./Languages";
 import Shells from "./Shells";
-import Groups from "./Groups";
+// import Groups from "./Groups";
 import Rules from "./Rules";
 import Permissions from "./Permissions";
 import Commands from "./Commands";
@@ -143,7 +143,7 @@ export default {
     Permissions,
     Languages,
     Shells,
-    Groups,
+    // Groups,
     DatePicker,
     Rules,
     Commands,

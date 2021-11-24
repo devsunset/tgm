@@ -1,6 +1,6 @@
 <template>
-   <select v-on:change="change">
-    <option v-for="(s, value) in shells" :key="value" :value="value">
+   <select  ref="xshell" v-on:change="change">
+    <option v-for="(s, value) in shells" :key="value" :value="value" >
         {{value}}
     </option>
   </select>
@@ -20,12 +20,15 @@ export default {
   async created() {
     try {
       this.shells = await api.getShells();
-      // Object.keys(this.shells).forEach(function (key) {
-      // });
     } catch (e) {
       this.error = e;
     }
   },
+  updated: function () {
+  this.$nextTick(function () {
+      this.$refs.xshell.value = this.shell;
+  })
+},
   methods: {
     change(event) {
       this.$emit("update:shell", event.target.value);
