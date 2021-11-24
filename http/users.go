@@ -314,7 +314,6 @@ func getGroups() (map[string]string, error) {
 				}
 			}
 		}
-
 		if err == io.EOF {
 			break
 		}
@@ -323,6 +322,5 @@ func getGroups() (map[string]string, error) {
 			return m, err
 		}
 	}
-
 	return m, nil
 }

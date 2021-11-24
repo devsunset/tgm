@@ -33,7 +33,7 @@
   </p>
     
 <p v-if="user.perm.admin == false">
-   <label for="shell">{{ $t("settings.shell") }} - 작업중</label>
+   <label for="shell">{{ $t("settings.shell") }} </label>
    <shells
       class="input input--block"
       id="shell"
@@ -42,26 +42,22 @@
 </p>
 
 <p v-if="user.perm.admin == false">
-  <label for="group">{{ $t("settings.group") }} - 작업중</label>
-   <!-- <groups
-      class="input input--block"
-      id="group"
-      :group.sync="user.group"
-    ></groups> -->
+  <label for="group">{{ $t("settings.group") }} </label>
+    <multiselect v-model="value" placeholder="Select group" label="name" track-by="code" :options="options" :multiple="true" :taggable="false"></multiselect>
  </p>
 
  <p v-if="user.perm.admin == false">
-  <label>{{ $t("settings.accountexpireday") }} - 작업중</label>
+  <label>{{ $t("settings.accountexpireday") }} </label>
       <date-picker v-model="user.expireDay" value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
  </p>
 
   <p v-if="user.perm.admin == false">
-  <label>{{ $t("settings.passwordexpireday") }} - 작업중</label>
+  <label>{{ $t("settings.passwordexpireday") }} </label>
   <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
   <p v-if="user.perm.admin == false">
-  <label>{{ $t("settings.passwordexpirewarningday") }} - 작업중</label>
+  <label>{{ $t("settings.passwordexpirewarningday") }} </label>
   <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
@@ -87,7 +83,7 @@
 </p>
 
   <p v-if="user.perm.admin == false">
-  <label>[[[Quota - 요구사항 Fix 후 진행 예정]]]</label>
+    <b>[[[Quota - 요구사항 Fix 후 진행 예정]]]</b>
  </p>
 <br>
     <p>
@@ -121,9 +117,11 @@
 </template>
 
 <script>
+import { users as api } from "@/api";
+
 import Languages from "./Languages";
 import Shells from "./Shells";
-// import Groups from "./Groups";
+ import Multiselect from 'vue-multiselect'
 import Rules from "./Rules";
 import Permissions from "./Permissions";
 import Commands from "./Commands";
@@ -137,18 +135,41 @@ export default {
   data: function () {
     return {      
       passwordConf: "",
+      value: [],
+      options: [],
+      groupsvalue: [],
     };
   },
   components: {
     Permissions,
     Languages,
     Shells,
-    // Groups,
+    Multiselect,
     DatePicker,
     Rules,
     Commands,
   },
   props: ["user", "isNew", "isDefault"],
+  async created() {
+    try {
+      this.groupsvalue = await api.getGroups();
+      Object.keys(this.groupsvalue).forEach(function (key) {
+        this.addTag(key);
+      });
+    } catch (e) {
+      this.error = e;
+    }
+  },
+   methods: {
+    addTag (newTag) {
+      alert(newTag)
+      const tag = {
+        name: newTag,
+        code: newTag
+      }
+      this.options.push(tag)
+    }
+  },
   computed: {
     passwordPlaceholder() {
       return this.isNew ? this.$t("settings.password") : this.$t("settings.avoidChanges");
@@ -167,11 +188,9 @@ export default {
     isCmdLimitEnabled: () => enableCmdLimit,
     passwordClass() {
       const baseClass = "input input--block";
-
       if ((this.user.password === "" || this.user.password === undefined) && this.passwordConf === "") {
         return baseClass;
       }
-             
       var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
       var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       
@@ -189,11 +208,9 @@ export default {
     },
     passwordSubClass() {
       const baseClass = "input input--block";
-
       if ((this.user.password === "" || this.user.password === undefined) && this.passwordConf === "") {
         return baseClass;
       }
-             
       if (this.user.password === this.passwordConf) {
         return `${baseClass} input--green`;
       }else{
@@ -202,7 +219,6 @@ export default {
     },
   },
  mounted: function () {
-
     if (this.user.expireDay == null || this.user.expireDay == undefined || this.user.expireDay == "") {
         let date = new Date();
         let month = date.getMonth() + 1;
@@ -211,15 +227,12 @@ export default {
         day = day >= 10 ? day : '0' + day;
         this.user.expireDay = date.getFullYear()+1 + '-' + month + '-' + day ;
     }
-
     if (this.user.passwordExpireDay == null || this.user.passwordExpireDay == undefined || this.user.passwordExpireDay == "") {
         this.user.passwordExpireDay = 90;
     }
-   
     if (this.user.passwordExpireWarningDay== null || this.user.passwordExpireWarningDay == undefined || this.user.passwordExpireWarningDay == "") {
           this.user.passwordExpireWarningDay = 7;
     }
-
   },
   watch: {
     "user.perm.admin": function () {
@@ -230,7 +243,6 @@ export default {
        if (this.user.passwordExpireDay > 365) {
          this.user.passwordExpireDay = 365;
         }
-
        if (this.user.passwordExpireDay < 30) {
           this.user.passwordExpireDay = 30;
         }
@@ -239,7 +251,6 @@ export default {
        if (this.user.passwordExpireWarningDay > 30) {
           this.user.passwordExpireWarningDay = 30;
         }
-        
         if (this.user.passwordExpireWarningDay < 7) {
           this.user.passwordExpireWarningDay = 7;
         }
@@ -248,3 +259,6 @@ export default {
 };
 </script>
 
+<!-- New step!
+     Add Multiselect CSS. Can be added as a static asset or inside a component. -->
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
