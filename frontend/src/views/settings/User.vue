@@ -205,7 +205,7 @@ export default {
           }
         }
 
-      if( this.user.shell == '' || this.user.shell == null || this.user.shell =="" || this.user.shell.replace( blank_pattern, '' ) == "" ){
+      if( user.shell == '' || user.shell == null || user.shell =="" || user.shell.replace( blank_pattern, '' ) == "" ){
              this.$showError("Shell을 선택해 주세요");
             return;
       }
@@ -215,29 +215,28 @@ export default {
           for (var i = 0; i < this.$refs.childform.value.length; i++) {
             s += this.$refs.childform.value[i].code + ","
           }
-          this.user.group = s.substring(0, s.length - 1);
+          user.group = s.substring(0, s.length - 1);
       }else {
-          this.user.group = "";
+          user.group = "";
       }
 
-      alert(this.user.group);
 
-      if( this.user.expireDay == '' || this.user.expireDay == null || this.user.expireDay =="" || this.user.expireDay.replace( blank_pattern, '' ) == "" ){
+      if( user.expireDay == '' || user.expireDay == null || user.expireDay =="" || user.expireDay.replace( blank_pattern, '' ) == "" ){
             this.$showError("계정 유효 일자를 입력해 주세요");
             return;
       }else{
-           this.user.expireDay = this.user.expireDay.toString();
+           user.expireDay = this.user.expireDay.toString();
       }
 
-      this.user.passwordExpireDay = this.user.passwordExpireDay.toString();
-      this.user.passwordExpireWarningDay = this.user.passwordExpireWarningDay.toString();
+      user.passwordExpireDay = this.user.passwordExpireDay.toString();
+      user.passwordExpireWarningDay = this.user.passwordExpireWarningDay.toString();
 
-      if( this.user.scope == '' || this.user.scope == null || this.user.scope =="" || this.user.scope.replace( blank_pattern, '' ) == "" ){
+      if( user.scope == '' || user.scope == null || user.scope =="" || user.scope.replace( blank_pattern, '' ) == "" ){
             this.$showError("홈디렉토리를  입력해 주세요.");
             return;
       }
           
-        alert(JSON.stringify(user))
+        //alert(JSON.stringify(user))
 
         if (this.isNew) {
           const loc = await api.create(user);

@@ -159,6 +159,15 @@ export default {
           name: value,
         });
       }
+
+    var sValue = this.user.group.split(",");
+    for (var i = 0; i < sValue.length; i++) {
+      this.value.push({
+          code: sValue[i],
+          name: sValue[i],
+        });
+    } 
+    
     } catch (e) {
       this.error = e;
     }
