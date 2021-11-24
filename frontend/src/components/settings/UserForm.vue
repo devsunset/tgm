@@ -32,7 +32,7 @@
       />
   </p>
     
-<p v-if="user.perm.admin == false">
+<p v-if="!isDefault && user.perm.admin == false">
    <label for="shell">{{ $t("settings.shell") }} </label>
    <shells
       class="input input--block"
@@ -41,27 +41,27 @@
     ></shells>
 </p>
 
-<p v-if="user.perm.admin == false">
+<p v-if="!isDefault && user.perm.admin == false">
   <label for="group">{{ $t("settings.group") }} </label>
     <multiselect v-model="value" placeholder="Select group" label="name" track-by="code" :options="options" :multiple="true" :taggable="false"></multiselect>
  </p>
 
- <p v-if="user.perm.admin == false">
+ <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.accountexpireday") }} </label>
       <date-picker v-model="user.expireDay" value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
  </p>
 
-  <p v-if="user.perm.admin == false">
+  <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.passwordexpireday") }} </label>
   <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
-  <p v-if="user.perm.admin == false">
+  <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.passwordexpirewarningday") }} </label>
   <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
-<p v-if="!isNew && user.perm.admin == false">
+<p v-if="!isNew && !isDefault &&  user.perm.admin == false">
    <input
         type="checkbox"
         :disabled="user.perm.admin"
@@ -81,11 +81,13 @@
         style="display:inline-block"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
 </p>
+
 <br>
-  <p v-if="user.perm.admin == false">
-    <b>[[[Quota - 요구사항 Fix 후 진행 예정]]]</b>
+  <p v-if="!isDefault && user.perm.admin == false">
+    <label>[[[Quota - 요구사항 Fix 후 진행 예정]]]</label>
  </p>
 <br>
+
     <p>
        <b v-if="user.perm.admin">&nbsp;</b>
        <b v-else> [ {{ $t("settings.tgmaccount") }} ]</b>
