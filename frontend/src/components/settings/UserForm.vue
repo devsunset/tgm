@@ -154,7 +154,7 @@ export default {
     try {
       this.groupsvalue = await api.getGroups();
       Object.keys(this.groupsvalue).forEach(function (key) {
-        this.addTag(key);
+        addTag(key);
       });
     } catch (e) {
       this.error = e;
