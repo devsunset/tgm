@@ -147,25 +147,22 @@ export default {
       };
 
       try {
-          // PASSWORD CHECK
+        var blank_pattern = /^\s+|\s+$/g;
         var pw = user.password
         var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
         var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
         if (this.isNew) {
-          // USERNAME CHECK
           var regUserName = /^[A-Za-z0-9+]*$/;
            if(false === regUserName.test(user.username)) {
             this.$showError(this.$t("settings.usernamerule"));
             return;
           }
 
-          var blank_pattern = /^\s+|\s+$/g;
           if( user.username == '' || user.username == null || user.username.replace( blank_pattern, '' ) == "" ){
             this.$showError(this.$t("settings.inputusername"));
             return;
           }
-
 
           if(false === reg.test(pw)) {
             this.$showError(this.$t("login.passwordrule1"));
@@ -186,7 +183,6 @@ export default {
             }
           }
         } else {
-
           if (pw !== ""){
             if(false === reg.test(pw)) {
               this.$showError(this.$t("login.passwordrule1"));
@@ -209,16 +205,33 @@ export default {
           }
         }
 
-        this.user.group = this.user.group.join(',');
+      if( this.user.shell == '' || this.user.shell == null || this.user.shell =="" || this.user.shell.replace( blank_pattern, '' ) == "" ){
+             this.$showError("Shell을 선택해 주세요");
+            return;
+      }
 
-        alert("[[[ To-Do ]]] ---> Check Validation");
-        alert("shell: "+this.user.shell)
-        alert("group: "+this.user.group)
-        alert("expireDay: "+this.user.expireDay)
-        alert("passwordExpireDay: "+this.user.passwordExpireDay)
-        alert("passwordExpireWarningDay: "+this.user.passwordExpireWarningDay)
-        alert("lockAccount: "+this.user.lockAccount)
-        alert("home: "+this.user.scope)
+      if( this.user.group == '' || this.user.group == null || this.user.group =="" ){
+            console.log(this.user.group);
+      }else{
+           alert(this.user.group.toString())
+            this.user.group = this.user.group.toString();
+      }
+
+      if( this.user.expireDay == '' || this.user.expireDay == null || this.user.expireDay =="" || this.user.expireDay.replace( blank_pattern, '' ) == "" ){
+            this.$showError("계정 유효 일자를 입력해 주세요");
+            return;
+      }else{
+           this.user.expireDay = this.user.expireDay.toString();
+      }
+
+      this.user.passwordExpireDay = this.user.passwordExpireDay.toString();
+      this.user.passwordExpireWarningDay = this.user.passwordExpireWarningDay.toString();
+
+      if( this.user.scope == '' || this.user.scope == null || this.user.scope =="" || this.user.scope.replace( blank_pattern, '' ) == "" ){
+            this.$showError("홈디렉토리를  입력해 주세요.");
+            return;
+      }
+          
         alert(JSON.stringify(user))
 
         if (this.isNew) {
