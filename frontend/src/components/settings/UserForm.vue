@@ -153,21 +153,15 @@ export default {
   async created() {
     try {
       this.groupsvalue = await api.getGroups();
-      Object.keys(this.groupsvalue).forEach(function (key) {
-        addTag(key);
-      });
+      for (const [key, value] of Object.entries(this.groupsvalue)) {
+        console.log(`${key}: ${value}`);
+        this.options.push({
+          code: key,
+          name: value,
+        });
+      }
     } catch (e) {
       this.error = e;
-    }
-  },
-   methods: {
-    addTag (newTag) {
-      alert(newTag)
-      const tag = {
-        name: newTag,
-        code: newTag
-      }
-      this.options.push(tag)
     }
   },
   computed: {
