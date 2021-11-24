@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- <h3>{{ $t("settings.permissions") }}</h3> -->
-    <label for="locale">{{ $t("settings.permissions") }}</label>
-    <p v-show="false" class="small">{{ $t("settings.permissionsHelp") }}</p>
+    <!-- <label for="locale">{{ $t("settings.permissions") }}</label>
+    <p v-show="false" class="small">{{ $t("settings.permissionsHelp") }}</p> -->
 
     <p v-show="admin">
       <input type="checkbox" v-model="admin" disabled/>

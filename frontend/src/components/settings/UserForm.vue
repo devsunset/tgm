@@ -61,7 +61,7 @@
   <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
-<p v-if="!isNew">
+<p v-if="!isNew && user.perm.admin == false">
    <input
         type="checkbox"
         :disabled="user.perm.admin"
@@ -160,13 +160,15 @@ export default {
         });
       }
 
-    var sValue = this.user.group.split(",");
-    for (var i = 0; i < sValue.length; i++) {
-      this.value.push({
-          code: sValue[i],
-          name: sValue[i],
-        });
-    } 
+    if (this.user.group != null && this.user.group != "") {
+      var sValue = this.user.group.split(",");
+      for (var i = 0; i < sValue.length; i++) {
+        this.value.push({
+            code: sValue[i],
+            name: sValue[i],
+          });
+      } 
+    }
     
     } catch (e) {
       this.error = e;
