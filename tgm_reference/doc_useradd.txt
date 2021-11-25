@@ -39,5 +39,8 @@ sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password_value")' 'password
 sudo useradd -p $(openssl passwd -crypt password_value) testok
 echo -n 'password_value' | passwd username --stdin
 
+gpasswd -d  계정명 그룹명
+gpasswd -a  계정명 그룹명
+
 
 chage -l username
