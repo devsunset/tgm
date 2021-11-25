@@ -43,22 +43,22 @@
 
 <p v-if="!isDefault && user.perm.admin == false">
   <label for="group">{{ $t("settings.group") }} </label>
-    <multiselect v-model="value" placeholder="Select group" label="name" track-by="code" :options="options" :multiple="true" :taggable="false"></multiselect>
+    <multiselect v-model="value" placeholder="Select group"   label="name" track-by="code" :options="options" :multiple="true" :taggable="false"></multiselect>
  </p>
 
  <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.accountexpireday") }} </label>
-      <date-picker v-model="user.expireDay" value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
+      <date-picker v-model="user.expireDay"   value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
  </p>
 
   <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.passwordexpireday") }} </label>
-  <input type="number" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
+  <input type="number" class="input" style="width:212px" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
   <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.passwordexpirewarningday") }} </label>
-  <input type="number" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
+  <input type="number" class="input" style="width:212px" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
 <p v-if="!isNew && !isDefault &&  user.perm.admin == false">
@@ -268,3 +268,4 @@ export default {
 <!-- New step!
      Add Multiselect CSS. Can be added as a static asset or inside a component. -->
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+

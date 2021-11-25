@@ -8,7 +8,7 @@
 
           <label for="username" style="padding-top:15px;padding-right:10px">{{ $t("settings.username") }}</label>
             <input
-              :class="userNameClass"
+              class="input"
               type="text"
               v-model="username"
               @keyup.enter="userSearch"
