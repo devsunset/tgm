@@ -48,7 +48,7 @@
 
  <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.accountexpireday") }} </label>
-      <date-picker v-model="user.expireDay"   value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
+      <date-picker v-model="user.expireDay"  :disabled-date="disabledBeforeTodayAndAfterAWeek" value-type="format" format="YYYY-MM-DD" placeholder="Select date"></date-picker>
  </p>
 
   <p v-if="!isDefault && user.perm.admin == false">
@@ -152,6 +152,14 @@ export default {
     Commands,
   },
   props: ["user", "isNew", "isDefault"],
+  methods : {
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      //return date < today || date > new Date(today.getTime() + 7 * 24 * 3600 * 1000);
+       return date < today;
+    },
+  },
   async created() {
     try {
       this.groupsvalue = await api.getGroups();
