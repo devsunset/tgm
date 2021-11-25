@@ -113,6 +113,16 @@ user created with the credentials from options "username" and "password".`,
 	Run: python(func(cmd *cobra.Command, args []string, d pythonData) {
 		// log.Println(cfgFile)
 
+		logoWelcomeText := `
+		_____  _____ __  ___          
+		|_   _||  __ \|  \/  |          
+		  | |  | |  \/| .  . |          
+		  | |  | | __ | |\/| |          
+		  | |  | |_\ \| |  | |  _  _  _ 
+		  \_/   \____/\_|  |_/ (_)(_)(_)
+		  `
+		log.Println(logoWelcomeText)
+
 		if !d.hadDB {
 			quickSetup(cmd.Flags(), d)
 		}
