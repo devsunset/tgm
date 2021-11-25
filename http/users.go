@@ -268,14 +268,18 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 				  -Z, --selinux-user SEUSER     use a specific SEUSER for the SELinux user mapping
 	*/
 	//USER CREATE
-	userAdd := exec.Command("useradd", req.Data.Username, "-m", "-d", req.Data.Scope, "-s", req.Data.Shell, "-e", req.Data.ExpireDay, "-p", password)
+	// -p 옵션 사용 하면 shadow 파일에 암호가 평문으로 저장됨 ㅠㅠ - 로그인 불가  옵션 사용 금지
+	// 하단 옵션으로 처리 하면 useradd 명령어에서 처리 가능 하나 암호화 알고리즘이 일반 암호화 알고리즘과 다르게 적용되어 암호화 되어 저장됨
+	// sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password_value")' 'password_value') username
+	// sudo useradd -p $(openssl passwd -crypt password_value) username
+	// userAdd := exec.Command("useradd", req.Data.Username, "-m", "-d", req.Data.Scope, "-s", req.Data.Shell, "-e", req.Data.ExpireDay, "-p", password)
+	userAdd := exec.Command("useradd", req.Data.Username, "-m", "-d", req.Data.Scope, "-s", req.Data.Shell, "-e", req.Data.ExpireDay)
 	if _, err := userAdd.Output(); err != nil {
 		log.Println(err, "There was an error by adding user", req.Data.Username, err)
 		//d.store.Users.Delete(ID)
 	} else {
 		log.Println("useradd", req.Data.Username, "successfully")
 	}
-
 	/*
 		Usage: usermod [options] LOGIN
 
@@ -344,11 +348,20 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 		      --usage             Display brief usage message
 	*/
 	//USER MOD PASSWD
-	passwdMod := exec.Command("passwd", req.Data.Username, "-x", req.Data.PasswrodExpireDay, "-w", req.Data.PasswordExpireWarningDay)
-	if _, err := passwdMod.Output(); err != nil {
+	passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+req.Data.Username+" --stdin")
+	stdoutStderr, err := passwdMod.CombinedOutput()
+	if err != nil {
 		log.Println(err, "There was an error by user mod passwd", req.Data.Username, err)
 	} else {
 		log.Println("passwd mod", req.Data.Username, "successfully")
+		log.Println("passwd mod", string(stdoutStderr))
+	}
+
+	passwdPeriodMod := exec.Command("passwd", req.Data.Username, "-x", req.Data.PasswrodExpireDay, "-w", req.Data.PasswordExpireWarningDay)
+	if _, err := passwdPeriodMod.Output(); err != nil {
+		log.Println(err, "There was an error by user mod passwd period", req.Data.Username, err)
+	} else {
+		log.Println("passwd period mod", req.Data.Username, "successfully")
 	}
 
 	//////////////////////////////////////////////////////////////////////////////

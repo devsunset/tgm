@@ -34,3 +34,8 @@ Options:
   -U, --user-group              create a group with the same name as the user
   -Z, --selinux-user SEUSER     use a specific SEUSER for the SELinux user mapping
 
+sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password")' 'YOUR_PASSWORD') username
+sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "1qazXSW@")' '1qazXSW@') testok
+sudo useradd -p $(openssl passwd -crypt 1qazXSW@) testok
+
+echo -n '1qazXSW@' | passwd myusername --stdin
