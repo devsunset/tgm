@@ -111,7 +111,7 @@ Also, if the database path doesn't exist, tgm will enter into
 the quick setup mode and a new database will be bootstraped and a new
 user created with the credentials from options "username" and "password".`,
 	Run: python(func(cmd *cobra.Command, args []string, d pythonData) {
-		log.Println(cfgFile)
+		// log.Println(cfgFile)
 
 		if !d.hadDB {
 			quickSetup(cmd.Flags(), d)
