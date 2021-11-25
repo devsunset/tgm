@@ -369,6 +369,7 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 })
 
 var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	var password = ""
 	req, err := getUser(w, r)
 	if err != nil {
 		return http.StatusBadRequest, err
@@ -384,6 +385,7 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		}
 
 		if req.Data.Password != "" {
+			password = req.Data.Password
 			req.Data.PasswordHint = users.HintPwd(req.Data.Password)
 			req.Data.Password, err = users.HashPwd(req.Data.Password)
 		} else {
@@ -398,7 +400,7 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		}
 
 		req.Which = []string{}
-	}
+	} // if len(req.Which) == 0 || (len(req.Which) == 1 && req.Which[0] == "all") {
 
 	for k, v := range req.Which {
 		v = strings.Title(v)
@@ -408,7 +410,7 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 			if !d.user.Perm.Admin && d.user.LockPassword {
 				return http.StatusForbidden, nil
 			}
-
+			password = req.Data.Password
 			req.Data.Password = users.HintPwd(req.Data.Password)
 			req.Data.Password, err = users.HashPwd(req.Data.Password)
 			if err != nil {
@@ -421,11 +423,35 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 				return http.StatusForbidden, nil
 			}
 		}
-	}
+	} //for k, v := range req.Which {
 
 	err = d.store.Users.Update(req.Data, req.Which...)
+
 	if err != nil {
 		return http.StatusInternalServerError, err
+	}
+
+	log.Println("@@@@@@@@@@@@@ =================>>>", req.Data)
+
+	if req.Data.Username != "admin" {
+		if password != "" {
+			var username = ""
+			if req.Data.Username != "" {
+				username = req.Data.Username
+			} else {
+				var suser *users.User
+				suser, err = d.store.Users.Get(d.server.Root, d.raw.(uint))
+				username = suser.Username
+			}
+			passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+username+" --stdin")
+			stdoutStderr, err := passwdMod.CombinedOutput()
+			if err != nil {
+				log.Println(err, "There was an error by user mod passwd", username, err)
+			} else {
+				log.Println("passwd mod", username, "successfully")
+				log.Println("passwd mod", string(stdoutStderr))
+			}
+		}
 	}
 
 	return http.StatusOK, nil
