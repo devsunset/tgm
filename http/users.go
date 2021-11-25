@@ -431,27 +431,82 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		return http.StatusInternalServerError, err
 	}
 
-	log.Println("@@@@@@@@@@@@@ =================>>>", req.Data)
+	// log.Println("@@@@@@@@@@@@@ =================>>>", req.Data)
 
 	if req.Data.Username != "admin" {
+		var suser *users.User
+		suser, err = d.store.Users.Get(d.server.Root, d.raw.(uint))
+
+		// var username = ""
+		// if req.Data.Username != "" {
+		// 	username = req.Data.Username
+		// } else {
+		// 	username = suser.Username
+		// }
+
+		// PASSWORD CHANGE
 		if password != "" {
-			var username = ""
-			if req.Data.Username != "" {
-				username = req.Data.Username
-			} else {
-				var suser *users.User
-				suser, err = d.store.Users.Get(d.server.Root, d.raw.(uint))
-				username = suser.Username
-			}
-			passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+username+" --stdin")
+			passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+suser.Username+" --stdin")
 			stdoutStderr, err := passwdMod.CombinedOutput()
 			if err != nil {
-				log.Println(err, "There was an error by user mod passwd", username, err)
+				log.Println(err, "There was an error by user mod passwd", suser.Username, err)
 			} else {
-				log.Println("passwd mod", username, "successfully")
+				log.Println("passwd mod", suser.Username, "successfully")
 				log.Println("passwd mod", string(stdoutStderr))
 			}
 		}
+
+		// Shell
+		// 계정 유효 일자
+		// Group
+		userMod := exec.Command("usermod", suser.Username, "-s", suser.Shell, "-e", suser.ExpireDay)
+		if _, err := userMod.Output(); err != nil {
+			log.Println(err, "There was an error by user mod shell, expireday", suser.Username, err)
+		} else {
+			log.Println("user mod  shell, expireday", suser.Username, "successfully")
+		}
+
+		// if req.Data.Group != "" {
+		// 	strtmp := req.Data.Group
+		// 	slice := strings.Split(strtmp, ",")
+		// 	for _, sgroup := range slice {
+		// 		if sgroup != "" {
+		// 			userMod := exec.Command("usermod", req.Data.Username, "-a", "-G", sgroup)
+		// 			if _, err := userMod.Output(); err != nil {
+		// 				log.Println(err, "There was an error by user add group", sgroup, req.Data.Username, err)
+		// 			} else {
+		// 				log.Println("user add group", sgroup, req.Data.Username, "successfully")
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		// 암호 기간 만료일
+		// 암호 기간 만료 경고일
+		passwdPeriodMod := exec.Command("passwd", suser.Username, "-x", suser.PasswrodExpireDay, "-w", suser.PasswordExpireWarningDay)
+		if _, err := passwdPeriodMod.Output(); err != nil {
+			log.Println(err, "There was an error by user mod passwd period", suser.Username, err)
+		} else {
+			log.Println("passwd period mod", suser.Username, "successfully")
+		}
+
+		// 계정 잠금
+		if suser.LockAccount {
+			userLock := exec.Command("usermod", suser.Username, "-L")
+			if _, err := userLock.Output(); err != nil {
+				log.Println(err, "There was an error by user lock", suser.Username, err)
+			} else {
+				log.Println("user lock", suser.Username, "successfully")
+			}
+		} else {
+			userLock := exec.Command("usermod", suser.Username, "-U")
+			if _, err := userLock.Output(); err != nil {
+				log.Println(err, "There was an error by user lock", suser.Username, err)
+			} else {
+				log.Println("user lock", suser.Username, "successfully")
+			}
+		}
+
 	}
 
 	return http.StatusOK, nil

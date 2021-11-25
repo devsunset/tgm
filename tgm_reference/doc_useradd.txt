@@ -38,3 +38,6 @@ sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password")' 'password_value
 sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password_value")' 'password_value') username
 sudo useradd -p $(openssl passwd -crypt password_value) testok
 echo -n 'password_value' | passwd username --stdin
+
+
+chage -l username

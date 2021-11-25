@@ -77,7 +77,7 @@ func (s *Storage) Get(baseScope string, id interface{}) (user *User, err error) 
 	}
 
 	if strings.Compare(user.Username, "admin") != 0 {
-		fmt.Println("==================== : user : ", user.Username)
+		fmt.Println(">>>==================== : user : ", user.Username)
 		// DB  저장된 값이 아닌 LINUX 시스템에서 값을 불러와야 할지  고민중 ....
 		// user.Shell = "/bin/zsh"
 		// user.Group = "testGroup"
