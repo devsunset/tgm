@@ -137,9 +137,31 @@ var userGetHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 })
 
 var userDeleteHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	u, _ := d.store.Users.Get(d.server.Root, d.raw.(uint))
 	err := d.store.Users.Delete(d.raw.(uint))
 	if err != nil {
 		return errToStatus(err), err
+	}
+
+	/*
+			Usage: userdel [options] LOGIN
+
+		Options:
+		  -f, --force                   force some actions that would fail otherwise
+		                                e.g. removal of user still logged in
+		                                or files, even if not owned by the user
+		  -h, --help                    display this help message and exit
+		  -r, --remove                  remove home directory and mail spool
+		  -R, --root CHROOT_DIR         directory to chroot into
+		  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+		  -Z, --selinux-user            remove any SELinux user mapping for the user
+	*/
+	//USER DEL
+	userDel := exec.Command("userdel", u.Username, "-r")
+	if _, err := userDel.Output(); err != nil {
+		log.Println(err, "There was an error by user del", u.Username, err)
+	} else {
+		log.Println("user del", u.Username, "successfully")
 	}
 
 	return http.StatusOK, nil
@@ -247,12 +269,11 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 	*/
 	//USER CREATE
 	userAdd := exec.Command("useradd", req.Data.Username, "-m", "-d", req.Data.Scope, "-s", req.Data.Shell, "-e", req.Data.ExpireDay, "-p", password)
-	if out, err := userAdd.Output(); err != nil {
-		log.Println(err, "There was an error by adding user", req.Data.Username, string(out))
+	if _, err := userAdd.Output(); err != nil {
+		log.Println(err, "There was an error by adding user", req.Data.Username, err)
 		//d.store.Users.Delete(ID)
 	} else {
 		log.Println("useradd", req.Data.Username, "successfully")
-		log.Println(string(out))
 	}
 
 	/*
@@ -292,13 +313,13 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 		strtmp := req.Data.Group
 		slice := strings.Split(strtmp, ",")
 		for _, sgroup := range slice {
-			fmt.Println(sgroup)
-			userMod := exec.Command("usermod", req.Data.Username, "-a", "-G", sgroup)
-			if out, err := userMod.Output(); err != nil {
-				log.Println(err, "There was an error by user add group", sgroup, req.Data.Username, string(out))
-			} else {
-				log.Println("user add group", sgroup, req.Data.Username, "successfully")
-				log.Println(string(out))
+			if sgroup != "" {
+				userMod := exec.Command("usermod", req.Data.Username, "-a", "-G", sgroup)
+				if _, err := userMod.Output(); err != nil {
+					log.Println(err, "There was an error by user add group", sgroup, req.Data.Username, err)
+				} else {
+					log.Println("user add group", sgroup, req.Data.Username, "successfully")
+				}
 			}
 		}
 	}
@@ -324,11 +345,10 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 	*/
 	//USER MOD PASSWD
 	passwdMod := exec.Command("passwd", req.Data.Username, "-x", req.Data.PasswrodExpireDay, "-w", req.Data.PasswordExpireWarningDay)
-	if out, err := passwdMod.Output(); err != nil {
-		log.Println(err, "There was an error by user mod passwd", req.Data.Username, string(out))
+	if _, err := passwdMod.Output(); err != nil {
+		log.Println(err, "There was an error by user mod passwd", req.Data.Username, err)
 	} else {
 		log.Println("passwd mod", req.Data.Username, "successfully")
-		log.Println(string(out))
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
