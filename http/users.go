@@ -3,10 +3,12 @@ package http
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"regexp"
 	"sort"
 	"strconv"
@@ -157,24 +159,179 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 		return http.StatusBadRequest, errors.ErrEmptyPassword
 	}
 
+	var password = req.Data.Password
+
 	req.Data.PasswordHint = users.HintPwd(req.Data.Password)
 	req.Data.Password, err = users.HashPwd(req.Data.Password)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
 
-	userHome, err := d.settings.MakeUserDir(req.Data.Username, req.Data.Scope, d.server.Root)
-	if err != nil {
-		log.Printf("create user: failed to mkdir user home dir: [%s]", userHome)
-		return http.StatusInternalServerError, err
+	/*
+		userHome, err := d.settings.MakeUserDir(req.Data.Username, req.Data.Scope, d.server.Root)
+		if err != nil {
+			log.Printf("create user: failed to mkdir user home dir: [%s]", userHome)
+			return http.StatusInternalServerError, err
+		}
+	*/
+
+	req.Data.Scope = strings.TrimSpace(req.Data.Scope)
+	if req.Data.Scope == "" || req.Data.Scope == "./" || req.Data.Scope == "/" {
+		req.Data.Scope = "/home"
 	}
-	req.Data.Scope = userHome
-	log.Printf("user: %s, home dir: [%s].", req.Data.Username, userHome)
+
+	if l := len(req.Data.Scope); l > 0 && strings.HasSuffix(req.Data.Scope, "/") {
+		req.Data.Scope = req.Data.Scope[:l-1]
+	}
+
+	req.Data.Scope = req.Data.Scope + "/" + req.Data.Username
+
+	//req.Data.Scope = userHome
+	//log.Printf("user: %s, home dir: [%s].", req.Data.Username, userHome)
 
 	err = d.store.Users.Save(req.Data)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
+	//////////////////////////////////////////////////////////////////////////////
+	// Linux user connection
+	fmt.Println("=======================================")
+	fmt.Println(req.Data)
+	fmt.Println("=======================================")
+	fmt.Println(req.Data.Username)
+	fmt.Println(password)
+	fmt.Println(req.Data.Shell)
+	fmt.Println(req.Data.Group)
+	fmt.Println(req.Data.ExpireDay)
+	fmt.Println(req.Data.PasswrodExpireDay)
+	fmt.Println(req.Data.PasswordExpireWarningDay)
+	fmt.Println(req.Data.Scope)
+	fmt.Println("=======================================")
+
+	/*
+			Usage: useradd [options] LOGIN
+		       useradd -D
+		       useradd -D [options]
+
+					Options:
+				  -b, --base-dir BASE_DIR       base directory for the home directory of the
+				                                new account
+				  -c, --comment COMMENT         GECOS field of the new account
+				  -d, --home-dir HOME_DIR       home directory of the new account
+				  -D, --defaults                print or change default useradd configuration
+				  -e, --expiredate EXPIRE_DATE  expiration date of the new account
+				  -f, --inactive INACTIVE       password inactivity period of the new account
+				  -g, --gid GROUP               name or ID of the primary group of the new
+				                                account
+				  -G, --groups GROUPS           list of supplementary groups of the new
+				                                account
+				  -h, --help                    display this help message and exit
+				  -k, --skel SKEL_DIR           use this alternative skeleton directory
+				  -K, --key KEY=VALUE           override /etc/login.defs defaults
+				  -l, --no-log-init             do not add the user to the lastlog and
+				                                faillog databases
+				  -m, --create-home             create the user's home directory
+				  -M, --no-create-home          do not create the user's home directory
+				  -N, --no-user-group           do not create a group with the same name as
+				                                the user
+				  -o, --non-unique              allow to create users with duplicate
+				                                (non-unique) UID
+				  -p, --password PASSWORD       encrypted password of the new account
+				  -r, --system                  create a system account
+				  -R, --root CHROOT_DIR         directory to chroot into
+				  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+				  -s, --shell SHELL             login shell of the new account
+				  -u, --uid UID                 user ID of the new account
+				  -U, --user-group              create a group with the same name as the user
+				  -Z, --selinux-user SEUSER     use a specific SEUSER for the SELinux user mapping
+	*/
+	//USER CREATE
+	userAdd := exec.Command("useradd", req.Data.Username, "-m", "-d", req.Data.Scope, "-s", req.Data.Shell, "-e", req.Data.ExpireDay, "-p", password)
+	if out, err := userAdd.Output(); err != nil {
+		log.Println(err, "There was an error by adding user", req.Data.Username, string(out))
+		//d.store.Users.Delete(ID)
+	} else {
+		log.Println("useradd", req.Data.Username, "successfully")
+		log.Println(string(out))
+	}
+
+	/*
+		Usage: usermod [options] LOGIN
+
+		Options:
+		  -c, --comment COMMENT         new value of the GECOS field
+		  -d, --home HOME_DIR           new home directory for the user account
+		  -e, --expiredate EXPIRE_DATE  set account expiration date to EXPIRE_DATE
+		  -f, --inactive INACTIVE       set password inactive after expiration
+		                                to INACTIVE
+		  -g, --gid GROUP               force use GROUP as new primary group
+		  -G, --groups GROUPS           new list of supplementary GROUPS
+		  -a, --append                  append the user to the supplemental GROUPS
+		                                mentioned by the -G option without removing
+		                                the user from other groups
+		  -h, --help                    display this help message and exit
+		  -l, --login NEW_LOGIN         new value of the login name
+		  -L, --lock                    lock the user account
+		  -m, --move-home               move contents of the home directory to the
+		                                new location (use only with -d)
+		  -o, --non-unique              allow using duplicate (non-unique) UID
+		  -p, --password PASSWORD       use encrypted password for the new password
+		  -R, --root CHROOT_DIR         directory to chroot into
+		  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+		  -s, --shell SHELL             new login shell for the user account
+		  -u, --uid UID                 new UID for the user account
+		  -U, --unlock                  unlock the user account
+		  -v, --add-subuids FIRST-LAST  add range of subordinate uids
+		  -V, --del-subuids FIRST-LAST  remove range of subordinate uids
+		  -w, --add-subgids FIRST-LAST  add range of subordinate gids
+		  -W, --del-subgids FIRST-LAST  remove range of subordinate gids
+		  -Z, --selinux-user SEUSER     new SELinux user mapping for the user account
+	*/
+	//USER MOD GROUPS
+	if req.Data.Group != "" {
+		strtmp := req.Data.Group
+		slice := strings.Split(strtmp, ",")
+		for _, sgroup := range slice {
+			fmt.Println(sgroup)
+			userMod := exec.Command("usermod", req.Data.Username, "-a", "-G", sgroup)
+			if out, err := userMod.Output(); err != nil {
+				log.Println(err, "There was an error by user add group", sgroup, req.Data.Username, string(out))
+			} else {
+				log.Println("user add group", sgroup, req.Data.Username, "successfully")
+				log.Println(string(out))
+			}
+		}
+	}
+
+	/*
+			Usage: passwd [OPTION...] <accountName>
+		  -k, --keep-tokens       keep non-expired authentication tokens
+		  -d, --delete            delete the password for the named account (root only); also removes password lock if any
+		  -l, --lock              lock the password for the named account (root only)
+		  -u, --unlock            unlock the password for the named account (root only)
+		  -e, --expire            expire the password for the named account (root only)
+		  -f, --force             force operation
+		  -x, --maximum=DAYS      maximum password lifetime (root only)
+		  -n, --minimum=DAYS      minimum password lifetime (root only)
+		  -w, --warning=DAYS      number of days warning users receives before password expiration (root only)
+		  -i, --inactive=DAYS     number of days after password expiration when an account becomes disabled (root only)
+		  -S, --status            report password status on the named account (root only)
+		      --stdin             read new tokens from stdin (root only)
+
+		Help options:
+		  -?, --help              Show this help message
+		      --usage             Display brief usage message
+	*/
+	//USER MOD PASSWD
+	passwdMod := exec.Command("passwd", req.Data.Username, "-x", req.Data.PasswrodExpireDay, "-w", req.Data.PasswordExpireWarningDay)
+	if out, err := passwdMod.Output(); err != nil {
+		log.Println(err, "There was an error by user mod passwd", req.Data.Username, string(out))
+	} else {
+		log.Println("passwd mod", req.Data.Username, "successfully")
+		log.Println(string(out))
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
 
 	w.Header().Set("Location", "/settings/users/"+strconv.FormatUint(uint64(req.Data.ID), 10)) //nolint:gomnd
 	return http.StatusCreated, nil
