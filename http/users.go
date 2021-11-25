@@ -452,7 +452,7 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 			}
 		}
 
-		if req.Data.Username == "" {
+		if req.Data.Username != "" {
 			// Shell
 			// 계정 유효 일자
 			// Group
@@ -463,20 +463,39 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 				log.Println("user mod  shell, expireday", suser.Username, "successfully")
 			}
 
-			// if req.Data.Group != "" {
-			// 	strtmp := req.Data.Group
-			// 	slice := strings.Split(strtmp, ",")
-			// 	for _, sgroup := range slice {
-			// 		if sgroup != "" {
-			// 			userMod := exec.Command("usermod", req.Data.Username, "-a", "-G", sgroup)
-			// 			if _, err := userMod.Output(); err != nil {
-			// 				log.Println(err, "There was an error by user add group", sgroup, req.Data.Username, err)
-			// 			} else {
-			// 				log.Println("user add group", sgroup, req.Data.Username, "successfully")
-			// 			}
-			// 		}
-			// 	}
-			// }
+			groupsCmd := exec.Command("groups", suser.Username)
+			if out, err := groupsCmd.Output(); err != nil {
+				log.Println("get groups error", err)
+			} else {
+				outStr := string(out)
+				outStr = strings.TrimSpace(outStr)
+				outStr = outStr[strings.Index(outStr, ":")+1:]
+				slice := strings.Split(outStr, " ")
+				for _, sgroup := range slice {
+					if sgroup != suser.Username && sgroup != "" {
+						gpasswdDel := exec.Command("gpasswd", "-d", suser.Username, sgroup)
+						if _, err := gpasswdDel.Output(); err != nil {
+							log.Println(err, "There was an error by user delete group", sgroup, err)
+						} else {
+							log.Println("user delete group", sgroup, "successfully")
+						}
+					}
+				}
+
+				if suser.Group != "" {
+					slice := strings.Split(suser.Group, ",")
+					for _, sgroup := range slice {
+						if sgroup != "" {
+							gpasswdAdd := exec.Command("gpasswd", "-a", suser.Username, sgroup)
+							if _, err := gpasswdAdd.Output(); err != nil {
+								log.Println(err, "There was an error by user add group", sgroup, err)
+							} else {
+								log.Println("user add group", sgroup, "successfully")
+							}
+						}
+					}
+				}
+			}
 
 			// 암호 기간 만료일
 			// 암호 기간 만료 경고일
