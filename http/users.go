@@ -3,7 +3,6 @@ package http
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -217,18 +216,18 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 	}
 	//////////////////////////////////////////////////////////////////////////////
 	// Linux user connection
-	fmt.Println("=======================================")
-	fmt.Println(req.Data)
-	fmt.Println("=======================================")
-	fmt.Println(req.Data.Username)
-	fmt.Println(password)
-	fmt.Println(req.Data.Shell)
-	fmt.Println(req.Data.Group)
-	fmt.Println(req.Data.ExpireDay)
-	fmt.Println(req.Data.PasswrodExpireDay)
-	fmt.Println(req.Data.PasswordExpireWarningDay)
-	fmt.Println(req.Data.Scope)
-	fmt.Println("=======================================")
+	// fmt.Println("=======================================")
+	// fmt.Println(req.Data)
+	// fmt.Println("=======================================")
+	// fmt.Println(req.Data.Username)
+	// fmt.Println(password)
+	// fmt.Println(req.Data.Shell)
+	// fmt.Println(req.Data.Group)
+	// fmt.Println(req.Data.ExpireDay)
+	// fmt.Println(req.Data.PasswrodExpireDay)
+	// fmt.Println(req.Data.PasswordExpireWarningDay)
+	// fmt.Println(req.Data.Scope)
+	// fmt.Println("=======================================")
 
 	/*
 			Usage: useradd [options] LOGIN
@@ -363,7 +362,6 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 	} else {
 		log.Println("passwd period mod", req.Data.Username, "successfully")
 	}
-
 	//////////////////////////////////////////////////////////////////////////////
 
 	w.Header().Set("Location", "/settings/users/"+strconv.FormatUint(uint64(req.Data.ID), 10)) //nolint:gomnd
