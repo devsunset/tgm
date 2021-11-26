@@ -58,21 +58,21 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 			break
 		}
 	}
-		
+
 	if d.server.EnableCmdLimit {
 		if !d.server.EnableExec || !d.user.CanExecute(strings.Split(raw, " ")[0]) {
 			if err := conn.WriteMessage(websocket.TextMessage, cmdNotAllowed); err != nil { //nolint:govet
 				wsErr(conn, r, http.StatusInternalServerError, err)
 			}
-	
+
 			return 0, nil
 		}
-	}else{
+	} else {
 		if !d.server.EnableExec {
 			if err := conn.WriteMessage(websocket.TextMessage, cmdNotAllowed); err != nil { //nolint:govet
 				wsErr(conn, r, http.StatusInternalServerError, err)
 			}
-	
+
 			return 0, nil
 		}
 	}
@@ -85,7 +85,6 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 	// 	return 0, nil
 	// }
 
-
 	command, err := runner.ParseCommand(d.settings, raw)
 	if err != nil {
 		if err := conn.WriteMessage(websocket.TextMessage, []byte(err.Error())); err != nil { //nolint:govet
@@ -94,6 +93,7 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 		return 0, nil
 	}
 
+	log.Println("============>", command)
 	cmd := exec.Command(command[0], command[1:]...) //nolint:gosec
 	cmd.Dir = d.user.FullPath(r.URL.Path)
 

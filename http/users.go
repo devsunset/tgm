@@ -166,7 +166,6 @@ var userGetHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		}
 		//chage -l $USER | grep "Account expires"
 		// u.ExpireDay = ""
-		// expiresCmd := exec.Command("chage", "-l", u.Username, "|", "grep", "Account expires")
 		expiresCmd := exec.Command("sh", "-c", "chage -l  "+u.Username+" | grep 'Account expires'")
 		if out, err := expiresCmd.Output(); err != nil {
 			log.Println("get chage info error", err)
