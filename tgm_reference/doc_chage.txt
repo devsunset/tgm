@@ -14,3 +14,4 @@ Options:
   -R, --root CHROOT_DIR         directory to chroot into
   -W, --warndays WARN_DAYS      set expiration warning days to WARN_DAYS
 
+chage -l tgm01 | grep "Account expires"

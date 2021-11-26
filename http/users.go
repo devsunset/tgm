@@ -134,15 +134,96 @@ var userGetHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 	// DB에 저장된 정보는 Sync가 안맞는 경우 발생 할 수 있음으로 최대한 리눅스 계정과
 	// Sync  처리 하기 위해 리눅스 계정 정보 조회 하여 리턴 값 대체 처리
 	if strings.Compare(u.Username, "admin") != 0 {
-		log.Println("@@@@@@@@@@@@@ =================>>> USER GET", u.Username)
+		// /etc/passwd
+		// u.Shell = ""
+		users, _ := getUsers()
+		for _, user := range users {
+			if user.ID == u.Username {
+				u.Shell = strings.TrimSpace(user.Shell)
+				break
+			}
+		}
+		// groups $USER
+		// u.Group = ""
+		groupsCmd := exec.Command("groups", u.Username)
+		if out, err := groupsCmd.Output(); err != nil {
+			log.Println("get groups error", err)
+		} else {
+			outStr := string(out)
+			outStr = strings.TrimSpace(outStr)
+			outStr = outStr[strings.Index(outStr, ":")+1:]
+			slice := strings.Split(outStr, " ")
+			realGroup := ""
+			for _, sgroup := range slice {
+				if sgroup != u.Username && sgroup != "" {
+					realGroup = realGroup + strings.TrimSpace(sgroup) + ","
+				}
+			}
+			if realGroup != "" {
+				realGroup = realGroup[:len(realGroup)-1]
+			}
+			u.Group = realGroup
+		}
+		//chage -l $USER | grep "Account expires"
+		// u.ExpireDay = ""
+		// expiresCmd := exec.Command("chage", "-l", u.Username, "|", "grep", "Account expires")
+		expiresCmd := exec.Command("sh", "-c", "chage -l  "+u.Username+" | grep 'Account expires'")
+		if out, err := expiresCmd.Output(); err != nil {
+			log.Println("get chage info error", err)
+		} else {
+			outStr := string(out)
+			outStr = strings.TrimSpace(outStr)
+			slice := strings.Split(outStr, " ")
 
-		// user.Shell = "/bin/zsh"
-		// user.Group = "testGroup"
-		// user.ExpireDay = "2021-12-24"
-		// user.PasswrodExpireDay = "90"
-		// user.PasswordExpireWarningDay = "7"
-		// user.LockAccount = true
+			month := "01"
+			if slice[2] == "Jan" {
+				month = "01"
+			} else if slice[2] == "Feb" {
+				month = "02"
+			} else if slice[2] == "Mar" {
+				month = "03"
+			} else if slice[2] == "Apr" {
+				month = "04"
+			} else if slice[2] == "May" {
+				month = "05"
+			} else if slice[2] == "Jun" {
+				month = "06"
+			} else if slice[2] == "Jul" {
+				month = "07"
+			} else if slice[2] == "Aug" {
+				month = "08"
+			} else if slice[2] == "Sep" {
+				month = "09"
+			} else if slice[2] == "Oct" {
+				month = "10"
+			} else if slice[2] == "Nov" {
+				month = "11"
+			} else if slice[2] == "Dec" {
+				month = "12"
+			}
+			u.ExpireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
+		}
+		// passwd -S $USER
+		// u.PasswrodExpireDay = ""
+		// u.PasswordExpireWarningDay = ""
+		// u.LockAccount = true
+		passwdCmd := exec.Command("passwd", "-S", u.Username)
+		if out, err := passwdCmd.Output(); err != nil {
+			log.Println("get passwd info error", err)
+		} else {
+			outStr := string(out)
+			outStr = strings.TrimSpace(outStr)
+			slice := strings.Split(outStr, " ")
 
+			u.PasswrodExpireDay = slice[4]
+			u.PasswordExpireWarningDay = slice[5]
+
+			if strings.Compare(slice[1], "LK") == 0 {
+				u.LockAccount = true
+			} else {
+				u.LockAccount = false
+			}
+		}
 	}
 
 	u.Password = ""
