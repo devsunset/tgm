@@ -45,7 +45,7 @@ func CopyFile(fs afero.Fs, source, dest string) error {
 		return err
 	}
 
-	// Create the destination file.
+	// Create the destination file. original
 	dst, err := fs.OpenFile(dest, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0775) //nolint:gomnd
 	if err != nil {
 		return err

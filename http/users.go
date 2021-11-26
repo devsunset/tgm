@@ -131,15 +131,18 @@ var userGetHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		return http.StatusInternalServerError, err
 	}
 
+	// DB에 저장된 정보는 Sync가 안맞는 경우 발생 할 수 있음으로 최대한 리눅스 계정과
+	// Sync  처리 하기 위해 리눅스 계정 정보 조회 하여 리턴 값 대체 처리
 	if strings.Compare(u.Username, "admin") != 0 {
 		log.Println("@@@@@@@@@@@@@ =================>>> USER GET", u.Username)
-		// DB  저장된 값이 아닌 LINUX 시스템에서 값을 불러와야 할지  고민중 ....
+
 		// user.Shell = "/bin/zsh"
 		// user.Group = "testGroup"
 		// user.ExpireDay = "2021-12-24"
 		// user.PasswrodExpireDay = "90"
 		// user.PasswordExpireWarningDay = "7"
 		// user.LockAccount = true
+
 	}
 
 	u.Password = ""
