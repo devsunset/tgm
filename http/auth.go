@@ -2,10 +2,12 @@ package http
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 
@@ -178,7 +180,22 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 				}
 			}
 
-			log.Println("user info---------------> ", user)
+			// 계정 유효 일자 마감
+			expireDay, _ := strconv.Atoi(strings.Replace(user.ExpireDay, "-", "", 2))
+
+			t := time.Now()
+			formatted := fmt.Sprintf("%d-%02d-%02d", t.Year(), t.Month(), t.Day())
+			today, _ := strconv.Atoi(strings.Replace(formatted, "-", "", 2))
+
+			if expireDay < today {
+				return http.StatusForbidden, nil
+			}
+
+			// 계정 잠김
+			if user.LockAccount == true {
+				return http.StatusForbidden, nil
+			}
+
 		}
 
 		////////////////////////////////////////////////////////////////////////////
