@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"path"
 	"path/filepath"
 	"strings"
@@ -98,6 +100,14 @@ func resourcePostHandler(fileCache FileCache) handleFunc {
 		// Directories creation on POST.
 		if strings.HasSuffix(r.URL.Path, "/") {
 			err := d.user.Fs.MkdirAll(r.URL.Path, 0775) //nolint:gomnd
+			// Change File Ownership with User Permissions
+			if d.user.Username != "admin" {
+				chownCmd := exec.Command("sh", "-c", "chown -R "+d.user.Username+":"+d.user.Username+" '"+d.user.Scope+r.URL.Path+"'")
+				_, err := chownCmd.CombinedOutput()
+				if err != nil {
+					log.Println(err, "Change File Ownership with User Permissions error", err)
+				}
+			}
 			return errToStatus(err), err
 		}
 

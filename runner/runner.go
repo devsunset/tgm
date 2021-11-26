@@ -19,6 +19,7 @@ type Runner struct {
 
 // RunHook runs the hooks for the before and after event.
 func (r *Runner) RunHook(fn func() error, evt, path, dst string, user *users.User) error {
+
 	path = user.FullPath(path)
 	dst = user.FullPath(dst)
 
@@ -44,6 +45,41 @@ func (r *Runner) RunHook(fn func() error, evt, path, dst string, user *users.Use
 				err := r.exec(command, "after_"+evt, path, dst, user)
 				if err != nil {
 					return err
+				}
+			}
+		}
+	}
+
+	// log.Println("[INFO] Running Hook:", evt)
+	// log.Println("path :", path)
+	// log.Println("dst :", dst)
+	// delete    -> X
+	// upload   -> path
+	// save	      -> path
+	// copy      -> dst
+	// rename  -> dst
+	// Change File Ownership with User Permissions
+	if user.Username != "admin" && evt != "delete" {
+		chownPath := ""
+		if evt == "upload" || evt == "save" {
+			chownPath = path
+		} else if evt == "copy" || evt == "rename" {
+			chownPath = dst
+		}
+		chownCmd := exec.Command("sh", "-c", "chown -R "+user.Username+":"+user.Username+" '"+chownPath+"'")
+		_, err := chownCmd.CombinedOutput()
+		if err != nil {
+			log.Println(err, "Change File Ownership with User Permissions error", err)
+		}
+
+		// dir upload dir chown change
+		if evt == "upload" {
+			tmp := path[len(user.Scope)+1:]
+			if strings.LastIndex(tmp, "/") > 0 {
+				chownCmdsub := exec.Command("sh", "-c", "chown -R "+user.Username+":"+user.Username+" '"+user.Scope+"/"+tmp[0:strings.Index(tmp, "/")]+"'")
+				_, err := chownCmdsub.CombinedOutput()
+				if err != nil {
+					log.Println(err, "Change File Permissions error", err)
 				}
 			}
 		}

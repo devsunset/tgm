@@ -131,6 +131,17 @@ var userGetHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		return http.StatusInternalServerError, err
 	}
 
+	if strings.Compare(u.Username, "admin") != 0 {
+		log.Println("@@@@@@@@@@@@@ =================>>> USER GET", u.Username)
+		// DB  저장된 값이 아닌 LINUX 시스템에서 값을 불러와야 할지  고민중 ....
+		// user.Shell = "/bin/zsh"
+		// user.Group = "testGroup"
+		// user.ExpireDay = "2021-12-24"
+		// user.PasswrodExpireDay = "90"
+		// user.PasswordExpireWarningDay = "7"
+		// user.LockAccount = true
+	}
+
 	u.Password = ""
 	return renderJSON(w, r, u)
 })

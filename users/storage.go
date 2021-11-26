@@ -74,18 +74,6 @@ func (s *Storage) Get(baseScope string, id interface{}) (user *User, err error) 
 	if err := user.Clean(baseScope); err != nil {
 		return nil, err
 	}
-
-	if strings.Compare(user.Username, "admin") != 0 {
-		log.Println("@@@@@@@@@@@@@ =================>>> USER GET", user.Username)
-		// DB  저장된 값이 아닌 LINUX 시스템에서 값을 불러와야 할지  고민중 ....
-		// user.Shell = "/bin/zsh"
-		// user.Group = "testGroup"
-		// user.ExpireDay = "2021-12-24"
-		// user.PasswrodExpireDay = "90"
-		// user.PasswordExpireWarningDay = "7"
-		// user.LockAccount = true
-	}
-
 	return
 }
 
