@@ -205,36 +205,43 @@ export default {
           }
         }
 
-      if( user.shell == '' || user.shell == null || user.shell =="" || user.shell.replace( blank_pattern, '' ) == "" ){
-            this.$showError(this.$t("settings.inputshell")); 
-            return;
-      }
 
-      if (this.$refs.childform.value.length > 0) {
-          var s = "";
-          for (var i = 0; i < this.$refs.childform.value.length; i++) {
-            s += this.$refs.childform.value[i].code + ","
+      if (user.Username != '' && user.Username != null && user.Username != "admin" ) {
+          if( user.shell == '' || user.shell == null || user.shell =="" || user.shell.replace( blank_pattern, '' ) == "" ){
+                this.$showError(this.$t("settings.inputshell")); 
+                return;
           }
-          user.group = s.substring(0, s.length - 1);
-      }else {
-          user.group = "";
-      }
 
-      if( user.expireDay == '' || user.expireDay == null || user.expireDay =="" || user.expireDay.replace( blank_pattern, '' ) == "" ){
-            this.$showError(this.$t("settings.inputexpireday")); 
-            return;
+          if (this.$refs.childform.value.length > 0) {
+              var s = "";
+              for (var i = 0; i < this.$refs.childform.value.length; i++) {
+                s += this.$refs.childform.value[i].code + ","
+              }
+              user.group = s.substring(0, s.length - 1);
+          }else {
+              user.group = "";
+          }
+
+          if( user.expireDay == '' || user.expireDay == null || user.expireDay =="" || user.expireDay.replace( blank_pattern, '' ) == "" ){
+                this.$showError(this.$t("settings.inputexpireday")); 
+                return;
+          }else{
+              user.expireDay = this.user.expireDay.toString();
+          }
+
+          user.passwordExpireDay = this.user.passwordExpireDay.toString();
+          user.passwordExpireWarningDay = this.user.passwordExpireWarningDay.toString();
+
+          if( user.scope == '' || user.scope == null || user.scope =="" || user.scope.replace( blank_pattern, '' ) == "" ){
+                this.$showError(this.$t("settings.inputhome")); 
+                return;
+          }
       }else{
-           user.expireDay = this.user.expireDay.toString();
+         user.expireDay  = "9999-12-31"
+         user.passwordExpireDay = "-1"
+         user.passwordExpireWarningDay = "-1"
       }
 
-      user.passwordExpireDay = this.user.passwordExpireDay.toString();
-      user.passwordExpireWarningDay = this.user.passwordExpireWarningDay.toString();
-
-      if( user.scope == '' || user.scope == null || user.scope =="" || user.scope.replace( blank_pattern, '' ) == "" ){
-            this.$showError(this.$t("settings.inputhome")); 
-            return;
-      }
-          
         //alert(JSON.stringify(user))
 
         if (this.isNew) {
