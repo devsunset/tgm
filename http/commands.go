@@ -93,10 +93,25 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 		return 0, nil
 	}
 
-	log.Println("============>", command)
-	cmd := exec.Command(command[0], command[1:]...) //nolint:gosec
-	cmd.Dir = d.user.FullPath(r.URL.Path)
+	// TGM root 권한으로 실행 되지만 console 실행시는 사용자 권한으로 실행되게 처리
+	// $ sudo -u 아이디 "명령어"
 
+	// original source
+	// cmd := exec.Command(command[0], command[1:]...) //nolint:gosec
+
+	var cmds []string
+	if d.user.Username != "admin" {
+		cmds = append(cmds, "sudo")
+		cmds = append(cmds, "-u")
+		cmds = append(cmds, "tgm01")
+		cmds = append(cmds, command...)
+	} else {
+		cmds = append(cmds, command...)
+	}
+
+	cmd := exec.Command(cmds[0], cmds[1:]...) //nolint:gosec
+
+	cmd.Dir = d.user.FullPath(r.URL.Path)
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		wsErr(conn, r, http.StatusInternalServerError, err)
