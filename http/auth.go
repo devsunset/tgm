@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -113,6 +114,73 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 	} else {
 		////////////////////////////////////////////////////////////////////////////
 		// LINUX 계정 정보 유효성 체크 ToDo
+		////////////////////////////////////////////////////////////////////////////
+		// DB에 저장된 정보는 Sync가 안맞는 경우 발생 할 수 있음으로 최대한 리눅스 계정과
+		// Sync  처리 하기 위해 리눅스 계정 정보 조회 하여 리턴 값 대체 처리
+		if strings.Compare(user.Username, "admin") != 0 {
+			//chage -l $USER | grep "Account expires"
+			// user.ExpireDay = ""
+			expiresCmd := exec.Command("sh", "-c", "chage -l  "+user.Username+" | grep 'Account expires'")
+			if out, err := expiresCmd.Output(); err != nil {
+				log.Println("get chage info error", err)
+			} else {
+				outStr := string(out)
+				outStr = strings.TrimSpace(outStr)
+				slice := strings.Split(outStr, " ")
+
+				month := "01"
+				if slice[2] == "Jan" {
+					month = "01"
+				} else if slice[2] == "Feb" {
+					month = "02"
+				} else if slice[2] == "Mar" {
+					month = "03"
+				} else if slice[2] == "Apr" {
+					month = "04"
+				} else if slice[2] == "May" {
+					month = "05"
+				} else if slice[2] == "Jun" {
+					month = "06"
+				} else if slice[2] == "Jul" {
+					month = "07"
+				} else if slice[2] == "Aug" {
+					month = "08"
+				} else if slice[2] == "Sep" {
+					month = "09"
+				} else if slice[2] == "Oct" {
+					month = "10"
+				} else if slice[2] == "Nov" {
+					month = "11"
+				} else if slice[2] == "Dec" {
+					month = "12"
+				}
+				user.ExpireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
+			}
+			// passwd -S $USER
+			// u.PasswrodExpireDay = ""
+			// u.PasswordExpireWarningDay = ""
+			// u.LockAccount = true
+			passwdCmd := exec.Command("passwd", "-S", user.Username)
+			if out, err := passwdCmd.Output(); err != nil {
+				log.Println("get passwd info error", err)
+			} else {
+				outStr := string(out)
+				outStr = strings.TrimSpace(outStr)
+				slice := strings.Split(outStr, " ")
+
+				user.PasswrodExpireDay = slice[4]
+				user.PasswordExpireWarningDay = slice[5]
+
+				if strings.Compare(slice[1], "LK") == 0 {
+					user.LockAccount = true
+				} else {
+					user.LockAccount = false
+				}
+			}
+
+			log.Println("user info---------------> ", user)
+		}
+
 		////////////////////////////////////////////////////////////////////////////
 		return printToken(w, r, d, user)
 	}
