@@ -103,7 +103,7 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 	if d.user.Username != "admin" {
 		cmds = append(cmds, "sudo")
 		cmds = append(cmds, "-u")
-		cmds = append(cmds, "tgm01")
+		cmds = append(cmds, d.user.Username)
 		cmds = append(cmds, command...)
 	} else {
 		cmds = append(cmds, command...)
