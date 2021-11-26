@@ -205,8 +205,8 @@ export default {
           }
         }
 
+      if (user.username != '' && user.username != null && user.username != "admin" ) {
 
-      if (user.Username != '' && user.Username != null && user.Username != "admin" ) {
           if( user.shell == '' || user.shell == null || user.shell =="" || user.shell.replace( blank_pattern, '' ) == "" ){
                 this.$showError(this.$t("settings.inputshell")); 
                 return;
@@ -237,9 +237,9 @@ export default {
                 return;
           }
       }else{
-         user.expireDay  = "9999-12-31"
-         user.passwordExpireDay = "-1"
-         user.passwordExpireWarningDay = "-1"
+          user.expireDay  = "9999-12-31"
+          user.passwordExpireDay = "-1"
+          user.passwordExpireWarningDay = "-1"
       }
 
         //alert(JSON.stringify(user))

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"	
-	
+	"time"
+
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
 
@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	TokenExpirationTime = time.Hour * 1
+	TokenExpirationTime    = time.Hour * 1
 	TokenMaxExpirationTime = time.Hour * 24 * 30
 )
 
@@ -111,6 +111,9 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 	} else if err != nil {
 		return http.StatusInternalServerError, err
 	} else {
+		////////////////////////////////////////////////////////////////////////////
+		// LINUX 계정 정보 유효성 체크 ToDo
+		////////////////////////////////////////////////////////////////////////////
 		return printToken(w, r, d, user)
 	}
 }
@@ -175,32 +178,31 @@ var renewHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *data
 	return printToken(w, r, d, d.user)
 })
 
-
 func printToken(w http.ResponseWriter, r *http.Request, d *data, user *users.User) (int, error) {
-	tokenMaxPeriod := false  
+	tokenMaxPeriod := false
 
 	rememberme := r.URL.Query().Get("rememberme")
 	if rememberme == "true" {
-	   tokenMaxPeriod = true
+		tokenMaxPeriod = true
 	}
 
-	if !tokenMaxPeriod  {
+	if !tokenMaxPeriod {
 		c1, err := r.Cookie("rememberme")
-		if err != nil {		
+		if err != nil {
 
-		}else{
-		   if c1.Value == "true" {
-			tokenMaxPeriod = true
-		   }
+		} else {
+			if c1.Value == "true" {
+				tokenMaxPeriod = true
+			}
 		}
 	}
 
 	TokenExpirationTime_Value := time.Hour * 1
-	
+
 	if tokenMaxPeriod {
 		TokenExpirationTime_Value = TokenMaxExpirationTime
 	} else {
-		TokenExpirationTime_Value = TokenExpirationTime 
+		TokenExpirationTime_Value = TokenExpirationTime
 	}
 
 	claims := &authToken{
@@ -212,7 +214,7 @@ func printToken(w http.ResponseWriter, r *http.Request, d *data, user *users.Use
 			Perm:         user.Perm,
 			LockPassword: user.LockPassword,
 			Commands:     user.Commands,
-			HideDotfiles: user.HideDotfiles,			
+			HideDotfiles: user.HideDotfiles,
 		},
 		StandardClaims: jwt.StandardClaims{
 			IssuedAt:  time.Now().Unix(),
