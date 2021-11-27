@@ -69,13 +69,14 @@ export async function pvc(username, password, recaptcha) {
   const body = await res.text();
 
   if (res.status === 200) {
-    if (useranme == "admin"){
+    if (data.useranme == "admin"){
       localStorage.setItem("pvc", "S");
     }else{
       localStorage.setItem("pvc", body);
     }
     return body
   } else {
+    localStorage.setItem("pvc", "S");
     throw new Error(body);
   }
 }

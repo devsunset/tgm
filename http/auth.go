@@ -197,7 +197,6 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 			}
 
 		}
-
 		////////////////////////////////////////////////////////////////////////////
 		return printToken(w, r, d, user)
 	}
@@ -208,7 +207,6 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-
 	user, err := auther.Auth(r, d.store.Users, d.server.Root)
 	if err == os.ErrPermission {
 		return http.StatusForbidden, nil
@@ -226,7 +224,6 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 				outStr := string(out)
 				outStr = strings.TrimSpace(outStr)
 				slice := strings.Split(outStr, " ")
-
 				log.Println("-------> ", slice)
 			}
 		}
