@@ -216,7 +216,48 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 		////////////////////////////////////////////////////////////////////////////
 		// LINUX 계정 정보 유효성 체크
 		////////////////////////////////////////////////////////////////////////////
+		result := "S"
+		expireDay := ""
+		passwordExpireWarningDay := ""
 		if strings.Compare(user.Username, "admin") != 0 {
+			//chage -l $USER | grep "Password expires"
+			expiresCmd := exec.Command("sh", "-c", "chage -l  "+user.Username+" | grep 'Password expires'")
+			if out, err := expiresCmd.Output(); err != nil {
+				log.Println("get chage info error", err)
+			} else {
+				outStr := string(out)
+				outStr = strings.TrimSpace(outStr)
+				slice := strings.Split(outStr, " ")
+
+				month := "01"
+				if slice[2] == "Jan" {
+					month = "01"
+				} else if slice[2] == "Feb" {
+					month = "02"
+				} else if slice[2] == "Mar" {
+					month = "03"
+				} else if slice[2] == "Apr" {
+					month = "04"
+				} else if slice[2] == "May" {
+					month = "05"
+				} else if slice[2] == "Jun" {
+					month = "06"
+				} else if slice[2] == "Jul" {
+					month = "07"
+				} else if slice[2] == "Aug" {
+					month = "08"
+				} else if slice[2] == "Sep" {
+					month = "09"
+				} else if slice[2] == "Oct" {
+					month = "10"
+				} else if slice[2] == "Nov" {
+					month = "11"
+				} else if slice[2] == "Dec" {
+					month = "12"
+				}
+				expireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
+			}
+			// passwd -S $USER
 			passwdCmd := exec.Command("passwd", "-S", user.Username)
 			if out, err := passwdCmd.Output(); err != nil {
 				log.Println("get passwd info error", err)
@@ -224,11 +265,30 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 				outStr := string(out)
 				outStr = strings.TrimSpace(outStr)
 				slice := strings.Split(outStr, " ")
-				log.Println("-------> ", slice)
+				passwordExpireWarningDay = slice[5]
+			}
+			// 패스 워드 유효 일자 마감
+			expireDayx, _ := strconv.Atoi(strings.Replace(expireDay, "-", "", 2))
+			t := time.Now()
+			formatted := fmt.Sprintf("%d-%02d-%02d", t.Year(), t.Month(), t.Day())
+			today, _ := strconv.Atoi(strings.Replace(formatted, "-", "", 2))
+
+			if expireDayx < today {
+				result = "E"
+			} else {
+				passwordExpireWarningDayx, _ := strconv.Atoi("-" + passwordExpireWarningDay)
+				passExpireDay, _ := time.Parse("2021-01-01", expireDay)
+				time := passExpireDay.AddDate(0, 0, passwordExpireWarningDayx)
+				formattedx := fmt.Sprintf("%d-%02d-%02d", time.Year(), time.Month(), time.Day())
+				warningDay, _ := strconv.Atoi(strings.Replace(formattedx, "-", "", 2))
+				if warningDay <= today {
+					result = expireDay
+				}
 			}
 		}
+
 		w.Header().Set("Content-Type", "text/plain")
-		if _, err := w.Write([]byte("S")); err != nil {
+		if _, err := w.Write([]byte(result)); err != nil {
 			return http.StatusInternalServerError, err
 		}
 		return 0, nil

@@ -128,10 +128,10 @@ export default {
             if (result == "S") {
                this.$router.push({ path: redirect });
             } else if (result == "E") {
-                alert("암호 유효 기간이 종료되었습니다 암호를 변경해 주세요")
+                alert(this.$t("login.passperiodexpired"))
                 this.$router.push({ path: "/settings/" });
             }else {
-                alert("암호 유효 기간이 "+result+"일 남았습니다")
+                alert("["+result +"]  "+this.$t("login.passperiodexpiredwaning"))
                 this.$router.push({ path: redirect });
             }
         }else{

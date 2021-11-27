@@ -99,7 +99,9 @@
     "passwordrule2" : "You cannot use the same character more than 4 times.",
     "passwordrule3" : "Please enter the password without spaces. ",
     "passwordrule4" : "Korean characters cannot be used in the password. ",
-    "passwordrule5" : "Password does not match"
+    "passwordrule5" : "Password does not match",
+    "passperiodexpired" : "Your password has expired, please change your password",
+    "passperiodexpiredwaning" : "Your password will expire"
   },
   "permanent": "Permanent",
   "prompts": {

@@ -96,7 +96,9 @@
     "passwordrule2" : "같은 문자를 4번 이상 사용하실 수 없습니다.",
     "passwordrule3" : "비밀번호는 공백 없이 입력해주세요.",
     "passwordrule4" : "비밀번호에 한글을 사용 할 수 없습니다.",
-    "passwordrule5" : "비밀번호 일치하지 않음"
+    "passwordrule5" : "비밀번호 일치하지 않음",
+    "passperiodexpired" : "암호 유효 기간이 종료되었습니다 암호를 변경해 주세요",
+    "passperiodexpiredwaning" : "암호가 만료 됩니다"
   },
   "permanent": "영구",
   "prompts": {
