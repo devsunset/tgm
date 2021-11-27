@@ -276,9 +276,9 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 			if expireDayx < today {
 				result = "E"
 			} else {
-				passwordExpireWarningDayx, _ := strconv.Atoi("-" + passwordExpireWarningDay)
-				passExpireDay, _ := time.Parse("2021-01-01", expireDay)
-				time := passExpireDay.AddDate(0, 0, passwordExpireWarningDayx)
+				passwordExpireWarningDayx, _ := strconv.Atoi(passwordExpireWarningDay)
+				passExpireDay, _ := time.Parse("2006-01-02", expireDay)
+				time := passExpireDay.AddDate(0, 0, -passwordExpireWarningDayx)
 				formattedx := fmt.Sprintf("%d-%02d-%02d", time.Year(), time.Month(), time.Day())
 				warningDay, _ := strconv.Atoi(strings.Replace(formattedx, "-", "", 2))
 				if warningDay <= today {
