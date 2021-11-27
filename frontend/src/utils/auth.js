@@ -69,6 +69,11 @@ export async function pvc(username, password, recaptcha) {
   const body = await res.text();
 
   if (res.status === 200) {
+    if (useranme == "admin"){
+      localStorage.setItem("pvc", "S");
+    }else{
+      localStorage.setItem("pvc", body);
+    }
     return body
   } else {
     throw new Error(body);
@@ -111,11 +116,11 @@ export async function signup(username, password) {
 
 export function logout() {
   document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; rememberme=false;";
-
   store.commit("setJWT", "");
   store.commit("setUser", null);
   localStorage.setItem("jwt", null);
   localStorage.setItem("rememberme", false);
   localStorage.setItem("username", "");
+  localStorage.setItem("pvc", "S");
   router.push({ path: "/login" });
 }

@@ -29,7 +29,6 @@ const router = new Router({
         if (store.getters.isLogged) {
           return next({ path: "/files" });
         }
-
         //document.title = "Login";
         next();
       },
@@ -152,12 +151,12 @@ router.beforeEach((to, from, next) => {
   //document.title = to.name;
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
+
     if (!store.getters.isLogged) {
       next({
         path: "/login",
         query: { redirect: to.fullPath },
       });
-
       return;
     }
 
@@ -167,6 +166,12 @@ router.beforeEach((to, from, next) => {
         return;
       }
     }
+
+  }
+
+  if (to.path.indexOf("login")  == -1 && to.path.indexOf("settings") == -1   && localStorage.getItem("pvc") == "E"){
+      next({ path: "/settings" });
+      return;
   }
 
   next();
