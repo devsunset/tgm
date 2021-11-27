@@ -131,7 +131,7 @@ export default {
                 alert("암호 유효 기간이 종료되었습니다 암호를 변경해 주세요")
                 this.$router.push({ path: "/settings/" });
             }else {
-                alert("암호 유효 기간이 "+result+"일 남았습니다. 암호를 변경해 주세요")
+                alert("암호 유효 기간이 "+result+"일 남았습니다")
                 this.$router.push({ path: redirect });
             }
         }else{
