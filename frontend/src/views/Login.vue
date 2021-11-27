@@ -135,6 +135,7 @@ export default {
                 this.$router.push({ path: redirect });
             }
         }else{
+          localStorage.setItem("pvc", "S");
           this.$router.push({ path: redirect });
         }
 
