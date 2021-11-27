@@ -55,6 +55,27 @@ export async function login(username, password, recaptcha, rememberme) {
   }
 }
 
+export async function pvc(username, password, recaptcha) {  
+  const data = { username, password, recaptcha};
+
+  const res = await fetch(`${baseURL}/api/pvc`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body:JSON.stringify(data),
+  });
+
+  const body = await res.text();
+
+  if (res.status === 200) {
+    return body
+  } else {
+    throw new Error(body);
+  }
+}
+
+
 export async function renew(jwt) {
   const res = await fetch(`${baseURL}/api/renew`, {
     method: "POST",

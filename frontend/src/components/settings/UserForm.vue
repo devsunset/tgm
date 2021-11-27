@@ -100,7 +100,7 @@
         :locale.sync="user.locale"
       ></languages>
     </p>
-    <p v-if="!isDefault" v-show="!user.perm.admin">
+    <p v-if="!isDefault" v-show="false">
       <input
         type="checkbox"
         :disabled="user.perm.admin"

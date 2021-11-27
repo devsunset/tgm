@@ -122,7 +122,22 @@ export default {
         }
 
         await auth.login(this.username, this.password, captcha, this.rememberme);
-        this.$router.push({ path: redirect });
+
+        if (this.username !='admin'){
+            var result =  await auth.pvc(this.username, this.password, captcha);
+            if (result == "S") {
+               this.$router.push({ path: redirect });
+            } else if (result == "E") {
+                alert("암호 유효 기간이 종료되었습니다 암호를 변경해 주세요")
+                this.$router.push({ path: "/settings/" });
+            }else {
+                alert("암호 유효 기간이 "+result+"일 남았습니다. 암호를 변경해 주세요")
+                this.$router.push({ path: redirect });
+            }
+        }else{
+          this.$router.push({ path: redirect });
+        }
+
       } catch (e) {
         if (e.message == 409) {
           this.error = this.$t("login.usernameTaken");

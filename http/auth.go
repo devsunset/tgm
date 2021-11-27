@@ -115,7 +115,7 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 		return http.StatusInternalServerError, err
 	} else {
 		////////////////////////////////////////////////////////////////////////////
-		// LINUX 계정 정보 유효성 체크 ToDo
+		// LINUX 계정 정보 유효성 체크
 		////////////////////////////////////////////////////////////////////////////
 		// DB에 저장된 정보는 Sync가 안맞는 경우 발생 할 수 있음으로 최대한 리눅스 계정과
 		// Sync  처리 하기 위해 리눅스 계정 정보 조회 하여 리턴 값 대체 처리
@@ -200,6 +200,41 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 
 		////////////////////////////////////////////////////////////////////////////
 		return printToken(w, r, d, user)
+	}
+}
+
+var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	auther, err := d.store.Auth.Get(d.settings.AuthMethod)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	user, err := auther.Auth(r, d.store.Users, d.server.Root)
+	if err == os.ErrPermission {
+		return http.StatusForbidden, nil
+	} else if err != nil {
+		return http.StatusInternalServerError, err
+	} else {
+		////////////////////////////////////////////////////////////////////////////
+		// LINUX 계정 정보 유효성 체크
+		////////////////////////////////////////////////////////////////////////////
+		if strings.Compare(user.Username, "admin") != 0 {
+			passwdCmd := exec.Command("passwd", "-S", user.Username)
+			if out, err := passwdCmd.Output(); err != nil {
+				log.Println("get passwd info error", err)
+			} else {
+				outStr := string(out)
+				outStr = strings.TrimSpace(outStr)
+				slice := strings.Split(outStr, " ")
+
+				log.Println("-------> ", slice)
+			}
+		}
+		w.Header().Set("Content-Type", "text/plain")
+		if _, err := w.Write([]byte("S")); err != nil {
+			return http.StatusInternalServerError, err
+		}
+		return 0, nil
 	}
 }
 
