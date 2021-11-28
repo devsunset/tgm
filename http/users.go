@@ -172,35 +172,39 @@ var userGetHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 		} else {
 			outStr := string(out)
 			outStr = strings.TrimSpace(outStr)
-			slice := strings.Split(outStr, " ")
 
-			month := "01"
-			if slice[2] == "Jan" {
-				month = "01"
-			} else if slice[2] == "Feb" {
-				month = "02"
-			} else if slice[2] == "Mar" {
-				month = "03"
-			} else if slice[2] == "Apr" {
-				month = "04"
-			} else if slice[2] == "May" {
-				month = "05"
-			} else if slice[2] == "Jun" {
-				month = "06"
-			} else if slice[2] == "Jul" {
-				month = "07"
-			} else if slice[2] == "Aug" {
-				month = "08"
-			} else if slice[2] == "Sep" {
-				month = "09"
-			} else if slice[2] == "Oct" {
-				month = "10"
-			} else if slice[2] == "Nov" {
-				month = "11"
-			} else if slice[2] == "Dec" {
-				month = "12"
+			if strings.Index(outStr, "never") > -1 {
+				u.ExpireDay = "9999-12-31"
+			} else {
+				slice := strings.Split(outStr, " ")
+				month := "01"
+				if slice[2] == "Jan" {
+					month = "01"
+				} else if slice[2] == "Feb" {
+					month = "02"
+				} else if slice[2] == "Mar" {
+					month = "03"
+				} else if slice[2] == "Apr" {
+					month = "04"
+				} else if slice[2] == "May" {
+					month = "05"
+				} else if slice[2] == "Jun" {
+					month = "06"
+				} else if slice[2] == "Jul" {
+					month = "07"
+				} else if slice[2] == "Aug" {
+					month = "08"
+				} else if slice[2] == "Sep" {
+					month = "09"
+				} else if slice[2] == "Oct" {
+					month = "10"
+				} else if slice[2] == "Nov" {
+					month = "11"
+				} else if slice[2] == "Dec" {
+					month = "12"
+				}
+				u.ExpireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
 			}
-			u.ExpireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
 		}
 		// passwd -S $USER
 		// u.PasswrodExpireDay = ""

@@ -128,35 +128,38 @@ var loginHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, e
 			} else {
 				outStr := string(out)
 				outStr = strings.TrimSpace(outStr)
-				slice := strings.Split(outStr, " ")
-
-				month := "01"
-				if slice[2] == "Jan" {
-					month = "01"
-				} else if slice[2] == "Feb" {
-					month = "02"
-				} else if slice[2] == "Mar" {
-					month = "03"
-				} else if slice[2] == "Apr" {
-					month = "04"
-				} else if slice[2] == "May" {
-					month = "05"
-				} else if slice[2] == "Jun" {
-					month = "06"
-				} else if slice[2] == "Jul" {
-					month = "07"
-				} else if slice[2] == "Aug" {
-					month = "08"
-				} else if slice[2] == "Sep" {
-					month = "09"
-				} else if slice[2] == "Oct" {
-					month = "10"
-				} else if slice[2] == "Nov" {
-					month = "11"
-				} else if slice[2] == "Dec" {
-					month = "12"
+				if strings.Index(outStr, "never") > -1 {
+					user.ExpireDay = "9999-12-31"
+				} else {
+					slice := strings.Split(outStr, " ")
+					month := "01"
+					if slice[2] == "Jan" {
+						month = "01"
+					} else if slice[2] == "Feb" {
+						month = "02"
+					} else if slice[2] == "Mar" {
+						month = "03"
+					} else if slice[2] == "Apr" {
+						month = "04"
+					} else if slice[2] == "May" {
+						month = "05"
+					} else if slice[2] == "Jun" {
+						month = "06"
+					} else if slice[2] == "Jul" {
+						month = "07"
+					} else if slice[2] == "Aug" {
+						month = "08"
+					} else if slice[2] == "Sep" {
+						month = "09"
+					} else if slice[2] == "Oct" {
+						month = "10"
+					} else if slice[2] == "Nov" {
+						month = "11"
+					} else if slice[2] == "Dec" {
+						month = "12"
+					}
+					user.ExpireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
 				}
-				user.ExpireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
 			}
 			// passwd -S $USER
 			// u.PasswrodExpireDay = ""
@@ -227,35 +230,39 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 			} else {
 				outStr := string(out)
 				outStr = strings.TrimSpace(outStr)
-				slice := strings.Split(outStr, " ")
-
-				month := "01"
-				if slice[2] == "Jan" {
-					month = "01"
-				} else if slice[2] == "Feb" {
-					month = "02"
-				} else if slice[2] == "Mar" {
-					month = "03"
-				} else if slice[2] == "Apr" {
-					month = "04"
-				} else if slice[2] == "May" {
-					month = "05"
-				} else if slice[2] == "Jun" {
-					month = "06"
-				} else if slice[2] == "Jul" {
-					month = "07"
-				} else if slice[2] == "Aug" {
-					month = "08"
-				} else if slice[2] == "Sep" {
-					month = "09"
-				} else if slice[2] == "Oct" {
-					month = "10"
-				} else if slice[2] == "Nov" {
-					month = "11"
-				} else if slice[2] == "Dec" {
-					month = "12"
+				if strings.Index(outStr, "never") > -1 {
+					expireDay = "never"
+				} else {
+					slice := strings.Split(outStr, " ")
+					month := "01"
+					if slice[2] == "Jan" {
+						month = "01"
+					} else if slice[2] == "Feb" {
+						month = "02"
+					} else if slice[2] == "Mar" {
+						month = "03"
+					} else if slice[2] == "Apr" {
+						month = "04"
+					} else if slice[2] == "May" {
+						month = "05"
+					} else if slice[2] == "Jun" {
+						month = "06"
+					} else if slice[2] == "Jul" {
+						month = "07"
+					} else if slice[2] == "Aug" {
+						month = "08"
+					} else if slice[2] == "Sep" {
+						month = "09"
+					} else if slice[2] == "Oct" {
+						month = "10"
+					} else if slice[2] == "Nov" {
+						month = "11"
+					} else if slice[2] == "Dec" {
+						month = "12"
+					}
+					expireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
 				}
-				expireDay = slice[4] + "-" + month + "-" + slice[3][:len(slice[3])-1]
+
 			}
 			// passwd -S $USER
 			passwdCmd := exec.Command("passwd", "-S", user.Username)
@@ -267,22 +274,28 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 				slice := strings.Split(outStr, " ")
 				passwordExpireWarningDay = slice[5]
 			}
-			// 패스 워드 유효 일자 마감
-			expireDayx, _ := strconv.Atoi(strings.Replace(expireDay, "-", "", 2))
-			t := time.Now()
-			formatted := fmt.Sprintf("%d-%02d-%02d", t.Year(), t.Month(), t.Day())
-			today, _ := strconv.Atoi(strings.Replace(formatted, "-", "", 2))
 
-			if expireDayx < today {
-				result = "E"
-			} else {
-				passwordExpireWarningDayx, _ := strconv.Atoi(passwordExpireWarningDay)
-				passExpireDay, _ := time.Parse("2006-01-02", expireDay)
-				time := passExpireDay.AddDate(0, 0, -passwordExpireWarningDayx)
-				formattedx := fmt.Sprintf("%d-%02d-%02d", time.Year(), time.Month(), time.Day())
-				warningDay, _ := strconv.Atoi(strings.Replace(formattedx, "-", "", 2))
-				if warningDay <= today {
-					result = expireDay
+			if expireDay != "never" {
+
+				// 패스 워드 유효 일자 마감
+				expireDayx, _ := strconv.Atoi(strings.Replace(expireDay, "-", "", 2))
+				t := time.Now()
+				formatted := fmt.Sprintf("%d-%02d-%02d", t.Year(), t.Month(), t.Day())
+				today, _ := strconv.Atoi(strings.Replace(formatted, "-", "", 2))
+
+				if expireDayx < today {
+					result = "E"
+				} else {
+					if passwordExpireWarningDay != "-1" {
+						passwordExpireWarningDayx, _ := strconv.Atoi(passwordExpireWarningDay)
+						passExpireDay, _ := time.Parse("2006-01-02", expireDay)
+						time := passExpireDay.AddDate(0, 0, -passwordExpireWarningDayx)
+						formattedx := fmt.Sprintf("%d-%02d-%02d", time.Year(), time.Month(), time.Day())
+						warningDay, _ := strconv.Atoi(strings.Replace(formattedx, "-", "", 2))
+						if warningDay <= today {
+							result = expireDay
+						}
+					}
 				}
 			}
 		}

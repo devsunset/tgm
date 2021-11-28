@@ -53,12 +53,12 @@
 
   <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.passwordexpireday") }} </label>
-  <input type="number" class="input" style="width:212px" v-model="user.passwordExpireDay" min="30" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
+  <input type="number" class="input" style="width:212px" v-model="user.passwordExpireDay" min="-1" max="365"   pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
   <p v-if="!isDefault && user.perm.admin == false">
   <label>{{ $t("settings.passwordexpirewarningday") }} </label>
-  <input type="number" class="input" style="width:212px" v-model="user.passwordExpireWarningDay" min="7" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
+  <input type="number" class="input" style="width:212px" v-model="user.passwordExpireWarningDay" min="-1" max="30"     pattern="^[0-9]" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"> {{ $t("time.days") }}<br>
  </p>
 
 <p v-if="!isNew && !isDefault &&  user.perm.admin == false">
@@ -257,16 +257,16 @@ export default {
        if (this.user.passwordExpireDay > 365) {
          this.user.passwordExpireDay = 365;
         }
-       if (this.user.passwordExpireDay < 30) {
-          this.user.passwordExpireDay = 30;
+       if (this.user.passwordExpireDay < -1) {
+          this.user.passwordExpireDay = -1;
         }
     },
       "user.passwordExpireWarningDay": function () {
        if (this.user.passwordExpireWarningDay > 30) {
           this.user.passwordExpireWarningDay = 30;
         }
-        if (this.user.passwordExpireWarningDay < 7) {
-          this.user.passwordExpireWarningDay = 7;
+        if (this.user.passwordExpireWarningDay < -1) {
+          this.user.passwordExpireWarningDay = -1;
         }
     },
   },
