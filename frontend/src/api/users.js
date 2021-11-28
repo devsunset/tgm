@@ -72,5 +72,25 @@ export async function getGroups() {
   return fetchJSON(`/api/users/groups`, {});
 }
 
+export async function getHomeInfo(home) {
+   //return fetchJSON(`/api/users`, {});
+   const res = await fetchURL(`/api/users/homeinfo`, {
+    method: "POST",
+    body: JSON.stringify({
+      what: "user",
+      which: [],
+      data: home,
+    }),
+  });
+
+  const body = await res.text();
+
+  if (res.status === 200) {
+    return body;
+  } else {
+    throw new Error(res.status);
+  }
+
+}
 
 

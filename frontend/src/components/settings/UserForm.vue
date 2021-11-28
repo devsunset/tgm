@@ -81,6 +81,15 @@
         style="display:inline-block"
       /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
 </p>
+<p>
+     <progress-bar
+        :options="baroptions"
+        :value="homeuse"
+      />
+</p>
+<p>
+    [ /home ] -> Size :  {{homesize}}, Used :  {{homeused}}, Avail :  {{homeavail}}
+</p>
 
 <br>
   <p v-if="!isDefault && user.perm.admin == false">
@@ -131,6 +140,7 @@ import { enableExec } from "@/utils/constants";
 import { enableCmdLimit } from "@/utils/constants";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
+ import ProgressBar from 'vuejs-progress-bar'
 
 export default {
   name: "user",
@@ -140,6 +150,36 @@ export default {
       value: [],
       options: [],
       groupsvalue: [],
+      baroptions: {
+        text: {
+          color: '#FFFFFF',
+          shadowEnable: true,
+          shadowColor: '#000000',
+          fontSize: 14,
+          fontFamily: 'Helvetica',
+          dynamicPosition: false,
+          hideText: false
+        },
+        progress: {
+          color: '#2dbd2d',
+          backgroundColor: '#333333',
+          inverted: false
+        },
+        layout: {
+          height: 35,
+          width: 212,
+          verticalTextAlign: 61,
+          horizontalTextAlign: 43,
+          zeroOffset: 0,
+          strokeWidth: 30,
+          progressPadding: 0,
+          type: 'line'
+        }
+    },
+    homesize: "0G",
+    homeused: "0G",
+    homeavail: "0G",
+    homeuse: 0,
     };
   },
   components: {
@@ -150,6 +190,7 @@ export default {
     DatePicker,
     Rules,
     Commands,
+    ProgressBar,
   },
   props: ["user", "isNew", "isDefault"],
   methods : {
@@ -162,24 +203,35 @@ export default {
   },
   async created() {
     try {
-      this.groupsvalue = await api.getGroups();
-      for (const [key, value] of Object.entries(this.groupsvalue)) {
-        this.options.push({
-          code: key,
-          name: value,
-        });
-      }
+          this.groupsvalue = await api.getGroups();
+          for (const [key, value] of Object.entries(this.groupsvalue)) {
+            this.options.push({
+              code: key,
+              name: value,
+            });
+          }
 
-    if (this.user.group != null && this.user.group != "") {
-      var sValue = this.user.group.split(",");
-      for (var i = 0; i < sValue.length; i++) {
-        this.value.push({
-            code: sValue[i],
-            name: sValue[i],
-          });
-      } 
-    }
-    
+        if (this.user.group != null && this.user.group != "") {
+          var sValue = this.user.group.split(",");
+          for (var i = 0; i < sValue.length; i++) {
+            this.value.push({
+                code: sValue[i],
+                name: sValue[i],
+              });
+          } 
+        }
+
+        try {
+              var home = await api.getHomeInfo("/home");
+              var shome = home.split(",");
+              this.homesize = shome[0];
+              this.homeused = shome[1];
+              this.homeavail = shome[2];
+              this.homeuse = shome[3].replace("%", "");
+        } catch (e) {
+          console.log(e);
+        }
+
     } catch (e) {
       this.error = e;
     }

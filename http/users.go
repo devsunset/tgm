@@ -791,3 +791,29 @@ func checkGroup(group string, users []User) bool {
 	}
 	return true
 }
+
+var userGetHomeInfoHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	req, err := getUserParameter(w, r)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	home := "0G,0G,0G,0%"
+
+	homeCmd := exec.Command("df", "-h", req.Data)
+	if out, err := homeCmd.Output(); err != nil {
+		log.Println("get home dir info error", err)
+	} else {
+		outStr := string(out)
+		outStr = strings.TrimSpace(outStr)
+		slice := strings.Split(outStr, " ")
+		home = slice[26] + "," + slice[28] + "," + slice[30] + "," + slice[33]
+	}
+
+	w.Header().Set("Content-Type", "text/plain")
+	if _, err := w.Write([]byte(home)); err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	return 0, nil
+})

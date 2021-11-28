@@ -13,6 +13,8 @@
         </div>
 
         <div class="card-action">
+          <pulse-loader v-if="actionflag" :loading="true" :color="color" :size="size"></pulse-loader>
+          <span v-if="!actionflag">
           <button
             v-if="!isNew && user.username !='admin'"
             @click.prevent="deletePrompt"
@@ -23,11 +25,13 @@
           >
             {{ $t("buttons.delete") }}
           </button>
+
           <input
             class="button button--flat"
             type="submit"
             :value="$t('buttons.save')"
           />
+          </span>
         </div>
       </form>
     </div>
@@ -61,18 +65,26 @@ import { users as api, settings } from "@/api";
 import UserForm from "@/components/settings/UserForm";
 import Errors from "@/views/Errors";
 import deepClone from "lodash.clonedeep";
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
   name: "user",
   components: {
     UserForm,
     Errors,
+    PulseLoader,
   },
   data: () => {
     return {
       error: null,
       originalUser: null,
       user: {},
+      actionflag : false,
+      color: '#cc181e',
+      color1: '#5bc0de',
+      size: '35px',
+      margin: '2px',
+      radius: '2px'
     };
   },
   created() {
@@ -242,23 +254,25 @@ export default {
           user.passwordExpireWarningDay = "-1"
       }
 
-        //alert(JSON.stringify(user))
-
+        this.actionflag = true;
         if (this.isNew) {
           const loc = await api.create(user);
           this.$router.push({ path: loc });
+          this.actionflag = false;
           this.$showSuccess(this.$t("settings.userCreated"));
         } else {
           await api.update(user);
           if (user.id === this.$store.state.user.id) {
             this.setUser({ ...deepClone(user) });
           }
+          this.actionflag = false;
           this.$showSuccess(this.$t("settings.userUpdated"));
             if (pw !== ""){
               localStorage.setItem("pvc", "S");
             }
         }
       } catch (e) {
+        this.actionflag = false;
         this.$showError(e);
       }
     },
