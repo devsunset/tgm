@@ -798,7 +798,7 @@ var userGetHomeInfoHandler = withAdmin(func(w http.ResponseWriter, r *http.Reque
 		return http.StatusInternalServerError, err
 	}
 
-	home := "0G,0G,0G,0%"
+	homeresult := "0G,0G,0G,0%"
 
 	homeCmd := exec.Command("df", "-h", req.Data)
 	if out, err := homeCmd.Output(); err != nil {
@@ -807,11 +807,30 @@ var userGetHomeInfoHandler = withAdmin(func(w http.ResponseWriter, r *http.Reque
 		outStr := string(out)
 		outStr = strings.TrimSpace(outStr)
 		slice := strings.Split(outStr, " ")
-		home = slice[26] + "," + slice[28] + "," + slice[30] + "," + slice[33]
+
+		var home []string
+
+		for i := len(slice); i > 0; i-- {
+			if strings.Index(slice[i-1], "%") > -1 {
+				home = append(home, slice[i-1])
+			} else {
+				if slice[i-1] != "" && len(home) > 0 {
+					home = append(home, slice[i-1])
+				}
+				if len(home) == 4 {
+					break
+				}
+			}
+		}
+
+		if len(home) == 4 {
+			homeresult = home[3] + "," + home[2] + "," + home[1] + "," + home[0]
+		}
+
 	}
 
 	w.Header().Set("Content-Type", "text/plain")
-	if _, err := w.Write([]byte(home)); err != nil {
+	if _, err := w.Write([]byte(homeresult)); err != nil {
 		return http.StatusInternalServerError, err
 	}
 
