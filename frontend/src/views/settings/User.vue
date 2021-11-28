@@ -254,6 +254,9 @@ export default {
             this.setUser({ ...deepClone(user) });
           }
           this.$showSuccess(this.$t("settings.userUpdated"));
+            if (pw !== ""){
+              localStorage.setItem("pvc", "S");
+            }
         }
       } catch (e) {
         this.$showError(e);
