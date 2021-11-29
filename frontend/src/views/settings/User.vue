@@ -4,8 +4,8 @@
     <div class="column" style="width:100%">
       <form @submit="save" class="card">
         <div class="card-title">
-          <h2 v-if="user.id === 0">{{ $t("settings.newUser") }}  - [개발 진행 중]</h2>
-          <h2 v-else>{{ $t("settings.user") }} {{ user.username }} - [개발 진행 중]</h2>
+          <h2 v-if="user.id === 0">{{ $t("settings.newUser") }}</h2>
+          <h2 v-else>{{ $t("settings.user") }} {{ user.username }}</h2>
         </div>
 
         <div class="card-content">

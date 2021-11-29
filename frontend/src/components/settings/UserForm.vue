@@ -332,3 +332,24 @@ export default {
      Add Multiselect CSS. Can be added as a static asset or inside a component. -->
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
+<style>
+.mx-input {
+  background-color :  #3A4147 !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.mx-calendar.mx-calendar-panel-date {
+  background-color :  #3A4147 !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.multiselect__content-wrapper {
+  background-color :  #3A4147 !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.multiselect__tags {
+  background-color :  #3A4147 !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+</style>
