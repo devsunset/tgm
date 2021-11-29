@@ -5,16 +5,15 @@
       <div class="card">
         <div class="card-title">
           <h2>{{ $t("settings.userManagement") }}</h2>
-
-          <label for="username" style="padding-top:15px;padding-right:10px">{{ $t("settings.username") }}</label>
+          <label for="username" class="mobiledisplaynone" style="padding-top:15px;padding-right:10px">{{ $t("settings.username") }}</label>
             <input
-              class="input"
+              class="mobiledisplaynone input"
               type="text"
               v-model="username"
               @keyup.enter="userSearch"
               id="username"
             />
-            <div style="padding-right:20px">
+            <div class="mobiledisplaynone" style="padding-right:20px">
             <button class="button" @click="userSearch">
               {{ $t("buttons.search") }}
             </button>
@@ -32,8 +31,8 @@
               <th>{{ $t("settings.admin") }}</th>
               <th>{{ $t("settings.username") }}</th>
               <th>{{ $t("settings.shell") }}</th>
-              <th>{{ $t("settings.group") }}</th>
-              <th>{{ $t("settings.scope") }}</th>
+              <th class="mobiledisplaynone">{{ $t("settings.group") }}</th>
+              <th class="mobiledisplaynone">{{ $t("settings.scope") }}</th>
               <th></th>
               <th></th>
             </tr>
@@ -45,8 +44,8 @@
               </td>
               <td>{{ user.username }}</td>
               <td>{{ user.shell }}</td>
-              <td>{{ user.group }}</td>
-              <td>{{ user.scope }}</td>
+              <td class="mobiledisplaynone">{{ user.group }}</td>
+              <td class="mobiledisplaynone">{{ user.scope }}</td>
               <td class="small">
                     <i v-if="user.lock === 'LK'" class="material-icons">locked</i
                     ><i v-else-if="user.lock === 'NP'" class="material-icons">lock_outline</i>
@@ -109,7 +108,13 @@ export default {
       //finally {
       //  this.setLoading(false);
       //}
-    },
+    }
   },
 };
 </script>
+
+<style scoped>
+    @media (max-width:1024px) {
+        .mobiledisplaynone {display:none}
+    }
+</style>

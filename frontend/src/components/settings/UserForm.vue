@@ -79,7 +79,10 @@
         id="scope"
         :disabled="!this.isNew && $route.path != '/settings/global'"
         style="display:inline-block"
-      /><span v-if="this.isNew"><span v-if="user.username">/</span>{{user.username}}</span>
+      />
+</p>
+<p v-if="this.isNew">
+    Home path -> {{user.scope}}<span v-if="user.username">/</span>{{user.username}}
 </p>
 <p>
      <progress-bar
@@ -247,7 +250,7 @@ export default {
       if (this.$route.path == "/settings/global") {
         return "input input--block"
       }else{
-        return this.isNew ? "input input--blocksub" :"input input--gray";
+        return this.isNew ? "input input--block" :"input input--gray";
       }
     },
     isExecEnabled: () => enableExec,
