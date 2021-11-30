@@ -99,6 +99,18 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 	// original source
 	// cmd := exec.Command(command[0], command[1:]...) //nolint:gosec
 
+	// var cmds []string
+	// if d.user.Username != "admin" {
+	// 	cmds = append(cmds, "sudo")
+	// 	cmds = append(cmds, "-u")
+	// 	cmds = append(cmds, d.user.Username)
+	// 	cmds = append(cmds, command...)
+	// } else {
+	// 	cmds = append(cmds, command...)
+	// }
+
+	// cmd := exec.Command(cmds[0], cmds[1:]...) //nolint:gosec
+
 	var cmds []string
 	if d.user.Username != "admin" {
 		cmds = append(cmds, "sudo")
@@ -109,7 +121,8 @@ var commandsHandler = withUser(func(w http.ResponseWriter, r *http.Request, d *d
 		cmds = append(cmds, command...)
 	}
 
-	cmd := exec.Command(cmds[0], cmds[1:]...) //nolint:gosec
+	cmdString := strings.Join(cmds, " ")
+	cmd := exec.Command("sh", "-c", cmdString)
 
 	cmd.Dir = d.user.FullPath(r.URL.Path)
 	stdout, err := cmd.StdoutPipe()
