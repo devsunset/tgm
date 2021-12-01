@@ -331,7 +331,7 @@ func quickSetup(flags *pflag.FlagSet, d pythonData) {
 		CreateUserDir: true,
 		Defaults: settings.UserDefaults{
 			Scope:       "/home",
-			Locale:      "en",
+			Locale:      "ko",
 			SingleClick: false,
 			Perm: users.Permissions{
 				Admin:    false,
@@ -343,6 +343,9 @@ func quickSetup(flags *pflag.FlagSet, d pythonData) {
 				Share:    true,
 				Download: true,
 			},
+		},
+		Branding: settings.Branding{
+			Theme: "dark",
 		},
 	}
 
