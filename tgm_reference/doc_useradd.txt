@@ -37,10 +37,9 @@ Options:
 sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password")' 'password_value') username
 sudo useradd -m -p $(perl -e 'print crypt($ARGV[0], "password_value")' 'password_value') username
 sudo useradd -p $(openssl passwd -crypt password_value) testok
-echo -n 'password_value' | passwd username --stdin
 
 gpasswd -d  계정명 그룹명
 gpasswd -a  계정명 그룹명
 
-
-chage -l username
+echo -n password_value | passwd username --stdin <- rockylinux 동작 / ubuntu 동작 안함 
+echo username:password_value | chapasswd         <- rockylinux ubuntu 모두 동작 

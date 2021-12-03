@@ -447,7 +447,10 @@ var userPostHandler = withAdmin(func(w http.ResponseWriter, r *http.Request, d *
 		      --usage             Display brief usage message
 	*/
 	//USER MOD PASSWD
-	passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+req.Data.Username+" --stdin")
+	// rockylinux 동작함 unbuntu 동작안함
+	//passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+req.Data.Username+" --stdin")
+	// rockylinux unbuntu 모두 동작
+	passwdMod := exec.Command("sh", "-c", "echo "+req.Data.Username+":"+password+" |  chpasswd ")
 	stdoutStderr, err := passwdMod.CombinedOutput()
 	if err != nil {
 		log.Println(err, "There was an error by user mod passwd", req.Data.Username, err)
@@ -540,7 +543,10 @@ var userPutHandler = withSelfOrAdmin(func(w http.ResponseWriter, r *http.Request
 
 		// PASSWORD CHANGE
 		if password != "" {
-			passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+suser.Username+" --stdin")
+			// rockylinux 동작함 unbuntu 동작안함
+			//passwdMod := exec.Command("sh", "-c", "echo -n  "+password+" |  passwd "+suser.Username+" --stdin")
+			// rockylinux unbuntu 모두 동작안함
+			passwdMod := exec.Command("sh", "-c", "echo "+suser.Username+":"+password+" |  chpasswd ")
 			stdoutStderr, err := passwdMod.CombinedOutput()
 			if err != nil {
 				log.Println(err, "There was an error by user mod passwd", suser.Username, err)
