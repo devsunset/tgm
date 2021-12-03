@@ -770,16 +770,16 @@ export default {
       } 
       var admin_desc = "";
       if (x.split(",")[0] == "X") {
-          if (user.perm.admin){
+          if (this.user.perm.admin){
             admin_desc = "\n"+this.$t("settings.consolewarning2");
           }
       } else{
-          if (user.perm.admin){
+          if (this.user.perm.admin){
             admin_desc = "\n"+this.$t("settings.consolewarning3");
           }
       }
 
-      alert(this.$t("settings.consolewarning"));
+      alert(this.$t("settings.consolewarning")+admin_desc);
       var host = window.location.host;
       if (host.indexOf(":") > -1) {
         host = host.split(":")[0];

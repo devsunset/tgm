@@ -174,23 +174,23 @@ export default {
       this.$store.commit("showHover", "help");
     },
     openWebConsole() {
-      var x = localStorage.getItem("ssh") 
+       var x = localStorage.getItem("ssh") 
       if (x.split(",")[1] == "X") {
         alert(this.$t("settings.consolewarning1"));
         return;
       } 
       var admin_desc = "";
       if (x.split(",")[0] == "X") {
-          if (user.perm.admin){
+          if (this.user.perm.admin){
             admin_desc = "\n"+this.$t("settings.consolewarning2");
           }
       } else{
-          if (user.perm.admin){
+          if (this.user.perm.admin){
             admin_desc = "\n"+this.$t("settings.consolewarning3");
           }
       }
 
-      alert(this.$t("settings.consolewarning")+admin_desc );
+      alert(this.$t("settings.consolewarning")+admin_desc);
 
       var host = window.location.host;
       if (host.indexOf(":") > -1) {

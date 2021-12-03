@@ -333,7 +333,6 @@ var sshCheckHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int
 				lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
 					return divide == ' ' || divide == '\t'
 				})
-				log.Println("PermitRootLogin", lineSlice[1])
 				for _, data := range lineSlice {
 					if (data == "yes") || (data == "Yes") {
 						permitRootLogin = "O"
@@ -345,7 +344,6 @@ var sshCheckHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int
 				lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
 					return divide == ' ' || divide == '\t'
 				})
-				log.Println("PasswordAuthentication", lineSlice[1])
 				for _, data := range lineSlice {
 					if (data == "yes") || (data == "Yes") {
 						passwordAuthentication = "O"
