@@ -41,6 +41,8 @@ you want to change. Other options will remain unchanged.`,
 				ser.Address = mustGetString(flags, flag.Name)
 			case "port":
 				ser.Port = mustGetString(flags, flag.Name)
+			case "webssh2port":
+				ser.Webssh2port = mustGetString(flags, flag.Name)
 			case "log":
 				ser.Log = mustGetString(flags, flag.Name)
 			case "signup":

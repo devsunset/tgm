@@ -42,14 +42,20 @@ override the options.`,
 		}
 
 		ser := &settings.Server{
-			Address: mustGetString(flags, "address"),
-			Socket:  mustGetString(flags, "socket"),
-			Root:    mustGetString(flags, "root"),
-			BaseURL: mustGetString(flags, "baseurl"),
-			TLSKey:  mustGetString(flags, "key"),
-			TLSCert: mustGetString(flags, "cert"),
-			Port:    mustGetString(flags, "port"),
-			Log:     mustGetString(flags, "log"),
+			Root:                  mustGetString(flags, "root"),
+			BaseURL:               mustGetString(flags, "baseurl"),
+			Socket:                mustGetString(flags, "socket"),
+			TLSKey:                mustGetString(flags, "key"),
+			TLSCert:               mustGetString(flags, "cert"),
+			Port:                  mustGetString(flags, "port"),
+			Webssh2port:           mustGetString(flags, "webssh2port"),
+			Address:               mustGetString(flags, "address"),
+			Log:                   mustGetString(flags, "log"),
+			EnableThumbnails:      false,
+			ResizePreview:         false,
+			EnableExec:            false,
+			EnableCmdLimit:        false,
+			TypeDetectionByHeader: false,
 		}
 
 		err := d.store.Settings.Save(s)

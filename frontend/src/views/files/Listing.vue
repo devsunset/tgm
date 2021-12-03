@@ -51,7 +51,7 @@
           v-if="headerButtons.shell"
           icon="code"
           :label="$t('buttons.shell')"
-          @action="$store.commit('toggleShell')"
+          @action="openWebConsole()"
         />
         <action
           :icon="user.viewMode === 'mosaic' ? 'view_list' : 'view_module'"
@@ -272,6 +272,7 @@ import HeaderBar from "@/components/header/HeaderBar";
 import Action from "@/components/header/Action";
 import Search from "@/components/Search";
 import Item from "@/components/files/ListingItem";
+import { webssh2port } from "@/utils/constants";
 
 export default {
   name: "listing",
@@ -312,6 +313,7 @@ export default {
     ascOrdered() {
       return this.req.sorting.asc;
     },
+    webssh2port: () => webssh2port,
     items() {
       const dirs = [];
       const files = [];
@@ -759,6 +761,16 @@ export default {
       }
 
       this.$store.commit("setReload", true);
+    },
+    openWebConsole() {
+      alert(this.$t("settings.consolewarning"));
+      var host = window.location.host;
+      if (host.indexOf(":") > -1) {
+        host = host.split(":")[0];
+      }
+      var currentTimeMillis = new Date().getTime();
+      window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/host/"+host , "Web Console"+currentTimeMillis );  
+      //  $store.commit('toggleShell')"
     },
     openSearch() {
       this.$store.commit("showHover", "search");

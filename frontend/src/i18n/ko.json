@@ -237,7 +237,8 @@
     "accountlock" : "계정 Lock",
     "inputshell" : "Shell을 선택해 주세요",
     "inputexpireday" : "계정 유효 일자를 입력해 주세요",
-    "inputhome" : "홈디렉토리를  입력해 주세요"
+    "inputhome" : "홈디렉토리를  입력해 주세요",
+    "consolewarning" : "보안 접속을 위해  웹 Basic-Auth 인증 후 접속 합니다.\n인증 된 계정 정보는 브라우져 종료 전까지 유효합니다.\n기존  인증된 계정  로그아웃 하시려면 브라우저를 종료 후\n새로운 브라우져 실행 후 실행 하시면 됩니다."
   },
   "sidebar": {
     "help": "도움말",

@@ -15,6 +15,7 @@ const enableThumbs = window.tgm.EnableThumbs;
 const resizePreview = window.tgm.ResizePreview;
 const enableExec = window.tgm.EnableExec;
 const enableCmdLimit = window.tgm.EnableCmdLimit;
+const webssh2port = window.tgm.Webssh2port;
 
 export {
   name,
@@ -33,4 +34,5 @@ export {
   resizePreview,
   enableExec,
   enableCmdLimit,
+  webssh2port,
 };

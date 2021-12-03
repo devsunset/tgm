@@ -18,6 +18,8 @@ do
 done
 
 #echo $HOST_IP
-sudo ./tgm -a $HOST_IP -l tgm.log  --disable-cmd-limit=true &
-#sudo ./tgm -a $HOST_IP -l tgm.log  --disable-cmd-limit=false &
+sudo ./tgm -a $HOST_IP -p 8282 -l tgm.log &
 echo "tgm service start success ..."
+
+./webssh2/npm start >webssh2.log &
+echo "webssh2 service start success ..."

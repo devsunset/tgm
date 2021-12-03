@@ -14,7 +14,7 @@
       <div v-if="user.perm.create && filesubmenu_visible" style="padding-left:20px">
 
         <button
-          @click="$store.commit('toggleShell')"
+          @click="openWebConsole() "
           class="action"
           :aria-label="$t('buttons.shell')"
           :title="$t('buttons.shell')"
@@ -141,6 +141,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import * as auth from "@/utils/auth";
+import { webssh2port } from "@/utils/constants";
 import {
   version,
   signup,
@@ -166,10 +167,22 @@ export default {
     disableExternal: () => disableExternal,
     noAuth: () => noAuth,
     authMethod: () => authMethod,
+    webssh2port: () => webssh2port,
   },
   methods: {
     help() {
       this.$store.commit("showHover", "help");
+    },
+    openWebConsole() {
+      alert(this.$t("settings.consolewarning"));
+      var host = window.location.host;
+      if (host.indexOf(":") > -1) {
+        host = host.split(":")[0];
+      }
+      var currentTimeMillis = new Date().getTime();
+      alert(this.webssh2port)
+      window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/host/"+host , "Web Console"+currentTimeMillis );  
+      //  $store.commit('toggleShell')"
     },
     logout: auth.logout,
   },

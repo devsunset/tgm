@@ -244,7 +244,8 @@
     "accountlock" : "Account Lock" ,
     "inputshell" : "Select shell" ,
     "inputexpireday" : "Please enter your account expire day" ,
-    "inputhome" : "Please enter home" 
+    "inputhome" : "Please enter home" ,
+    "consolewarning" : "Access after web Basic-Auth authentication for secure access.\nThe authenticated account information is valid until the browser is closed.\nTo log out of the existing authenticated account, close the browser\nStart a new browser and then run it." 
   },
   "sidebar": {
     "help": "Help",

@@ -57,6 +57,7 @@ func addServerFlags(flags *pflag.FlagSet) {
 	flags.StringP("address", "a", "127.0.0.1", "address to listen on")
 	flags.StringP("log", "l", "stdout", "log output")
 	flags.StringP("port", "p", "8282", "port to listen on")
+	flags.StringP("webssh2port", "w", "2222", "webssh2 port to listen on")
 	flags.StringP("cert", "t", "", "tls certificate")
 	flags.StringP("key", "k", "", "tls key")
 	flags.StringP("root", "r", ".", "root to prepend to relative paths")
@@ -68,7 +69,7 @@ func addServerFlags(flags *pflag.FlagSet) {
 	flags.Bool("disable-thumbnails", false, "disable image thumbnails")
 	flags.Bool("disable-preview-resize", false, "disable resize of image previews")
 	flags.Bool("disable-exec", false, "disables Command Runner feature")
-	flags.Bool("disable-cmd-limit", false, "limit Command feature")
+	//flags.Bool("disable-cmd-limit", false, "limit Command feature")
 	flags.Bool("disable-type-detection-by-header", false, "disables type detection by reading file headers")
 }
 
@@ -235,6 +236,11 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 		isAddrSet = isAddrSet || set
 	}
 
+	if val, set := getParamB(flags, "webssh2port"); set {
+		server.Webssh2port = val
+		isAddrSet = isAddrSet || set
+	}
+
 	if val, set := getParamB(flags, "key"); set {
 		server.TLSKey = val
 		isAddrSet = isAddrSet || set
@@ -272,7 +278,10 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 	server.EnableExec = !disableExec
 
 	_, disableCmdLimit := getParamB(flags, "disable-cmd-limit")
-	server.EnableCmdLimit = !disableCmdLimit
+	// server.EnableCmdLimit = !disableCmdLimit
+	server.EnableCmdLimit = disableCmdLimit
+
+	log.Println("Webssh2 Listening on", server.Address+":"+server.Webssh2port)
 
 	return server
 }
@@ -363,13 +372,14 @@ func quickSetup(flags *pflag.FlagSet, d pythonData) {
 	checkErr(err)
 
 	ser := &settings.Server{
-		BaseURL: getParam(flags, "baseurl"),
-		Port:    getParam(flags, "port"),
-		Log:     getParam(flags, "log"),
-		TLSKey:  getParam(flags, "key"),
-		TLSCert: getParam(flags, "cert"),
-		Address: getParam(flags, "address"),
-		Root:    getParam(flags, "root"),
+		BaseURL:     getParam(flags, "baseurl"),
+		Port:        getParam(flags, "port"),
+		Webssh2port: getParam(flags, "webssh2port"),
+		Log:         getParam(flags, "log"),
+		TLSKey:      getParam(flags, "key"),
+		TLSCert:     getParam(flags, "cert"),
+		Address:     getParam(flags, "address"),
+		Root:        getParam(flags, "root"),
 	}
 
 	err = d.store.Settings.SaveServer(ser)

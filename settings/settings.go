@@ -36,6 +36,7 @@ type Server struct {
 	TLSKey                string `json:"tlsKey"`
 	TLSCert               string `json:"tlsCert"`
 	Port                  string `json:"port"`
+	Webssh2port           string `json:"webssh2port"`
 	Address               string `json:"address"`
 	Log                   string `json:"log"`
 	EnableThumbnails      bool   `json:"enableThumbnails"`

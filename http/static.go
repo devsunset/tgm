@@ -43,6 +43,7 @@ func handleWithStaticData(w http.ResponseWriter, _ *http.Request, d *data, fSys 
 		"ResizePreview":   d.server.ResizePreview,
 		"EnableExec":      d.server.EnableExec,
 		"EnableCmdLimit":  d.server.EnableCmdLimit,
+		"Webssh2port":     d.server.Webssh2port,
 	}
 
 	if d.settings.Branding.Files != "" {
