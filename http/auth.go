@@ -1,8 +1,10 @@
 package http
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -306,6 +308,68 @@ var passwdValidPeriodCheckHandler = func(w http.ResponseWriter, r *http.Request,
 		}
 		return 0, nil
 	}
+}
+
+var sshCheckHandler = func(w http.ResponseWriter, r *http.Request, d *data) (int, error) {
+	result := "X,X"
+	permitRootLogin := "X"
+	passwordAuthentication := "X"
+	// this is for Linux/Unix machines
+	file, err := os.Open("/etc/ssh/sshd_config")
+	if err != nil {
+		log.Print(err)
+		permitRootLogin = "X"
+		passwordAuthentication = "X"
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+		line = strings.Trim(line, " \n")
+		if equal := strings.Index(line, "#"); equal < 0 {
+			if strings.Index(line, "PermitRootLogin") == 0 {
+				lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+					return divide == ' ' || divide == '\t'
+				})
+				log.Println("PermitRootLogin", lineSlice[1])
+				for _, data := range lineSlice {
+					if (data == "yes") || (data == "Yes") {
+						permitRootLogin = "O"
+					}
+				}
+			}
+
+			if strings.Index(line, "PasswordAuthentication") == 0 {
+				lineSlice := strings.FieldsFunc(line, func(divide rune) bool {
+					return divide == ' ' || divide == '\t'
+				})
+				log.Println("PasswordAuthentication", lineSlice[1])
+				for _, data := range lineSlice {
+					if (data == "yes") || (data == "Yes") {
+						passwordAuthentication = "O"
+					}
+				}
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Print(err)
+			permitRootLogin = "X"
+			passwordAuthentication = "X"
+		}
+	}
+
+	result = permitRootLogin + "," + passwordAuthentication
+	w.Header().Set("Content-Type", "text/plain")
+	if _, err := w.Write([]byte(result)); err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return 0, nil
 }
 
 type signupBody struct {

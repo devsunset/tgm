@@ -763,6 +763,22 @@ export default {
       this.$store.commit("setReload", true);
     },
     openWebConsole() {
+      var x = localStorage.getItem("ssh") 
+      if (x.split(",")[1] == "X") {
+        alert(this.$t("settings.consolewarning1"));
+        return;
+      } 
+      var admin_desc = "";
+      if (x.split(",")[0] == "X") {
+          if (user.perm.admin){
+            admin_desc = "\n"+this.$t("settings.consolewarning2");
+          }
+      } else{
+          if (user.perm.admin){
+            admin_desc = "\n"+this.$t("settings.consolewarning3");
+          }
+      }
+
       alert(this.$t("settings.consolewarning"));
       var host = window.location.host;
       if (host.indexOf(":") > -1) {

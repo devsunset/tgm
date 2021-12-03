@@ -122,7 +122,8 @@ export default {
         }
 
         await auth.login(this.username, this.password, captcha, this.rememberme);
-
+        await auth.ssh();
+        
         if (this.username !='admin'){
             var result =  await auth.pvc(this.username, this.password, captcha);
             if (result == "S") {

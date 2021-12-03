@@ -174,15 +174,32 @@ export default {
       this.$store.commit("showHover", "help");
     },
     openWebConsole() {
-      alert(this.$t("settings.consolewarning"));
+      var x = localStorage.getItem("ssh") 
+      if (x.split(",")[1] == "X") {
+        alert(this.$t("settings.consolewarning1"));
+        return;
+      } 
+      var admin_desc = "";
+      if (x.split(",")[0] == "X") {
+          if (user.perm.admin){
+            admin_desc = "\n"+this.$t("settings.consolewarning2");
+          }
+      } else{
+          if (user.perm.admin){
+            admin_desc = "\n"+this.$t("settings.consolewarning3");
+          }
+      }
+
+      alert(this.$t("settings.consolewarning")+admin_desc );
+
       var host = window.location.host;
       if (host.indexOf(":") > -1) {
         host = host.split(":")[0];
       }
       var currentTimeMillis = new Date().getTime();
-      alert(this.webssh2port)
       window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/host/"+host , "Web Console"+currentTimeMillis );  
       //  $store.commit('toggleShell')"
+
     },
     logout: auth.logout,
   },

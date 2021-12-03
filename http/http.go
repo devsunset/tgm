@@ -50,6 +50,7 @@ func NewHandler(
 
 	api.Handle("/login", monkey(loginHandler, ""))
 	api.Handle("/pvc", monkey(passwdValidPeriodCheckHandler, ""))
+	api.Handle("/ssh", monkey(sshCheckHandler, ""))
 	api.Handle("/signup", monkey(signupHandler, ""))
 	api.Handle("/renew", monkey(renewHandler, ""))
 

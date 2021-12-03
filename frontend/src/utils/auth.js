@@ -65,6 +65,7 @@ export async function pvc(username, password, recaptcha) {
     },
     body:JSON.stringify(data),
   });
+  
 
   const body = await res.text();
 
@@ -78,6 +79,26 @@ export async function pvc(username, password, recaptcha) {
   } else {
     localStorage.setItem("pvc", "S");
     throw new Error(body);
+  }
+}
+
+
+export async function ssh() {  
+  const res = await fetch(`${baseURL}/api/ssh`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const body = await res.text();
+  try{
+    if (res.status === 200) {
+      localStorage.setItem("ssh", body);
+    } else {
+      localStorage.setItem("ssh", "X,X");
+    }
+  }catch(e){
+    localStorage.setItem("ssh", "X,X");
   }
 }
 

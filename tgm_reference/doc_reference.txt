@@ -23,3 +23,5 @@
 [리눅스/Linux] 쿼터2탄 - quotacheck, edquota, repquota, quota 등 디스크 쿼터 관련 명령어 살펴보기 
 - https://jhnyang.tistory.com/266
 
+
+

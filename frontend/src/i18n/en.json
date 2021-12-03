@@ -245,7 +245,10 @@
     "inputshell" : "Select shell" ,
     "inputexpireday" : "Please enter your account expire day" ,
     "inputhome" : "Please enter home" ,
-    "consolewarning" : "Access after web Basic-Auth authentication for secure access.\nThe authenticated account information is valid until the browser is closed.\nTo log out of the existing authenticated account, close the browser\nStart a new browser and then run it." 
+    "consolewarning" : "Access after web Basic-Auth authentication for secure access.\nThe authenticated account information is valid until the browser is closed.\nTo log out of the existing authenticated account, close the browser\nStart a new browser and then run it." ,
+    "consolewarning1" : "The function cannot be used because the SSH password authentication connection is not supported. ",
+    "consolewarning2" : "(admin account SSH access is not possible Please use after user account authentication)",
+    "consolewarning3" : "(The admin account can be accessed with the root account ID/PW.)"
   },
   "sidebar": {
     "help": "Help",
