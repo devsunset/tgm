@@ -48,10 +48,11 @@ fi
 # 2.NPM INSTLL
 # 3.NPM RUN BUILD
 # 4.GO BUILD
-npm install && npm run build && cd "$pwd/tgm" && go build &&
+# 5.WEBSSH2 COPY
+# 6.WEBSSH2 NPM INSTALL
+npm install && npm run build && cd "$pwd/tgm" && go build && cp  -R "$pwd/tgm/webssh2" "$pwd/build_tgm/" && cd "$pwd/build_tgm/webssh2" && npm install 
 
-
-# 5.BUILD FILE PATCH
+# 7.BUILD FILE PATCH
 cd "$pwd/build_tgm" && cp "$pwd/tgm/tgm_build/start_tgm.sh" start_tgm.sh && cp "$pwd/tgm/tgm_build/stop_tgm.sh" stop_tgm.sh && mv "$pwd/tgm/tgm" tgm
 date
 date +"%FORMAT"

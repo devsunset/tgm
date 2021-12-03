@@ -21,5 +21,5 @@ done
 sudo ./tgm -a $HOST_IP -p 8282 -l tgm.log &
 echo "tgm service start success ..."
 
-./webssh2/npm start >webssh2.log &
+cd ./webssh2 && npm start > webssh2.log &
 echo "webssh2 service start success ..."
