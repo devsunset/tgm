@@ -177,6 +177,7 @@ export default {
        var x = localStorage.getItem("ssh") 
       if (x.split(",")[1] == "X") {
         alert(this.$t("settings.consolewarning1"));
+        this.$store.commit('toggleShell');
         return;
       } 
       var admin_desc = "";
@@ -198,8 +199,6 @@ export default {
       }
       var currentTimeMillis = new Date().getTime();
       window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/host/"+host , "Web Console"+currentTimeMillis );  
-      //  $store.commit('toggleShell')"
-
     },
     logout: auth.logout,
   },

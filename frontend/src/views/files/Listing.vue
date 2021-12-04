@@ -766,6 +766,7 @@ export default {
       var x = localStorage.getItem("ssh") 
       if (x.split(",")[1] == "X") {
         alert(this.$t("settings.consolewarning1"));
+        this.$store.commit('toggleShell');
         return;
       } 
       var admin_desc = "";
