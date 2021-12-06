@@ -69,7 +69,7 @@ func addServerFlags(flags *pflag.FlagSet) {
 	flags.Bool("disable-thumbnails", false, "disable image thumbnails")
 	flags.Bool("disable-preview-resize", false, "disable resize of image previews")
 	flags.Bool("disable-exec", false, "disables Command Runner feature")
-	//flags.Bool("disable-cmd-limit", false, "limit Command feature")
+	flags.Bool("disable-cmd-limit", false, "limit Command feature")
 	flags.Bool("disable-type-detection-by-header", false, "disables type detection by reading file headers")
 }
 
@@ -278,8 +278,11 @@ func getRunParams(flags *pflag.FlagSet, st *storage.Storage) *settings.Server {
 	server.EnableExec = !disableExec
 
 	_, disableCmdLimit := getParamB(flags, "disable-cmd-limit")
-	// server.EnableCmdLimit = !disableCmdLimit
 	server.EnableCmdLimit = disableCmdLimit
+
+	if server.Webssh2port == "" {
+		server.Webssh2port = "2222"
+	}
 
 	log.Println("Webssh2 Listening on", server.Address+":"+server.Webssh2port)
 
