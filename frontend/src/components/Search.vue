@@ -1,5 +1,5 @@
 <template>
-  <div id="search" @click="open" v-bind:class="{ active, ongoing }">
+  <div id="search" v-show="false" @click="open" v-bind:class="{ active, ongoing }">
     <div id="input">
       <button
         v-if="active"
@@ -150,7 +150,7 @@ export default {
   methods: {
     ...mapMutations(["showHover", "closeHovers", "setReload"]),
     open() {
-      this.showHover("search");
+     //this.showHover("search");
     },
     close(event) {
       event.stopPropagation();

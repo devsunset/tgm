@@ -1,6 +1,7 @@
 <template>
   <div>
     <header-bar showMenu showLogo>
+      <h1>TGM</h1>
       <search /> <title />
       <action
         class="search-button"
