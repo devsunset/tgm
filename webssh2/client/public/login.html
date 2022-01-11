@@ -41,7 +41,7 @@
 			<form action="/ssh/auth" method="POST">
 				<input type="text" name="username" placeholder="Username" required>
 				<input type="password" name="userpassword" placeholder="Password" required>
-				<input type="hidden" name="host" placeholder="host" required>
+				<input type="hidden" id="host" name="host" placeholder="host" value="">
 				<input type="submit" value="Login">
 			</form>
 		</div>
@@ -51,6 +51,6 @@
 	// URLSearchParams 객체
 	const urlParams = url.searchParams;
 	// URLSearchParams.get()
-	document.getElementsByName("host").value = urlParams.get('host');
+	document.getElementById("host").value = urlParams.get('host');
 </script>
 </html>
