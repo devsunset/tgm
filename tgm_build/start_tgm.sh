@@ -18,8 +18,8 @@ do
 done
 
 #echo $HOST_IP
-sudo ./tgm -a $HOST_IP -p 8282 -l tgm.log &
+sudo ./tgm -a $HOST_IP -p 8282 -w 8383 -l tgm.log &
 echo "tgm service start success ..."
 
-cd ./webssh2 && npm start > webssh2.log &
+cd ./webssh2 && npm start > ../webssh2.log &
 echo "webssh2 service start success ..."
