@@ -198,7 +198,7 @@ export default {
         host = host.split(":")[0];
       }
       var currentTimeMillis = new Date().getTime();
-      window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/host/"+host , "Web Console"+currentTimeMillis );  
+      window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/login?host="+host , "Web Console"+currentTimeMillis );  
     },
     logout: auth.logout,
   },

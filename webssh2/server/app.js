@@ -11,6 +11,7 @@ const nodeRoot = path.dirname(require.main.filename);
 const publicPath = path.join(nodeRoot, 'client', 'public');
 const express = require('express');
 const logger = require('morgan');
+const bodyParser = require('body-parser');
 
 const app = express();
 const server = require('http').Server(app);
@@ -31,6 +32,9 @@ const session = require('express-session')({
 const appSocket = require('./socket');
 const expressOptions = require('./expressOptions');
 const myutil = require('./util');
+
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
 
 myutil.setDefaultCredentials(
   config.user.name,
@@ -65,7 +69,7 @@ module.exports = { server, config };
 // express
 app.use(safeShutdownGuard);
 app.use(session);
-app.use(myutil.basicAuth);
+//app.use(myutil.basicAuth);
 if (config.accesslog) app.use(logger('common'));
 app.disable('x-powered-by');
 
@@ -75,13 +79,23 @@ app.use('/ssh', express.static(publicPath, expressOptions));
 // favicon from root if being pre-fetched by browser to prevent a 404
 app.use(favicon(path.join(publicPath, 'favicon.ico')));
 
-app.get('/ssh/reauth', (req, res) => {
-  const r = req.headers.referer || '/';
-  res
-    .status(401)
-    .send(
-      `<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=${r}"></head><body bgcolor="#000"></body></html>`
-    );
+app.get('/ssh/login', (req, res) => {
+  res.sendFile(path.join(path.join(publicPath, 'login.htm')));
+});
+
+app.post('/ssh/auth', function(request, response) {
+	var username = request.body.username;
+  var userpassword = request.body.userpassword;   
+  var host = request.body.host;   
+	if (username && userpassword) {
+    request.session.username = username;
+    request.session.userpassword = userpassword;
+    response.redirect('/ssh/host/'+host);
+    response.end();
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
 });
 
 // eslint-disable-next-line complexity
