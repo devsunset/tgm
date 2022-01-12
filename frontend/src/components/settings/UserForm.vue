@@ -95,10 +95,13 @@
 </p>
 
 <br>
+<!-- 
+  <br>
   <p v-if="!isDefault && user.perm.admin == false">
     <label>[[[Quota - 요구사항 Fix 후 진행 예정]]]</label>
- </p>
-<br>
+  </p>
+  <br> 
+-->
 
     <p>
        <b v-if="user.perm.admin">&nbsp;</b>
