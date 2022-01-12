@@ -39,8 +39,8 @@
 		<div class="login-form">
 			<h1>TGM WEB SSH</h1>
 			<form action="/ssh/auth" method="POST">
-				<input type="text" name="username" placeholder="Username" required>
-				<input type="password" name="userpassword" placeholder="Password" required>
+				<input type="text"  id="username" name="username" placeholder="Username" required>
+				<input type="password" iname="userpassword" placeholder="Password" required>
 				<input type="hidden" id="host" name="host" placeholder="host" value="">
 				<input type="submit" value="Login">
 			</form>
@@ -51,6 +51,15 @@
 	// URLSearchParams 객체
 	const urlParams = url.searchParams;
 	// URLSearchParams.get()
+
+	if (urlParams.get('username') != null && urlParams.get('host') != "") {
+		if (urlParams.get('username') == 'admin') {
+			document.getElementById('username').value = "root";
+		}else{
+			document.getElementById("username").value = urlParams.get('username');
+		}
+	}
+	document.getElementById("username").value = urlParams.get('username');
 	document.getElementById("host").value = urlParams.get('host');
 </script>
 </html>

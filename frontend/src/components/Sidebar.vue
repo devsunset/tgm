@@ -180,10 +180,13 @@ export default {
         this.$store.commit('toggleShell');
         return;
       } 
+
       var admin_desc = "";
+      var username = localStorage.getItem("username");
       if (x.split(",")[0] == "X") {
           if (this.user.perm.admin){
             admin_desc = "\n"+this.$t("settings.consolewarning2");
+            username = "";
           }
       } else{
           if (this.user.perm.admin){
@@ -198,7 +201,7 @@ export default {
         host = host.split(":")[0];
       }
       var currentTimeMillis = new Date().getTime();
-      window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/login?host="+host , "Web Console"+currentTimeMillis );  
+      window.open(window.location.protocol+"//"+host +":"+this.webssh2port+"/ssh/login?host="+host +"&username="+username, "Web Console"+currentTimeMillis );  
     },
     logout: auth.logout,
   },
