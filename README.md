@@ -5,13 +5,26 @@
 
 git clone  https://github.com/devsunset/tgm.git
 
+- Auto 
+
+cd tgm/tgm_build
+
+./tgm_build.sh
+
+start_tgm.sh
+
+http://localhost:8282
+
+
+- Manual 
+
 cd tgm/frontend
 
 npm install
 
 npm run build
 
-    npm run watch
+npm run watch
 
 cd #tgm_root_dir#
 
@@ -19,8 +32,6 @@ go run main.go
 or 
 go build
 ./tgm
-
-http://localhost:8282
 
 
 ## Configuration
