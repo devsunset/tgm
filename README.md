@@ -21,7 +21,7 @@
    
     $ sudo vi /etc/ssh/sshd_config
         
-    PasswordAuthentication yes  - yes : 패스워드 접속 허용 , no : 미허용 
+    PasswordAuthentication yes  ( yes : 패스워드 접속 허용 , no : 미허용 )
 
     $ systemctl restart sshd
 
