@@ -19,12 +19,12 @@
 
    미설정시 기본 콘솔 기능 제공 
    
-    sudo vi /etc/ssh/sshd_config
-
-    # To disable tunneled clear text passwords, change to no here!
+    $ sudo vi /etc/ssh/sshd_config
+      
+    -- yes로 설정 
     PasswordAuthentication yes
 
-    systemctl restart sshd
+    $ systemctl restart sshd
 
 ## Reference Open Source
 * filebrowser - https://github.com/filebrowser/filebrowser
