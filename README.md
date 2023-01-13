@@ -5,8 +5,6 @@
 
 git clone  https://github.com/devsunset/tgm.git
 
-- Auto 
-
 cd tgm/tgm_build
 
 ./tgm_build.sh
@@ -15,28 +13,11 @@ start_tgm.sh
 
 http://localhost:8282
 
-
-- Manual 
-
-cd tgm/frontend
-
-npm install
-
-npm run build
-
-npm run watch
-
-cd #tgm_root_dir#
-
-go run main.go
-or 
-go build
-./tgm
+## Reference Open Source
+filebrowser - https://github.com/filebrowser/filebrowser
 
 
-## Configuration
-
-### DB (boltdb - golang storm) - Tool
+## DB (boltdb - golang storm) - Tool
 
 ### cli version - boltbrowser
 https://github.com/br0xen/boltbrowser
@@ -63,10 +44,3 @@ https://github.com/evnix/boltdbweb
             NOTE: If 'file.db' does not exist. it will be created as a BoltDB file.
         --port: Port for listening on... (Default: 8080)
         --static-path: If you moved the binary to different folder you can determin the path of the web folder. (Default: Same folder where the binary is located.)
-
-## Limit 
-Web Console
-Currently, the function is not perfect, such as vi command top command display problems
-
-## Reference Open Source
-filebrowser - https://github.com/filebrowser/filebrowser
