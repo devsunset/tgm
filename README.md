@@ -3,15 +3,15 @@
 
 ## Install
 
-git clone  https://github.com/devsunset/tgm.git
+1. git clone  https://github.com/devsunset/tgm.git
 
-cd tgm/tgm_build
+2. cd tgm/tgm_build
 
-./tgm_build.sh
+3. ./tgm_build.sh
 
-start_tgm.sh
+4. ./start_tgm.sh
 
-http://localhost:8282
+5. http://localhost:8282
 
 ## Reference Open Source
 filebrowser - https://github.com/filebrowser/filebrowser
