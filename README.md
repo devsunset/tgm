@@ -20,6 +20,16 @@
 
 * webhssh2 - https://github.com/billchurch/webssh2
 
+## Web Console 사용 하려면 ssh 패스워드 접속 허용 설정 필요
+
+   미설정시 기본 콘솔 기능 제공 
+   
+    sudo vi /etc/ssh/sshd_config
+
+    # To disable tunneled clear text passwords, change to no here!
+    PasswordAuthentication yes
+
+    systemctl restart sshd
 
 
 -----------------------------------------------------------
