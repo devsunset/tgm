@@ -1,7 +1,7 @@
 
 # TGM
 
-- Linux File & Account Management Web Tool
+- Linux File & Account Management Tool
 
 ## Install
 
