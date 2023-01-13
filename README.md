@@ -15,12 +15,7 @@
 
 5. http://localhost:8282
 
-## Reference Open Source
-* filebrowser - https://github.com/filebrowser/filebrowser
-
-* webhssh2 - https://github.com/billchurch/webssh2
-
-## Web Console 사용 하려면 ssh 패스워드 접속 허용 설정 필요
+* Web Console 사용 하려면 ssh 패스워드 접속 허용 설정 필요
 
    미설정시 기본 콘솔 기능 제공 
    
@@ -30,6 +25,13 @@
     PasswordAuthentication yes
 
     systemctl restart sshd
+
+## Reference Open Source
+* filebrowser - https://github.com/filebrowser/filebrowser
+
+* webhssh2 - https://github.com/billchurch/webssh2
+
+
 
 
 -----------------------------------------------------------
