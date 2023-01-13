@@ -20,9 +20,8 @@
    미설정시 기본 콘솔 기능 제공 
    
     $ sudo vi /etc/ssh/sshd_config
-      
-    -- yes로 설정 
-    PasswordAuthentication yes
+        
+    PasswordAuthentication yes  - yes : 패스워드 접속 허용 , no : 미허용 
 
     $ systemctl restart sshd
 
